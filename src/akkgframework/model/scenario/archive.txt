@@ -1,0 +1,101 @@
+        /**
+         //Obere linke Ecke
+         if (i == 0 && j == 0) {
+         if (map[i][j+1].equals(s) && map[i+1][j].equals(s) && map[i+1][j+1].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i][j+1].equals(s) && map[i+1][j].equals(s)) return RectanglePart.CORNER_TOP_LEFT_EMPTY;
+         if (map[i][j+1].equals(s) && !map[i+1][j].equals(s)) return RectanglePart.BORDER_LEFT;
+         if (!map[i][j+1].equals(s) && map[i+1][j].equals(s)) return RectanglePart.BORDER_UP;
+         return RectanglePart.SINGLE;
+         }
+         //Untere rechte Ecke
+         if (i == mapW && j == mapH) {
+         if (map[i][j-1].equals(s) && map[i-1][j].equals(s) && map[i-1][j-1].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i][j-1].equals(s) && map[i-1][j].equals(s)) return RectanglePart.CORNER_BOT_RIGHT_EMPTY;
+         if (map[i][j-1].equals(s) && !map[i-1][j].equals(s)) return RectanglePart.BORDER_RIGHT;
+         if (!map[i][j-1].equals(s) && map[i-1][j].equals(s)) return RectanglePart.BORDER_DOWN;
+         return RectanglePart.SINGLE;
+         }
+         //Untere linke Ecke
+         if (i == 0 && j == mapH) {
+         if (map[i][j-1].equals(s) && map[i+1][j].equals(s) && map[i+1][j-1].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i][j-1].equals(s) && map[i+1][j].equals(s)) return RectanglePart.CORNER_BOT_LEFT_EMPTY;
+         if (map[i][j-1].equals(s) && !map[i+1][j].equals(s)) return RectanglePart.BORDER_LEFT;
+         if (!map[i][j-1].equals(s) && map[i+1][j].equals(s)) return RectanglePart.BORDER_DOWN;
+         return RectanglePart.SINGLE;
+         }
+         //Obere rechte Ecke
+         if (i == mapW && j == 0) {
+         if (map[i][j+1].equals(s) && map[i-1][j].equals(s) && map[i-1][j+1].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i][j+1].equals(s) && map[i-1][j].equals(s)) return RectanglePart.CORNER_TOP_RIGHT_EMPTY;
+         if (map[i][j+1].equals(s) && !map[i-1][j].equals(s)) return RectanglePart.BORDER_RIGHT;
+         if (!map[i][j+1].equals(s) && map[i-1][j].equals(s)) return RectanglePart.BORDER_UP;
+         return RectanglePart.SINGLE;
+         }
+         //Oberer Rand
+         if (i > 0 && i < mapW && j == 0) {
+         // Links,                      rechts,                    unten                     + inneres Feld bei Ecke
+         if (map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && map[i][j+1].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && !map[i][j+1].equals(s)) return RectanglePart.BORDER_UP;
+         // Links,                      rechts,                    unten                     + inneres Feld bei Ecke
+         if (map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && map[i][j+1].equals(s) && map[i-1][j+1].equals(s)) return RectanglePart.CORNER_TOP_RIGHT;
+         if (map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && map[i][j+1].equals(s) && !map[i-1][j+1].equals(s)) return RectanglePart.CORNER_TOP_RIGHT_EMPTY;
+         // Links,                      rechts,                    unten                     + inneres Feld bei Ecke
+         if (!map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && map[i][j+1].equals(s)  && map[i+1][j+1].equals(s)) return RectanglePart.CORNER_TOP_LEFT;
+         if (!map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && map[i][j+1].equals(s)  && map[i+1][j+1].equals(s)) return RectanglePart.CORNER_TOP_LEFT_EMPTY;
+         // Links,                      rechts,                    unten                     + inneres Feld bei Ecke
+         if (!map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && map[i][j+1].equals(s)) return RectanglePart.LINE_VERTICAL;
+         if (!map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && !map[i][j+1].equals(s)) return RectanglePart.END_RIGHT;
+         if (map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && !map[i][j+1].equals(s)) return RectanglePart.END_LEFT;
+         return RectanglePart.SINGLE;
+         }
+         //Unterer Rand
+         if (i > 0 && i < mapW && j == mapH) {
+         // Links,                      rechts,                    oben                       + inneres Feld bei Ecke
+         if (map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && map[i][j-1].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && !map[i][j-1].equals(s)) return RectanglePart.BORDER_DOWN;
+         // Links,                      rechts,                    oben                       + inneres Feld bei Ecke
+         if (map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && map[i][j-1].equals(s) && map[i-1][j-1].equals(s)) return RectanglePart.CORNER_BOT_RIGHT;
+         if (map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && map[i][j-1].equals(s) && !map[i-1][j-1].equals(s)) return RectanglePart.CORNER_BOT_RIGHT_EMPTY;
+         // Links,                      rechts,                    oben                       + inneres Feld bei Ecke
+         if (!map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && map[i][j-1].equals(s) && map[i+1][j-1].equals(s)) return RectanglePart.CORNER_BOT_LEFT;
+         if (!map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && map[i][j-1].equals(s) && !map[i+1][j-1].equals(s)) return RectanglePart.CORNER_BOT_LEFT_EMPTY;
+         // Links,                      rechts,                    oben                       + inneres Feld bei Ecke
+         if (!map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && map[i][j-1].equals(s)) return RectanglePart.LINE_VERTICAL;
+         if (!map[i - 1][j].equals(s) && map[i + 1][j].equals(s) && !map[i][j-1].equals(s)) return RectanglePart.END_RIGHT;
+         if (map[i - 1][j].equals(s) && !map[i + 1][j].equals(s) && !map[i][j-1].equals(s)) return RectanglePart.END_LEFT;
+         return RectanglePart.SINGLE;
+         }
+         //Linker Rand
+         if (i == 0 && j > 0 && j<mapH) {
+         // Oben,                     unten,                   rechts                 + inneres Feld bei Ecke
+         if (map[i][j-1].equals(s) && map[i][j+1].equals(s) && map[i+1][j].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i][j-1].equals(s) && map[i][j+1].equals(s) && !map[i+1][j].equals(s)) return RectanglePart.BORDER_LEFT;
+         // Oben,                     unten,                   rechts                 + inneres Feld bei Ecke
+         if (map[i][j-1].equals(s) && !map[i][j+1].equals(s) && map[i+1][j].equals(s) && map[i+1][j-1].equals(s)) return RectanglePart.CORNER_BOT_LEFT;
+         if (map[i][j-1].equals(s) && !map[i][j+1].equals(s) && map[i+1][j].equals(s) && !map[i+1][j-1].equals(s)) return RectanglePart.CORNER_BOT_LEFT_EMPTY;
+         // Oben,                     unten,                   rechts                 + inneres Feld bei Ecke
+         if (!map[i][j-1].equals(s) && map[i][j+1].equals(s) && map[i+1][j].equals(s) && map[i+1][j+1].equals(s)) return RectanglePart.CORNER_TOP_RIGHT;
+         if (!map[i][j-1].equals(s) && map[i][j+1].equals(s) && map[i+1][j].equals(s) && !map[i+1][j+1].equals(s)) return RectanglePart.CORNER_TOP_RIGHT_EMPTY;
+         // Oben,                     unten,                   rechts                 + inneres Feld bei Ecke
+         if (!map[i][j-1].equals(s) && !map[i][j+1].equals(s) && map[i+1][j].equals(s)) return RectanglePart.LINE_HORIZONTAL;
+         if (!map[i][j-1].equals(s) && map[i][j+1].equals(s) && !map[i+1][j].equals(s)) return RectanglePart.END_DOWN;
+         if (map[i][j-1].equals(s) && !map[i][j+1].equals(s) && !map[i+1][j].equals(s)) return RectanglePart.END_UP;
+         return RectanglePart.SINGLE;
+         }
+         //Rechter Rand
+         if (i == mapW && j > 0 && j<mapH) {
+         // Oben,                     unten,                   links                      + inneres Feld bei Ecke
+         if (map[i][j-1].equals(s) && map[i][j+1].equals(s) && map[i-1][j].equals(s)) return RectanglePart.MIDDLE;
+         if (map[i][j-1].equals(s) && map[i][j+1].equals(s) && !map[i-1][j].equals(s)) return RectanglePart.BORDER_RIGHT;
+         // Oben,                     unten,                   links                      + inneres Feld bei Ecke
+         if (map[i][j-1].equals(s) && !map[i][j+1].equals(s) && map[i-1][j].equals(s) && map[i-1][j-1].equals(s)) return RectanglePart.CORNER_BOT_RIGHT;
+         if (map[i][j-1].equals(s) && !map[i][j+1].equals(s) && map[i-1][j].equals(s) && !map[i-1][j-1].equals(s)) return RectanglePart.CORNER_BOT_RIGHT_EMPTY;
+         // Oben,                     unten,                   links                      + inneres Feld bei Ecke
+         if (!map[i][j-1].equals(s) && map[i][j+1].equals(s) && map[i-1][j].equals(s) && map[i-1][j+1].equals(s)) return RectanglePart.CORNER_TOP_RIGHT;
+         if (!map[i][j-1].equals(s) && map[i][j+1].equals(s) && map[i-1][j].equals(s) && map[i-1][j+1].equals(s)) return RectanglePart.CORNER_TOP_RIGHT_EMPTY;
+         // Oben,                     unten,                   links                      + inneres Feld bei Ecke
+         if (!map[i][j-1].equals(s) && !map[i][j+1].equals(s) && map[i-1][j].equals(s)) return RectanglePart.LINE_HORIZONTAL;
+         if (!map[i][j-1].equals(s) && map[i][j+1].equals(s) && !map[i-1][j].equals(s)) return RectanglePart.END_DOWN;
+         if (map[i][j-1].equals(s) && !map[i][j+1].equals(s) && !map[i-1][j].equals(s)) return RectanglePart.END_UP;
+         return RectanglePart.SINGLE;
+         }*/
