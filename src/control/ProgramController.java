@@ -99,6 +99,7 @@ public class ProgramController {
             uiController.registerObject(projectileList.getContent());
     }
 
+
     public void checkAndHandleCollisionPlayers(List<Projectile> projectileList,Player player) {
         if (!projectileList.isEmpty()) {
             projectileList.toFirst();
