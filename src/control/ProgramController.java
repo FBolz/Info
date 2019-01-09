@@ -5,6 +5,9 @@ import akkgframework.model.Display;
 import akkgframework.control.fundamental.SoundController;
 import akkgframework.model.scenario.ScenarioController;
 import model.House;
+import model.Player;
+
+import java.awt.event.KeyEvent;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -39,6 +42,11 @@ public class ProgramController {
         // ******************************************* Ab hier euer eigener Code! *******************************************
         House aHouse = new House();
         uiController.registerObject(aHouse);
+        Player firstPlayer = new Player(uiController, KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,"assets/images/objects/barel.png",100,100);
+        uiController.registerObject(firstPlayer);
+        Player secondPlayer = new Player(uiController, KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,"assets/images/objects/gate.png",600,100);
+        uiController.registerObject(secondPlayer);
+
 
     }
 
