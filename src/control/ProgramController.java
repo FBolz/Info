@@ -3,9 +3,11 @@ package control;
 import akkgframework.control.fundamental.UIController;
 import akkgframework.model.Display;
 import akkgframework.control.fundamental.SoundController;
+import akkgframework.model.abitur.datenstrukturen.Stack;
 import akkgframework.model.scenario.ScenarioController;
 import model.Player;
 import model.Projectile;
+import model.item;
 
 import java.awt.event.KeyEvent;
 
@@ -25,6 +27,7 @@ public class ProgramController {
     private SoundController soundController;
     private Player firstPlayer;
     private Player secondPlayer;
+    private Stack<item> colorStack;
 
     /**
      * Konstruktor
@@ -35,6 +38,7 @@ public class ProgramController {
      */
     public ProgramController(UIController uiController){
         this.uiController = uiController;
+        colorStack= new Stack<item>();
     }
 
     /**
