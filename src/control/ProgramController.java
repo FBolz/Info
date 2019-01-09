@@ -4,10 +4,11 @@ import akkgframework.control.fundamental.UIController;
 import akkgframework.model.Display;
 import akkgframework.control.fundamental.SoundController;
 import akkgframework.model.scenario.ScenarioController;
-import model.House;
 import model.Player;
+import model.Projectile;
 
 import java.awt.event.KeyEvent;
+
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -22,6 +23,8 @@ public class ProgramController {
     private UIController uiController;  // diese Referenz soll auf ein Objekt der Klasse uiController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Display programmZeitAnzeige;
     private SoundController soundController;
+    private Player firstPlayer;
+    private Player secondPlayer;
 
     /**
      * Konstruktor
@@ -40,11 +43,11 @@ public class ProgramController {
     public void startProgram() {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
-        House aHouse = new House();
-        uiController.registerObject(aHouse);
-        Player firstPlayer = new Player(uiController, KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,"assets/images/objects/barel.png",100,100);
+      //  Projectile projectile = new Projectile(300,400,"right",uiController);
+       // uiController.registerObject(projectile);
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_ENTER,"assets/images/objects/gate.png",600,100);
         uiController.registerObject(firstPlayer);
-        Player secondPlayer = new Player(uiController, KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,"assets/images/objects/gate.png",600,100);
+        secondPlayer = new Player(uiController, KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_Q,"assets/images/objects/gate.png",100,100);
         uiController.registerObject(secondPlayer);
 
 
@@ -56,6 +59,14 @@ public class ProgramController {
      */
     public void updateProgram(double dt){
         programTimer += dt;
+        if(firstPlayer.getShoot()){
+            Projectile projectile = new Projectile(firstPlayer.getX(),firstPlayer.getY(),"right",uiController);
+            uiController.registerObject(projectile);
+        }
+        if(secondPlayer.getShoot()){
+            Projectile projectile = new Projectile(secondPlayer.getX(),secondPlayer.getY(),"right",uiController);
+            uiController.registerObject(projectile);
+        }
         // ******************************************* Ab hier euer eigener Code! *******************************************
 
     }
