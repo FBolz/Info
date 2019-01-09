@@ -25,6 +25,6 @@ public class PowerUp extends GraphicalObject {
     }
     private void jump(){
         x=Math.random()*1600;
-        y= Math.random()*1600;
+        y= Math.random()*1024;
     }
 }

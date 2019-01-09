@@ -10,7 +10,7 @@ public class item extends GraphicalObject {
     public item(int colorNumber) {
         this.colorNumber=colorNumber;
         x= Math.random()*1600;
-        y= Math.random()*1600;
+        y= Math.random()*1024;
         height= 40;
         width=40;
         timer=0;
@@ -39,7 +39,7 @@ public class item extends GraphicalObject {
     }
     private void jump(){
         x= Math.random()*1600;
-        y= Math.random()*1600;
+        y= Math.random()*1024;
     }
     public void update(double dt){
         timer= timer+1*dt;
