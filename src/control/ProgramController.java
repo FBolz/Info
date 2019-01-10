@@ -10,7 +10,7 @@ import akkgframework.model.scenario.ScenarioController;
 import model.Player;
 import model.PowerUp;
 import model.Projectile;
-import model.item;
+import model.Item;
 
 import java.awt.event.KeyEvent;
 
@@ -33,7 +33,9 @@ public class ProgramController {
     private SoundController soundController;
     private Player firstPlayer;
     private Player secondPlayer;
-    private Stack<item> colorStack;
+    private Stack<Item> colorStack;
+    private Stack <Item> collectStack;
+    private Item item1,item2,item3,item4,item5;
     private List<Projectile> projectileListP1;
     private List<Projectile> projectileListP2;
     private Queue<PowerUp> powerUpQueue;
@@ -45,10 +47,9 @@ public class ProgramController {
      * Dieser legt das Objekt der Klasse ProgramController an, das den Programmfluss steuert.
      * Damit der ProgramController auf das Fenster zugreifen kann, benötigt er eine Referenz auf das Objekt
      * der Klasse UIController. Diese wird als Parameter übergeben.
-     *
      * @param uiController das UIController-Objekt des Programms
      */
-    public ProgramController(UIController uiController) {
+    public ProgramController(UIController uiController){
         this.uiController = uiController;
         colorStack = new Stack<item>();
     }
@@ -72,11 +73,18 @@ public class ProgramController {
         powerUpQueue = new Queue<>();
         createPowerUpQueue(10);
         powerUpIsActive = false;
+        colorStack= new Stack<>();
+        colorStack= new Stack<>();
+        item1= new Item(1);
+        item2= new Item(2);
+        item3= new Item(3);
+        item4= new Item(4);
+        item5= new Item(5);
+
     }
 
     /**
      * Diese Methode wird wiederholt automatisch aufgerufen und zwar für jede Frame einmal, d.h. über 25 mal pro Sekunde.
-     *
      * @param dt Die Zeit in Sekunden, die seit dem letzten Aufruf der Methode vergangen ist.
      */
     public void updateProgram(double dt) {
@@ -114,6 +122,18 @@ public class ProgramController {
             firstPlayer.setCollision(false);
             secondPlayer.setCollision(false);
         }
+        checkAndHandleCollisionPlayerItem(item1,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item2,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item3,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item4,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item5,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item1,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item2,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item3,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item4,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item5,secondPlayer);
+
+
 
         if (powerUpTimer <= 0 && !powerUpIsActive) {
             spawnPowerUp();
@@ -191,6 +211,12 @@ public class ProgramController {
                 }
                 projectileList.next();
             }
+        }
+    }
+    public void checkAndHandleCollisionPlayerItem(Item item,Player player){
+        if (player.collidesWith(item)) {
+            collectStack.push(item);
+
         }
     }
 
