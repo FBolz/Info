@@ -5,10 +5,9 @@ import akkgframework.model.Display;
 import akkgframework.control.fundamental.SoundController;
 import akkgframework.model.abitur.datenstrukturen.Stack;
 import akkgframework.model.abitur.datenstrukturen.List;
-import akkgframework.model.scenario.ScenarioController;
 import model.Player;
 import model.Projectile;
-import model.item;
+import model.Item;
 
 import java.awt.event.KeyEvent;
 
@@ -30,7 +29,9 @@ public class ProgramController {
     private SoundController soundController;
     private Player firstPlayer;
     private Player secondPlayer;
-    private Stack<item> colorStack;
+    private Stack<Item> colorStack;
+    private Stack <Item> collectStack;
+    private Item item1,item2,item3,item4,item5;
     private List<Projectile> projectileListP1;
     private List<Projectile> projectileListP2;
 
@@ -43,7 +44,7 @@ public class ProgramController {
      */
     public ProgramController(UIController uiController){
         this.uiController = uiController;
-        colorStack= new Stack<item>();
+
     }
 
     /**
@@ -61,6 +62,14 @@ public class ProgramController {
         projectileTimer1=0;
         projectileListP1 = new List();
         projectileListP2 = new List();
+        colorStack= new Stack<>();
+        colorStack= new Stack<>();
+        item1= new Item(1);
+        item2= new Item(2);
+        item3= new Item(3);
+        item4= new Item(4);
+        item5= new Item(5);
+
     }
 
     /**
@@ -90,6 +99,18 @@ public class ProgramController {
             firstPlayer.setCollision(false);
             secondPlayer.setCollision(false);
         }
+        checkAndHandleCollisionPlayerItem(item1,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item2,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item3,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item4,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item5,firstPlayer);
+        checkAndHandleCollisionPlayerItem(item1,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item2,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item3,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item4,secondPlayer);
+        checkAndHandleCollisionPlayerItem(item5,secondPlayer);
+
+
 
     }
 
@@ -111,6 +132,12 @@ public class ProgramController {
                 }
                 projectileList.next();
             }
+        }
+    }
+    public void checkAndHandleCollisionPlayerItem(Item item,Player player){
+        if (player.collidesWith(item)) {
+            collectStack.push(item);
+
         }
     }
 

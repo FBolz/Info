@@ -3,11 +3,11 @@ package model;
 import akkgframework.model.fundamental.GraphicalObject;
 import akkgframework.view.DrawTool;
 
-public class item extends GraphicalObject {
+public class Item extends GraphicalObject {
     private int colorNumber;
     private double timer;
 
-    public item(int colorNumber) {
+    public Item(int colorNumber) {
         this.colorNumber=colorNumber;
         x= Math.random()*1600;
         y= Math.random()*1024;
