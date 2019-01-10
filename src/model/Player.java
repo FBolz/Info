@@ -12,13 +12,15 @@ public class Player extends GraphicalObject {
     private int KeyToGoRight;
     private int KeyToShoot;
     private boolean shoot;
+    private double speed;
+    private boolean fastShoot;
     private int live;
     private boolean collision;
     private String direction;
     private UIController uiController;
 
 
-    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, String path, int x, int y,int live) {
+    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed,String path, int x, int y,int live) {
         this.KeyToGoDown = KeyToGoDown;
         this.KeyToGoLeft = KeyToGoLeft;
         this.KeyToGoRight = KeyToGoRight;
@@ -27,6 +29,7 @@ public class Player extends GraphicalObject {
         this.x = x;
         this.y = y;
         this.live=live;
+        this.speed=speed;
         this.uiController = uiController;
         createAndSetNewImage(path);
     }
@@ -40,38 +43,38 @@ public class Player extends GraphicalObject {
             direction = "neutral";
         }
         if (y <= 950 - getMyImage().getHeight() && uiController.isKeyDown(KeyToGoDown)&& !collision) {
-            y += 100 * dt;
+            y += speed * dt;
             direction="down";
         }else if(y <= 950 - getMyImage().getHeight() &&direction=="down"&&collision) {
-            y-=100;
+            y-=speed;
             if(y<=0){
                 y=0;
             }
         }
         if (y >= 0 && uiController.isKeyDown(KeyToGoUp)&&!collision) {
-            y -= 100 * dt;
+            y -= speed * dt;
             direction="up";
         }else if(y >= 0 && direction=="up" && collision){
-            y+=100;
+            y+=speed;
             if(y>= 950 - getMyImage().getHeight()){
                 y= 950 - getMyImage().getHeight();
             }
         }
 
         if (x <= 1550 - getMyImage().getWidth() && uiController.isKeyDown(KeyToGoRight)&&!collision) {
-            x += 100 * dt;
+            x += speed * dt;
             direction= "right";
         }else if(x <= 1550 - getMyImage().getWidth() &&direction=="right" &&collision) {
-            x-=100;
+            x-=speed;
             if(x<=0){
                 x=0;
             }
         }
         if (x >= 0 && uiController.isKeyDown(KeyToGoLeft)&&!collision) {
-            x -= 100 * dt;
+            x -= speed * dt;
             direction= "left";
         }else if(x >= 0 && direction=="left" &&collision) {
-            x+=100;
+            x+=speed;
             if(x >= 1550 - getMyImage().getWidth()){
                 x= 1550 - getMyImage().getWidth();
             }
@@ -98,5 +101,21 @@ public class Player extends GraphicalObject {
 
     public void setCollision(boolean collision) {
         this.collision = collision;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public boolean getFastShoot() {
+        return fastShoot;
+    }
+
+    public void setFastShoot(boolean fastShoot) {
+        this.fastShoot = fastShoot;
     }
 }

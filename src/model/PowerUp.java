@@ -5,15 +5,22 @@ import akkgframework.view.DrawTool;
 
 public class PowerUp extends GraphicalObject {
     private int strength;
-    public PowerUp(){
+    private String type;
+
+    public PowerUp(String type) {
+        this.type=type;
         jump();
-
-
-
     }
-    public  void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(59,59,59,255);
-        drawTool.drawFilledCircle(x,y,60);
+
+    public void draw(DrawTool drawTool) {
+        switch (type){
+            case "Speed":drawTool.setCurrentColor(30,144,255,255); break;
+            case "Shoot": drawTool.setCurrentColor(0, 0, 0, 255); break;
+            case "Live": drawTool.setCurrentColor(255,48,48,255); break;
+            default: break;
+        }
+
+        drawTool.drawFilledCircle(x, y, 30);
     }
 
     public int getStrength() {
@@ -21,10 +28,16 @@ public class PowerUp extends GraphicalObject {
     }
 
     public void setStrength(int amount) {
-        strength = strength+ amount;
+        strength = strength + amount;
     }
-    private void jump(){
-        x=Math.random()*1600;
-        y= Math.random()*1024;
+
+    private void jump() {
+        x = Math.random() * 600;
+        y = Math.random() * 704;
+
+    }
+
+    public String getType() {
+        return type;
     }
 }
