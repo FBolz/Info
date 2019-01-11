@@ -51,7 +51,7 @@ public class ProgramController {
      */
     public ProgramController(UIController uiController){
         this.uiController = uiController;
-        colorStack = new Stack<item>();
+        colorStack = new Stack<Item>();
     }
 
     /**
@@ -61,9 +61,9 @@ public class ProgramController {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
 
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3);
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3,"right");
         uiController.registerObject(firstPlayer);
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3);
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3,"left");
         uiController.registerObject(secondPlayer);
         projectileTimer2 = 0;
         projectileTimer1 = 0;
@@ -194,7 +194,7 @@ public class ProgramController {
     }
 
     private void shoot(double dt, Player player, List<Projectile> projectileList) {
-        projectileList.append(new Projectile(player.getX(), player.getY(), "right", uiController));
+        projectileList.append(new Projectile(player.getX(), player.getY(), player.getFacing(), uiController));
         projectileList.toLast();
         uiController.registerObject(projectileList.getContent());
     }
@@ -214,10 +214,10 @@ public class ProgramController {
         }
     }
     public void checkAndHandleCollisionPlayerItem(Item item,Player player){
-        if (player.collidesWith(item)) {
+       /* if (player.collidesWith(item)) {
             collectStack.push(item);
 
-        }
+        }*/
     }
 
 }

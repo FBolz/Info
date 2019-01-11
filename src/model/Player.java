@@ -17,10 +17,11 @@ public class Player extends GraphicalObject {
     private int live;
     private boolean collision;
     private String direction;
+    private String facing;
     private UIController uiController;
 
 
-    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed,String path, int x, int y,int live) {
+    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed,String path, int x, int y,int live,String facing) {
         this.KeyToGoDown = KeyToGoDown;
         this.KeyToGoLeft = KeyToGoLeft;
         this.KeyToGoRight = KeyToGoRight;
@@ -31,21 +32,24 @@ public class Player extends GraphicalObject {
         this.live=live;
         this.speed=speed;
         this.uiController = uiController;
+        this.facing=facing;
         createAndSetNewImage(path);
     }
 
     public void draw(DrawTool drawTool) {
         drawTool.drawImage(getMyImage(), x, y);
+        drawTool.drawText(x+60,y+10,"Life: "+String.valueOf(live));
     }
 
     public void update(double dt) {
-        if(!uiController.isKeyDown(KeyToGoDown)&&!uiController.isKeyDown(KeyToGoUp)&& !uiController.isKeyDown(KeyToGoRight) && !uiController.isKeyDown(KeyToGoLeft)) {
+        if(!uiController.isKeyDown(KeyToGoDown)&&!uiController.isKeyDown(KeyToGoUp)&& !uiController.isKeyDown(KeyToGoRight) && !uiController.isKeyDown(KeyToGoLeft)&&!collision) {
             direction = "neutral";
         }
         if (y <= 950 - getMyImage().getHeight() && uiController.isKeyDown(KeyToGoDown)&& !collision) {
             y += speed * dt;
             direction="down";
-        }else if(y <= 950 - getMyImage().getHeight() &&direction=="down"&&collision) {
+            facing=direction;
+        }else if(y <= 950 - getMyImage().getHeight() &&direction.equals("down")&&collision) {
             y-=speed;
             if(y<=0){
                 y=0;
@@ -54,7 +58,8 @@ public class Player extends GraphicalObject {
         if (y >= 0 && uiController.isKeyDown(KeyToGoUp)&&!collision) {
             y -= speed * dt;
             direction="up";
-        }else if(y >= 0 && direction=="up" && collision){
+            facing=direction;
+        }else if(y >= 0 && direction.equals("up") && collision){
             y+=speed;
             if(y>= 950 - getMyImage().getHeight()){
                 y= 950 - getMyImage().getHeight();
@@ -64,7 +69,8 @@ public class Player extends GraphicalObject {
         if (x <= 1550 - getMyImage().getWidth() && uiController.isKeyDown(KeyToGoRight)&&!collision) {
             x += speed * dt;
             direction= "right";
-        }else if(x <= 1550 - getMyImage().getWidth() &&direction=="right" &&collision) {
+            facing=direction;
+        }else if(x <= 1550 - getMyImage().getWidth() &&direction.equals("right") &&collision) {
             x-=speed;
             if(x<=0){
                 x=0;
@@ -73,7 +79,8 @@ public class Player extends GraphicalObject {
         if (x >= 0 && uiController.isKeyDown(KeyToGoLeft)&&!collision) {
             x -= speed * dt;
             direction= "left";
-        }else if(x >= 0 && direction=="left" &&collision) {
+            facing=direction;
+        }else if(x >= 0 && direction.equals("left") &&collision) {
             x+=speed;
             if(x >= 1550 - getMyImage().getWidth()){
                 x= 1550 - getMyImage().getWidth();
@@ -117,5 +124,9 @@ public class Player extends GraphicalObject {
 
     public void setFastShoot(boolean fastShoot) {
         this.fastShoot = fastShoot;
+    }
+
+    public String getFacing() {
+        return facing;
     }
 }

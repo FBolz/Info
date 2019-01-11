@@ -63,6 +63,12 @@ public class Projectile extends GraphicalObject {
             if (direction.equals("right")) {
                 x = x + speed;
             }
+            if (direction.equals("down")) {
+                y = y + speed;
+            }
+            if (direction.equals("up")) {
+                y = y - speed;
+            }
         }
     }
 
