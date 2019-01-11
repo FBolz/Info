@@ -61,9 +61,9 @@ public class ProgramController {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
 
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3,"right");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3,"left");
         uiController.registerObject(firstPlayer);
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3,"left");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3,"right");
         uiController.registerObject(secondPlayer);
         projectileTimer2 = 0;
         projectileTimer1 = 0;
@@ -118,7 +118,10 @@ public class ProgramController {
         if (firstPlayer.collidesWith(secondPlayer)) {
             firstPlayer.setCollision(true);
             secondPlayer.setCollision(true);
-        } else {
+            if(firstPlayer.getDirection().equals(secondPlayer.getDirection())){
+                firstPlayer.setDirection("neutral");
+            }
+        }else {
             firstPlayer.setCollision(false);
             secondPlayer.setCollision(false);
         }

@@ -126,6 +126,14 @@ public class Player extends GraphicalObject {
         this.fastShoot = fastShoot;
     }
 
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
     public String getFacing() {
         return facing;
     }
