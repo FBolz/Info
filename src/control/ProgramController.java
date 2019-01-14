@@ -30,9 +30,8 @@ public class ProgramController {
     private SoundController soundController;
     private Player firstPlayer;
     private Player secondPlayer;
-    private Stack<Item> colorStack;
     private Stack <Item> collectStack;
-    private Item item1,item2,item3,item4,item5;
+    private Item [] item;
     private List<Projectile> projectileListP1;
     private List<Projectile> projectileListP2;
     private Queue<PowerUp> powerUpQueue;
@@ -51,7 +50,7 @@ public class ProgramController {
      */
     public ProgramController(UIController uiController){
         this.uiController = uiController;
-        colorStack = new Stack<Item>();
+
     }
 
     /**
@@ -75,13 +74,12 @@ public class ProgramController {
         powerUpQueue = new Queue<>();
         createPowerUpQueue(10);
         powerUpIsActive = false;
-        colorStack= new Stack<>();
-        colorStack= new Stack<>();
-        item1= new Item(1);
-        item2= new Item(2);
-        item3= new Item(3);
-        item4= new Item(4);
-        item5= new Item(5);
+        collectStack= new Stack<>();
+        item= new Item[5];
+        for(int i=0; i< item.length;i++){
+            item[i]= new Item(i);
+            uiController.registerObject(item[i]);
+        }
 
     }
 
@@ -127,23 +125,18 @@ public class ProgramController {
             firstPlayer.setCollision(false);
             secondPlayer.setCollision(false);
         }
-        checkAndHandleCollisionPlayerItem(item1,firstPlayer);
-        checkAndHandleCollisionPlayerItem(item2,firstPlayer);
-        checkAndHandleCollisionPlayerItem(item3,firstPlayer);
-        checkAndHandleCollisionPlayerItem(item4,firstPlayer);
-        checkAndHandleCollisionPlayerItem(item5,firstPlayer);
-        checkAndHandleCollisionPlayerItem(item1,secondPlayer);
-        checkAndHandleCollisionPlayerItem(item2,secondPlayer);
-        checkAndHandleCollisionPlayerItem(item3,secondPlayer);
-        checkAndHandleCollisionPlayerItem(item4,secondPlayer);
-        checkAndHandleCollisionPlayerItem(item5,secondPlayer);
+        for( int i=0; i<item.length;i++){
+            checkAndHandleCollisionPlayerItem(item[i],firstPlayer);
+        }
+        for(int j=0;j< item.length;j++){
+            checkAndHandleCollisionPlayerItem(item[j],secondPlayer);
+        }
 
         checkAndHandleEnemyCollisions(jumba,firstPlayer);
         checkAndHandleEnemyCollisions(jumba,secondPlayer);
 
         checkAndHandleCollisionEnemy(projectileListP1,jumba);
         checkAndHandleCollisionEnemy(projectileListP2, jumba);
-
 
 
         if (powerUpTimer <= 0 && !powerUpIsActive) {
@@ -255,11 +248,55 @@ public class ProgramController {
             }
         }
     }
-    public void checkAndHandleCollisionPlayerItem(Item item,Player player){
-       /* if (player.collidesWith(item)) {
-            collectStack.push(item);
 
-        }*/
+    private Item[] makeArrayOutOfStack(Stack<Item> stack, int size){
+        Item[] output = new Item[size];
+        Stack<Item> tmp = new Stack<Item>();
+
+        if(!stack.isEmpty()){
+            for(int i = 0; i < size; i++){
+                output[i] = stack.top();
+                tmp.push(stack.top());
+                stack.pop();
+            }
+            while(!tmp.isEmpty()){
+                stack.push(tmp.top());
+                tmp.pop();
+            }
+        }else{
+            output = null;;
+
+        }
+        return output;
+    }
+    public void checkAndHandleCollisionPlayerItem(Item item1,Player player){
+        if (player.collidesWith(item1)) {
+            // collectStack.push(item);
+            System.out.println("ja");
+            collectStack.push(item1);
+            item1.jump();
+            uiController.removeObject(item1);
+            System.out.println(""+collectStack.top());
+            if(item[4]== item1){
+                boolean compare=false;
+                Item [] array=makeArrayOutOfStack(collectStack,5);
+                for(int i=0; i<array.length;i++){
+                    if(array[i]==item[i]){
+                        compare=true;
+                    }else{
+                        compare=false;
+                    }
+                }
+                if( compare== true){
+                    int life=player.getLive()+5;
+                    player.setLive(life);
+                    for(int i=0; i<item.length;i++){
+                        uiController.registerObject(item[i]);
+                    }
+                }
+
+            }
+        }
     }
 
 }

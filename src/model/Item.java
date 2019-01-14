@@ -37,7 +37,7 @@ public class Item extends GraphicalObject {
     public int getColorNumber() {
         return colorNumber;
     }
-    private void jump(){
+    public void jump(){
         x= Math.random()*1600;
         y= Math.random()*1024;
     }
@@ -45,6 +45,7 @@ public class Item extends GraphicalObject {
         timer= timer+1*dt;
         if( timer >=10){
             jump();
+            timer=0;
         }
 
     }
