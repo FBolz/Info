@@ -27,12 +27,24 @@ public class Projectile extends GraphicalObject {
         this.uiControl = uiControl;
         this.x = x;
         this.y = y;
-        farbeR = (int) (Math.random() * 256);
-        farbeG = (int) (Math.random() * 256);
-        farbeB = (int) (Math.random() * 256);
         this.speed = 15;
-        this.size = 10;
         this.direction=direction;
+        switch (direction) {
+            case "left":
+                createAndSetNewImage("assets/images/Laser/Laser_Left.png");
+                break;
+            case "right":
+                createAndSetNewImage("assets/images/Laser/Laser_Right.png");
+                break;
+            case "up":
+                createAndSetNewImage("assets/images/Laser/Laser_Up.png");
+                break;
+            case "down":
+                createAndSetNewImage("assets/images/Laser/Laser_Down.png");
+            break;
+            default:
+                break;
+        }
 
     }
 
@@ -43,10 +55,7 @@ public class Projectile extends GraphicalObject {
      * @param drawTool Referenz auf das Zeichenwerkzeug
      */
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(farbeR, farbeG, farbeB, 255);
-        drawTool.drawFilledCircle(x, y, size / 2);
-        drawTool.setCurrentColor(0, 0, 0, 255);
-        drawTool.drawCircle(x, y, size / 2);
+        drawTool.drawImage(getMyImage(), x, y);
     }
 
     /**

@@ -69,8 +69,8 @@ public class ProgramController {
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
-        projectileListP1 = new List();
-        projectileListP2 = new List();
+        projectileListP1 = new List<>();
+        projectileListP2 = new List<>();
         powerUpQueue = new Queue<>();
         createPowerUpQueue(10);
         powerUpIsActive = false;

@@ -39,7 +39,7 @@ public class Item extends GraphicalObject {
     }
     public void jump(){
         x= Math.random()*1600;
-        y= Math.random()*1024;
+        y= Math.random()*1600;
     }
     public void update(double dt){
         timer= timer+1*dt;
