@@ -62,7 +62,7 @@ public class ProgramController {
         jumba = new Jumba();
         uiController.drawObjectOnPanel(jumba,0);
 
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3,"left");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player1-1.png", 600, 100, 3,"left");
         uiController.registerObject(firstPlayer);
         secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3,"right");
         uiController.registerObject(secondPlayer);

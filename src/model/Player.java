@@ -19,6 +19,7 @@ public class Player extends GraphicalObject {
     private String direction;
     private String facing;
     private UIController uiController;
+    private double spritetimer;
 
 
     public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed,String path, int x, int y,int live,String facing) {
@@ -39,9 +40,20 @@ public class Player extends GraphicalObject {
     public void draw(DrawTool drawTool) {
         drawTool.drawImage(getMyImage(), x, y);
         drawTool.drawText(x+60,y+10,"Life: "+String.valueOf(live));
+        if(spritetimer> 0.5){
+            createAndSetNewImage("assets/images/Player1-1.png");
+        }
+
+        if(spritetimer < 0.5){
+            createAndSetNewImage("assets/images/Player1-2.png");
+        }
+        if(spritetimer> 1){
+            spritetimer = 0;
+        }
     }
 
     public void update(double dt) {
+       spritetimer= spritetimer+dt;
         if(!uiController.isKeyDown(KeyToGoDown)&&!uiController.isKeyDown(KeyToGoUp)&& !uiController.isKeyDown(KeyToGoRight) && !uiController.isKeyDown(KeyToGoLeft)&&!collision) {
             direction = "neutral";
         }
