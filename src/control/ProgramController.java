@@ -7,10 +7,7 @@ import akkgframework.model.abitur.datenstrukturen.Queue;
 import akkgframework.model.abitur.datenstrukturen.Stack;
 import akkgframework.model.abitur.datenstrukturen.List;
 import akkgframework.model.scenario.ScenarioController;
-import model.Player;
-import model.PowerUp;
-import model.Projectile;
-import model.Item;
+import model.*;
 
 import java.awt.event.KeyEvent;
 
@@ -60,6 +57,8 @@ public class ProgramController {
     public void startProgram() {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
+        Jumba jumba = new Jumba();
+        uiController.registerObject(jumba);
 
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3,"left");
         uiController.registerObject(firstPlayer);
@@ -150,6 +149,7 @@ public class ProgramController {
             createPowerUpQueue(10);
         }
     }
+
 
     private void spawnPowerUp() {
         powerUpTimer = 1;
