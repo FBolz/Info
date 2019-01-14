@@ -22,14 +22,14 @@ public class Jumba extends  Enemy {
     @Override
     public void draw(DrawTool drawTool) {
         super.draw(drawTool);
-        if(spritetimer> 0.2){
-            createAndSetNewImage("assets/images/Jumba3.png");
+        if(spritetimer> 0.5){
+            createAndSetNewImage("assets/images/Jumba-richtig.png");
         }
 
-        if(spritetimer < 0.2){
-            createAndSetNewImage("assets/images/Jumba.png");
+        if(spritetimer < 0.5){
+            createAndSetNewImage("assets/images/Jumba3.png");
         }
-        if(spritetimer> 0.4){
+        if(spritetimer> 1){
             spritetimer = 0;
         }
 

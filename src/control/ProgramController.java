@@ -38,6 +38,9 @@ public class ProgramController {
     private Queue<PowerUp> powerUpQueue;
     private PowerUp activePowerUp;
     private boolean powerUpIsActive;
+    private Jumba jumba;
+    private double enemyTimer;
+
 
     /**
      * Konstruktor
@@ -57,8 +60,8 @@ public class ProgramController {
     public void startProgram() {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
-        Jumba jumba = new Jumba();
-        uiController.registerObject(jumba);
+        jumba = new Jumba();
+        uiController.drawObjectOnPanel(jumba,0);
 
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/objects/gate.png", 600, 100, 3,"left");
         uiController.registerObject(firstPlayer);
@@ -135,6 +138,12 @@ public class ProgramController {
         checkAndHandleCollisionPlayerItem(item4,secondPlayer);
         checkAndHandleCollisionPlayerItem(item5,secondPlayer);
 
+        checkAndHandleEnemyCollisions(jumba,firstPlayer);
+        checkAndHandleEnemyCollisions(jumba,secondPlayer);
+
+        checkAndHandleCollisionEnemy(projectileListP1,jumba);
+        checkAndHandleCollisionEnemy(projectileListP2, jumba);
+
 
 
         if (powerUpTimer <= 0 && !powerUpIsActive) {
@@ -172,6 +181,36 @@ public class ProgramController {
             }
         }
 
+    }
+    private void checkAndHandleEnemyCollisions(Enemy enemy, Player player) {
+        if (enemy.collidesWith(player)&& enemy.isEnemyIsActive()) {
+            player.setLive(player.getLive()-1);
+            enemy.setEnemyIsActive(false);
+            spawnEnemyRandom(enemy);
+        }
+
+    }
+    public void checkAndHandleCollisionEnemy(List<Projectile> projectileList, Enemy enemy) {
+        if (!projectileList.isEmpty()) {
+            projectileList.toFirst();
+            while (projectileList.hasAccess()) {
+                if (projectileList.getContent().collidesWith(enemy)) {
+                    uiController.removeObject(projectileList.getContent());
+                    projectileList.remove();
+                    enemy.setEnemyIsActive(false);
+                    spawnEnemyRandom(enemy);
+                }
+                projectileList.next();
+            }
+        }
+    }
+
+    private void spawnEnemyRandom(Enemy enemy){
+       int i = (int) (Math.random()*1400);
+       int y = (int) (Math.random()*1000);
+        enemy.setX(i);
+        enemy.setY(y);
+        enemy.setEnemyIsActive(true);
     }
 
     private void checkAndHandlePowerUpCollisions(PowerUp activePowerUp, Player player) {
