@@ -6,14 +6,15 @@ import akkgframework.view.DrawTool;
 public class Item extends GraphicalObject {
     private int colorNumber;
     private double timer;
+    private boolean jump;
 
     public Item(int colorNumber) {
         this.colorNumber=colorNumber;
-        x= Math.random()*1600;
-        y= Math.random()*1024;
-        height= 40;
-        width=40;
+        jump();
+        height= 30;
+        width=30;
         timer=0;
+        jump=true;
 
 
     }
@@ -38,8 +39,14 @@ public class Item extends GraphicalObject {
         return colorNumber;
     }
     public void jump(){
-        x= Math.random()*1600;
-        y= Math.random()*1600;
+        if(jump==true&& timer>= 10) {
+            x = Math.random() * 1000;
+            y = Math.random() * 624;
+        }
+    }
+    public void jumpOut(){
+        y= Math.random()*-700;
+        x= Math.random()*-700;
     }
     public void update(double dt){
         timer= timer+1*dt;
@@ -47,6 +54,10 @@ public class Item extends GraphicalObject {
             jump();
             timer=0;
         }
+
+    }
+    public void setJump(boolean amount){
+        jump=amount ;
 
     }
 }

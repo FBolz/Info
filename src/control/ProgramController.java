@@ -30,12 +30,15 @@ public class ProgramController {
     private SoundController soundController;
     private Player firstPlayer;
     private Player secondPlayer;
-    private Stack <Item> collectStack;
+    private Stack <Item> collectStack1;
+    private Stack <Item> collectStack2;
     private Item [] item;
+    private Item [] itemShow;
     private List<Projectile> projectileListP1;
     private List<Projectile> projectileListP2;
     private Queue<PowerUp> powerUpQueue;
     private PowerUp activePowerUp;
+    private  Music music;
     private boolean powerUpIsActive;
     private Jumba jumba;
     private double enemyTimer;
@@ -61,7 +64,7 @@ public class ProgramController {
         // ******************************************* Ab hier euer eigener Code! *******************************************
         jumba = new Jumba();
         uiController.drawObjectOnPanel(jumba,0);
-
+        music = new Music("assets/sounds/music/GOTCat.wav");
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player1-1.png", 600, 100, 3,"left");
         uiController.registerObject(firstPlayer);
         secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3,"right");
@@ -74,12 +77,29 @@ public class ProgramController {
         powerUpQueue = new Queue<>();
         createPowerUpQueue(10);
         powerUpIsActive = false;
-        collectStack= new Stack<>();
+        collectStack1= new Stack<>();
+        collectStack2= new Stack<>();
         item= new Item[5];
         for(int i=0; i< item.length;i++){
-            item[i]= new Item(i);
+            item[i]= new Item(i+1);
             uiController.registerObject(item[i]);
+
         }
+        itemShow= new Item[5];
+        for(int i=0; i< itemShow.length;i++){
+            int distance= 20;
+            itemShow[i]= new Item(i+1);
+            itemShow[i].setY(10);
+            itemShow[i].setX(1200+i*distance);
+            itemShow[i].setHeight(15);
+            itemShow[i].setWidth(15);
+            itemShow[i].setJump(false);
+
+            uiController.registerObject(itemShow[i]);
+
+        }
+
+
 
     }
 
@@ -126,11 +146,17 @@ public class ProgramController {
             secondPlayer.setCollision(false);
         }
         for( int i=0; i<item.length;i++){
-            checkAndHandleCollisionPlayerItem(item[i],firstPlayer);
+            checkAndHandleCollisionPlayerItem(item[i],firstPlayer,collectStack1);
         }
         for(int j=0;j< item.length;j++){
-            checkAndHandleCollisionPlayerItem(item[j],secondPlayer);
+            checkAndHandleCollisionPlayerItem(item[j],secondPlayer,collectStack2);
         }
+       //if(uiController.isKeyDown(KeyEvent.VK_M)){
+            //for(int i=0; i<item.length&& !collectStack.isEmpty();i++){
+         //     uiController.registerObject(collectStack1.top());
+           //    collectStack1.pop();
+            //}
+       // }
 
         checkAndHandleEnemyCollisions(jumba,firstPlayer);
         checkAndHandleEnemyCollisions(jumba,secondPlayer);
@@ -249,54 +275,59 @@ public class ProgramController {
         }
     }
 
-    private Item[] makeArrayOutOfStack(Stack<Item> stack, int size){
-        Item[] output = new Item[size];
-        Stack<Item> tmp = new Stack<Item>();
 
-        if(!stack.isEmpty()){
-            for(int i = 0; i < size; i++){
-                output[i] = stack.top();
-                tmp.push(stack.top());
-                stack.pop();
-            }
-            while(!tmp.isEmpty()){
-                stack.push(tmp.top());
-                tmp.pop();
-            }
-        }else{
-            output = null;;
 
-        }
-        return output;
-    }
-    public void checkAndHandleCollisionPlayerItem(Item item1,Player player){
+    public void checkAndHandleCollisionPlayerItem(Item item1,Player player, Stack <Item> collectStack){
         if (player.collidesWith(item1)) {
-            // collectStack.push(item);
             System.out.println("ja");
             collectStack.push(item1);
-            item1.jump();
             uiController.removeObject(item1);
+            //player.setY( player.getY()+30);
+            item1.jumpOut();
+
             System.out.println(""+collectStack.top());
-            if(item[4]== item1){
-                boolean compare=false;
-                Item [] array=makeArrayOutOfStack(collectStack,5);
-                for(int i=0; i<array.length;i++){
-                    if(array[i]==item[i]){
-                        compare=true;
+            if(5== item1.getColorNumber()){
+                Stack <Item> temp = new Stack<>();
+                boolean compare=true;
+                for(int i=item.length-1; i>=0&& !collectStack.isEmpty();i--){
+                    if(i+1 == collectStack.top().getColorNumber()){
+
+                        System.out.println("true"+item[i].getColorNumber());
+
+                        temp.push(collectStack.top());
+                        collectStack.pop();
                     }else{
                         compare=false;
+                        System.out.println("false"+item[i].getColorNumber());
+                        temp.push(collectStack.top());
+                        collectStack.pop();
                     }
+                }
+                while(!temp.isEmpty()){
+                    collectStack.push(temp.top());
+                    temp.pop();
                 }
                 if( compare== true){
                     int life=player.getLive()+5;
                     player.setLive(life);
-                    for(int i=0; i<item.length;i++){
+                    for(int i=0; i<item.length;i++) {
+                        collectStack.pop();
                         uiController.registerObject(item[i]);
+                        // item[i].jump();
+
+                    }
+                }else{
+                    for(int i=0; i<item.length;i++) {
+                        collectStack.pop();
+                        uiController.registerObject(item[i]);
+                        // item[i].jump();
+
+
                     }
                 }
-
             }
         }
     }
+
 
 }
