@@ -48,7 +48,6 @@ public class ProgramController {
      * Dieser legt das Objekt der Klasse ProgramController an, das den Programmfluss steuert.
      * Damit der ProgramController auf das Fenster zugreifen kann, benötigt er eine Referenz auf das Objekt
      * der Klasse UIController. Diese wird als Parameter übergeben.
-     *
      * @param uiController das UIController-Objekt des Programms
      */
     public ProgramController(UIController uiController) {
@@ -82,13 +81,14 @@ public class ProgramController {
         for (int i = 0; i < item.length; i++) {
             item[i] = new Item(i + 1);
             uiController.registerObject(item[i]);
+
         }
-        itemShow = new Item[5];
-        for (int i = 0; i < itemShow.length; i++) {
-            int distance = 20;
-            itemShow[i] = new Item(i + 1);
+        itemShow= new Item[5];
+        for(int i=0; i< itemShow.length;i++){
+            int distance= 40;
+            itemShow[i]= new Item(i+1);
             itemShow[i].setY(10);
-            itemShow[i].setX(1200 + i * distance);
+            itemShow[i].setX(1150+i*distance);
             itemShow[i].setHeight(15);
             itemShow[i].setWidth(15);
             itemShow[i].setJump(false);
@@ -102,7 +102,6 @@ public class ProgramController {
 
     /**
      * Diese Methode wird wiederholt automatisch aufgerufen und zwar für jede Frame einmal, d.h. über 25 mal pro Sekunde.
-     *
      * @param dt Die Zeit in Sekunden, die seit dem letzten Aufruf der Methode vergangen ist.
      */
     public void updateProgram(double dt) {
@@ -151,6 +150,12 @@ public class ProgramController {
         for (int j = 0; j < item.length; j++) {
             checkAndHandleCollisionPlayerItem(item[j], secondPlayer, collectStack2);
         }
+       //if(uiController.isKeyDown(KeyEvent.VK_M)){
+            //for(int i=0; i<item.length&& !collectStack.isEmpty();i++){
+         //     uiController.registerObject(collectStack1.top());
+           //    collectStack1.pop();
+            //}
+       // }
 
         checkAndHandleEnemyCollisions(jumba, firstPlayer);
         checkAndHandleEnemyCollisions(jumba, secondPlayer);

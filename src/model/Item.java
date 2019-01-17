@@ -3,10 +3,13 @@ package model;
 import akkgframework.model.fundamental.GraphicalObject;
 import akkgframework.view.DrawTool;
 
+import java.awt.image.BufferedImage;
+
 public class Item extends GraphicalObject {
     private int colorNumber;
     private double timer;
     private boolean jump;
+    private BufferedImage image;
 
     public Item(int colorNumber) {
         this.colorNumber=colorNumber;
@@ -21,19 +24,27 @@ public class Item extends GraphicalObject {
 
     public void draw(DrawTool drawTool) {
         switch (colorNumber) {
-            case 1: drawTool.setCurrentColor(255, 215, 0, 255);
+            case 1://gelb
+                image= createNewImage("assets/images/objects/yellow planet.png" );
+                        // drawTool.setCurrentColor(255, 215, 0, 255);
             break;
-            case 2: drawTool.setCurrentColor(255, 44, 44, 255);
+            case 2:
+                image= createNewImage("assets/images/objects/redplanet.png" );
+                //drawTool.setCurrentColor(255, 44, 44, 255);
             break;
-            case 3: drawTool.setCurrentColor(191, 61, 255, 255);
+            case 3:
+                image= createNewImage("assets/images/objects/purpleplanet.png" );
+                //drawTool.setCurrentColor(191, 61, 255, 255);
             break;
-            case 4: drawTool.setCurrentColor(34, 139, 34, 255);
+            case 4: image= createNewImage("assets/images/objects/green planet.png" );
+                // drawTool.setCurrentColor(34, 139, 34, 255);
             break;
-            case 5: drawTool.setCurrentColor(72, 118, 255, 255);
+            case 5:image= createNewImage("assets/images/objects/blue planet.png" );
+                //drawTool.setCurrentColor(72, 118, 255, 255);
             break;
 
         }
-        drawTool.drawFilledRectangle(x,y,width,height);
+        drawTool.drawImage(image,x,y);
     }
     public int getColorNumber() {
         return colorNumber;
@@ -49,7 +60,7 @@ public class Item extends GraphicalObject {
         x= Math.random()*-700;
     }
     public void update(double dt){
-        timer= timer+1*dt;
+        timer= timer+0.5*dt;
         if( timer >=10){
             jump();
             timer=0;
