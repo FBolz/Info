@@ -11,6 +11,11 @@ public class Player extends GraphicalObject {
     private int KeyToGoLeft;
     private int KeyToGoRight;
     private int KeyToShoot;
+    private int upKey;
+    private int downKey;
+    private int leftKey;
+    private int rightKey;
+
     private boolean shoot;
     private double speed;
     private boolean fastShoot;
@@ -20,6 +25,10 @@ public class Player extends GraphicalObject {
     private String facing;
     private UIController uiController;
     private double spritetimer;
+    private boolean strongShoot;
+    private double powerUpTimer;
+    private boolean invert;
+
 
 
     public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed,String path, int x, int y,int live,String facing) {
@@ -35,11 +44,16 @@ public class Player extends GraphicalObject {
         this.uiController = uiController;
         this.facing=facing;
         createAndSetNewImage(path);
+        powerUpTimer=-1;
+        invert=false;
     }
 
     public void draw(DrawTool drawTool) {
         drawTool.drawImage(getMyImage(), x, y);
-        drawTool.drawText(x+60,y+10,"Life: "+String.valueOf(live));
+        drawTool.drawText(x+60,y-30,"Life: "+String.valueOf(live));
+        if (powerUpTimer>=0) {
+            drawTool.drawText(x + 60, y - 10, "PowerUp Timer: " + String.valueOf(Math.round(powerUpTimer)));
+        }
         if(spritetimer> 0.5){
             createAndSetNewImage("assets/images/Player1-1.png");
         }
@@ -53,11 +67,22 @@ public class Player extends GraphicalObject {
     }
 
     public void update(double dt) {
+        if (invert){
+            upKey=KeyToGoDown;
+            downKey=KeyToGoUp;
+            leftKey=KeyToGoRight;
+            rightKey=KeyToGoLeft;
+        }else {
+            upKey=KeyToGoUp;
+            downKey=KeyToGoDown;
+            leftKey=KeyToGoLeft;
+            rightKey=KeyToGoRight;
+        }
        spritetimer= spritetimer+dt;
-        if(!uiController.isKeyDown(KeyToGoDown)&&!uiController.isKeyDown(KeyToGoUp)&& !uiController.isKeyDown(KeyToGoRight) && !uiController.isKeyDown(KeyToGoLeft)&&!collision) {
+        if(!uiController.isKeyDown(downKey)&&!uiController.isKeyDown(upKey)&& !uiController.isKeyDown(rightKey) && !uiController.isKeyDown(leftKey)&&!collision) {
             direction = "neutral";
         }
-        if (y <= 950 - getMyImage().getHeight() && uiController.isKeyDown(KeyToGoDown)&& !collision) {
+        if (y <= 950 - getMyImage().getHeight() && uiController.isKeyDown(downKey)&& !collision) {
             y += speed * dt;
             direction="down";
             facing=direction;
@@ -67,7 +92,7 @@ public class Player extends GraphicalObject {
                 y=0;
             }
         }
-        if (y >= 0 && uiController.isKeyDown(KeyToGoUp)&&!collision) {
+        if (y >= 0 && uiController.isKeyDown(upKey)&&!collision) {
             y -= speed * dt;
             direction="up";
             facing=direction;
@@ -78,7 +103,7 @@ public class Player extends GraphicalObject {
             }
         }
 
-        if (x <= 1550 - getMyImage().getWidth() && uiController.isKeyDown(KeyToGoRight)&&!collision) {
+        if (x <= 1550 - getMyImage().getWidth() && uiController.isKeyDown(rightKey)&&!collision) {
             x += speed * dt;
             direction= "right";
             facing=direction;
@@ -88,7 +113,7 @@ public class Player extends GraphicalObject {
                 x=0;
             }
         }
-        if (x >= 0 && uiController.isKeyDown(KeyToGoLeft)&&!collision) {
+        if (x >= 0 && uiController.isKeyDown(leftKey)&&!collision) {
             x -= speed * dt;
             direction= "left";
             facing=direction;
@@ -148,5 +173,25 @@ public class Player extends GraphicalObject {
 
     public String getFacing() {
         return facing;
+    }
+
+    public boolean getStrongShoot() {
+        return strongShoot;
+    }
+
+    public void setStrongShoot(boolean strongShoot) {
+        this.strongShoot = strongShoot;
+    }
+
+    public double getPowerUpTimer() {
+        return powerUpTimer;
+    }
+
+    public void setPowerUpTimer(double powerUpTimer) {
+        this.powerUpTimer = powerUpTimer;
+    }
+
+    public void setInvert(boolean invert) {
+        this.invert = invert;
     }
 }

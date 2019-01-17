@@ -9,18 +9,31 @@ public class PowerUp extends GraphicalObject {
 
     public PowerUp(String type) {
         this.type=type;
+
+        switch (type) {
+            case "Speed":
+                createAndSetNewImage("assets/images/PowerUps/PowerUp_Speed.png");
+                break;
+            case "FastShoot":
+                createAndSetNewImage("assets/images/PowerUps/PowerUp_RapidShot.png");
+                break;
+            case "Live":
+                createAndSetNewImage("assets/images/PowerUps/PowerUp_Life.png");
+                break;
+            case "StrongShoot":
+                createAndSetNewImage("assets/images/PowerUps/PowerUp_PowerShot .png");
+                break;
+            case "Invert":
+                createAndSetNewImage("assets/images/PowerUps/PowerUp_Speed.png");
+                break;
+            default:
+                break;
+        }
         jump();
     }
 
     public void draw(DrawTool drawTool) {
-        switch (type){
-            case "Speed":drawTool.setCurrentColor(30,144,255,255); break;
-            case "Shoot": drawTool.setCurrentColor(0, 0, 0, 255); break;
-            case "Live": drawTool.setCurrentColor(255,48,48,255); break;
-            default: break;
-        }
-
-        drawTool.drawFilledCircle(x, y, 30);
+        drawTool.drawImage(getMyImage(), x, y);
     }
 
     public int getStrength() {
@@ -41,3 +54,4 @@ public class PowerUp extends GraphicalObject {
         return type;
     }
 }
+
