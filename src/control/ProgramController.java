@@ -150,12 +150,20 @@ public class ProgramController {
         for (int j = 0; j < item.length; j++) {
             checkAndHandleCollisionPlayerItem(item[j], secondPlayer, collectStack2);
         }
-       //if(uiController.isKeyDown(KeyEvent.VK_M)){
-            //for(int i=0; i<item.length&& !collectStack.isEmpty();i++){
-         //     uiController.registerObject(collectStack1.top());
-           //    collectStack1.pop();
+
+        if(uiController.isKeyDown(KeyEvent.VK_M)){
+            System.out.println("m pressed, popping stack1");
+            //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
+              uiController.registerObject(collectStack1.top());
+              collectStack1.pop();
             //}
-       // }
+       }
+        if(uiController.isKeyDown(KeyEvent.VK_Y)){
+            //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
+            uiController.registerObject(collectStack2.top());
+            collectStack2.pop();
+            //}
+        }
 
         checkAndHandleEnemyCollisions(jumba, firstPlayer);
         checkAndHandleEnemyCollisions(jumba, secondPlayer);
