@@ -79,16 +79,16 @@ public class ProgramController {
         collectStack2 = new Stack<>();
         item = new Item[5];
         for (int i = 0; i < item.length; i++) {
-            item[i] = new Item(i + 1);
+            item[i] = new Item(i + 1,firstPlayer,secondPlayer);
             uiController.registerObject(item[i]);
 
         }
         itemShow= new Item[5];
         for(int i=0; i< itemShow.length;i++){
             int distance= 40;
-            itemShow[i]= new Item(i+1);
+            itemShow[i]= new Item(i+1,firstPlayer,secondPlayer);
             itemShow[i].setY(10);
-            itemShow[i].setX(1150+i*distance);
+            itemShow[i].setX(1350+i*distance);
             itemShow[i].setHeight(15);
             itemShow[i].setWidth(15);
             itemShow[i].setJump(false);
@@ -335,7 +335,7 @@ public class ProgramController {
                     collectStack.push(temp.top());
                     temp.pop();
                 }
-                if (compare == true) {
+                if (compare == true&& !collectStack.isEmpty()) {
                     int life = player.getLive() + 5;
                     player.setLive(life);
                     for (int i = 0; i < item.length; i++) {
@@ -345,12 +345,14 @@ public class ProgramController {
 
                     }
                 } else {
-                    for (int i = 0; i < item.length; i++) {
-                        collectStack.pop();
-                        uiController.registerObject(item[i]);
-                        // item[i].jump();
+                    if(!collectStack.isEmpty()) {
+                        for (int i = 0; i < item.length; i++) {
+                            collectStack.pop();
+                            uiController.registerObject(item[i]);
+                            // item[i].jump();
 
 
+                        }
                     }
                 }
             }
