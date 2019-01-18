@@ -64,9 +64,9 @@ public class ProgramController {
         jumba = new Jumba();
         uiController.drawObjectOnPanel(jumba, 0);
         music = new Music("assets/sounds/music/GOTCat.wav");
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player1-1.png", 600, 100, 3, "left");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player/Player1-1Left.png", "assets/images/Player/Player1-2Left.png",600, 100, 3, "left");
         uiController.registerObject(firstPlayer);
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/objects/gate.png", 100, 100, 3, "right");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/Player/Player1-1Right.png","assets/images/Player/Player1-2Right.png", 100, 100, 3, "right");
         uiController.registerObject(secondPlayer);
         projectileTimer2 = 0;
         projectileTimer1 = 0;

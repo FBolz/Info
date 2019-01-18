@@ -15,7 +15,7 @@ public class Jumba extends  Enemy {
         x = 60;
         y = 300;
         timer = 0;
-        random = (int) Math.random()*4+1;
+        random = (int) (Math.random()*4)+1;
 
     }
 
