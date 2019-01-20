@@ -25,8 +25,8 @@ public class Projectile extends GraphicalObject {
      */
     public Projectile(double x, double y, String direction, UIController uiControl) {
         this.uiControl = uiControl;
-        this.x = x;
-        this.y = y;
+        this.x = x+10;
+        this.y = y+10;
         this.speed = 15;
         this.direction=direction;
         switch (direction) {

@@ -5,6 +5,8 @@ import akkgframework.model.fundamental.GraphicalObject;
 import akkgframework.view.DrawTool;
 import control.ProgramController;
 
+import java.awt.image.BufferedImage;
+
 public class Player extends GraphicalObject {
     private int KeyToGoUp;
     private int KeyToGoDown;
@@ -15,8 +17,16 @@ public class Player extends GraphicalObject {
     private int downKey;
     private int leftKey;
     private int rightKey;
-    private String path1;
-    private String path2;
+    private BufferedImage PlayerUp1;
+    private BufferedImage PlayerUp2;
+    private BufferedImage PlayerDown1;
+    private BufferedImage PlayerDown2;
+    private BufferedImage PlayerRight1;
+    private BufferedImage PlayerRight2;
+    private BufferedImage PlayerLeft1;
+    private BufferedImage PlayerLeft2;
+    private BufferedImage activeImage1;
+    private BufferedImage activeImage2;
 
     private boolean shoot;
     private double speed;
@@ -33,7 +43,7 @@ public class Player extends GraphicalObject {
 
 
 
-    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed,String path1,String path2, int x, int y,int live,String facing) {
+    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed, int x, int y, int live, String facing) {
         this.KeyToGoDown = KeyToGoDown;
         this.KeyToGoLeft = KeyToGoLeft;
         this.KeyToGoRight = KeyToGoRight;
@@ -45,12 +55,40 @@ public class Player extends GraphicalObject {
         this.speed=speed;
         this.uiController = uiController;
         this.facing=facing;
-        this.path1=path1;
-        this.path2= path2;
-        createAndSetNewImage(path1);
+
+        PlayerUp1 = createNewImage("assets/images/Player/Player1-1Up.png");
+        PlayerUp2 = createNewImage("assets/images/Player/Player1-2Up.png");
+        PlayerDown1 =  createNewImage("assets/images/Player/Player1-1Down.png");
+        PlayerDown2 = createNewImage("assets/images/Player/Player1-2Down.png");
+        PlayerRight1 = createNewImage("assets/images/Player/Player1-1Right.png");
+        PlayerRight2 = createNewImage("assets/images/Player/Player1-2Right.png");
+        PlayerLeft1 = createNewImage("assets/images/Player/Player1-1Left.png");
+        PlayerLeft2 = createNewImage("assets/images/Player/Player1-2Left.png");
+
+        switch (facing) {
+            case "left":
+                activeImage1=PlayerLeft1;
+                activeImage2=PlayerLeft2;
+                break;
+            case "right":
+                activeImage1=PlayerRight1;
+                activeImage2=PlayerRight2;
+                break;
+            case "up":
+                activeImage1=PlayerUp1;
+                activeImage2=PlayerUp2;
+                break;
+            case "down":
+                activeImage1=PlayerDown1;
+                activeImage2=PlayerDown2;
+                break;
+            default:
+                break;
+        }
+
+        setMyImage(activeImage1);
         powerUpTimer=-1;
         invert=false;
-
 
     }
 
@@ -61,11 +99,11 @@ public class Player extends GraphicalObject {
             drawTool.drawText(x + 60, y - 10, "PowerUp Timer: " + String.valueOf(Math.round(powerUpTimer)));
         }
         if(spritetimer> 0.5){
-            createAndSetNewImage(path1);
+            setMyImage(activeImage1);
         }
 
         if(spritetimer < 0.5){
-            createAndSetNewImage(path2);
+            setMyImage(activeImage2);
         }
         if(spritetimer> 1){
             spritetimer = 0;
@@ -93,8 +131,8 @@ public class Player extends GraphicalObject {
             y += speed * dt;
             direction="down";
             facing=direction;
-            path1="assets/images/Player/Player1-1Down.png";
-            path2="assets/images/Player/Player1-2Down.png";
+            activeImage1=PlayerDown1;
+            activeImage2=PlayerDown2;
         }else if(y <= 950 - getMyImage().getHeight() &&direction.equals("down")&&collision) {
             y-=speed;
             if(y<=0){
@@ -105,8 +143,8 @@ public class Player extends GraphicalObject {
             y -= speed * dt;
             direction="up";
             facing=direction;
-            path1="assets/images/Player/Player1-1Up.png";
-            path2="assets/images/Player/Player1-2Up.png";
+            activeImage1=PlayerUp1;
+            activeImage2=PlayerUp2;
         }else if(y >= 0 && direction.equals("up") && collision){
             y+=speed;
             if(y>= 950 - getMyImage().getHeight()){
@@ -118,8 +156,8 @@ public class Player extends GraphicalObject {
             x += speed * dt;
             direction= "right";
             facing=direction;
-            path1="assets/images/Player/Player1-1Right.png";
-            path2="assets/images/Player/Player1-2Right.png";
+            activeImage1=PlayerRight1;
+            activeImage2=PlayerRight2;
         }else if(x <= 1550 - getMyImage().getWidth() &&direction.equals("right") &&collision) {
             x-=speed;
             if(x<=0){
@@ -130,8 +168,9 @@ public class Player extends GraphicalObject {
             x -= speed * dt;
             direction= "left";
             facing=direction;
-            path1="assets/images/Player/Player1-1Left.png";
-            path2="assets/images/Player/Player1-2Left.png";
+            activeImage1=PlayerLeft1;
+            activeImage2=PlayerLeft2;
+
         }else if(x >= 0 && direction.equals("left") &&collision) {
             x+=speed;
             if(x >= 1550 - getMyImage().getWidth()){

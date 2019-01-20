@@ -74,8 +74,8 @@ public class ProgramController {
         jumba = new Jumba();
         start = new Start();
         uiController.registerObject(start);
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player/Player1-1Left.png","assets/images/Player/Player1-2Left.png",600, 100, 3, "left");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/Player/Player1-1Right.png","assets/images/Player/Player1-2Right.png", 100, 100, 3, "right");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,600, 100, 3, "left");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 100, 3, "right");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -277,11 +277,11 @@ public class ProgramController {
                         break;
                     case "StrongShoot":
                         player.setStrongShoot(true);
-                        player.setPowerUpTimer(40);
+                        player.setPowerUpTimer(20);
                         break;
                     case "Invert":
                         player.setInvert(true);
-                        player.setPowerUpTimer(40);
+                        player.setPowerUpTimer(20);
                         break;
                     default:
                         break;
@@ -375,8 +375,8 @@ public class ProgramController {
 
     public void gameMode(){
         if(start.getClicked()=="start"){
-           uiController.registerObject(firstPlayer);
-           uiController.registerObject(secondPlayer);
+            uiController.registerObject(firstPlayer);
+            uiController.registerObject(secondPlayer);
             music = new Music(musicPath);
             uiController.drawObjectOnPanel(follower,0);
             for (int i = 0; i < item.length; i++) {
