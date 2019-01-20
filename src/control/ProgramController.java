@@ -436,6 +436,10 @@ public class ProgramController {
             musicPath= "assets/sounds/music/battleThemeA.wav";
             musicSelection.setClicked("back");
         }
+        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "space") {
+            musicPath= "assets/sounds/music/spacetime2.wav";
+            musicSelection.setClicked("back");
+        }
         else if(start.getClicked() == "options" && options.getClicked()== "life"){
             lifeSelection = new LifeSelection();
             uiController.removeObject(options);
