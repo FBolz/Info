@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Music {
-
+    private AudioInputStream audioInputStream;
+    private Clip clip;
     public Music(String path) {
         try {
-            AudioInputStream GOTCat = AudioSystem.getAudioInputStream(new File(path));
-            Clip clip = AudioSystem.getClip();
-            clip.open(GOTCat);
+            audioInputStream = AudioSystem.getAudioInputStream(new File(path));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
         } catch (UnsupportedAudioFileException uae) {
@@ -20,5 +21,9 @@ public class Music {
         } catch (LineUnavailableException lua) {
             System.out.println(lua);
         }
+    }
+
+    public void stop(){
+        clip.stop();
     }
 }

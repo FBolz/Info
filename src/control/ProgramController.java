@@ -49,6 +49,7 @@ public class ProgramController {
     private String musicPath;
     private MusicSelection musicSelection;
     private LifeSelection lifeSelection;
+    private End end;
 
 
     /**
@@ -89,10 +90,7 @@ public class ProgramController {
         item = new Item[5];
         follower = new Follower();
         follower.setTarget(firstPlayer);
-        musicPath= "null";
-
-
-
+        musicPath = "assets/sounds/music/spacetime2.wav";
     }
 
     /**
@@ -294,7 +292,7 @@ public class ProgramController {
     }
 
     private void shoot( Player player, List<Projectile> projectileList) {
-        projectileList.append(new Projectile(player.getX(), player.getY()+4, player.getFacing(), uiController));
+        projectileList.append(new Projectile(player.getX(), player.getY(), player.getFacing(), uiController));
         projectileList.toLast();
         uiController.registerObject(projectileList.getContent());
     }
@@ -373,16 +371,26 @@ public class ProgramController {
         }
     }
 
-    public void gameMode(){
+    private void restartGame(Player player){
+        player.setLive(3);
+        player.setSpeed(100);
+        player.setCollision(false);
+        player.setPowerUpTimer(-1);
+        player.setFastShoot(false);
+        player.setInvert(false);
+        player.setStrongShoot(false);
+    }
+
+    private void gameMode(){
         if(start.getClicked()=="start"){
-            uiController.registerObject(firstPlayer);
-            uiController.registerObject(secondPlayer);
-            music = new Music(musicPath);
+            uiController.registerObject(activePowerUp);
+           uiController.registerObject(firstPlayer);
+           uiController.registerObject(secondPlayer);
             uiController.drawObjectOnPanel(follower,0);
+            music = new Music(musicPath);
             for (int i = 0; i < item.length; i++) {
                 item[i] = new Item(i + 1,firstPlayer,secondPlayer);
                 uiController.registerObject(item[i]);
-
             }
             itemShow= new Item[5];
             for(int i=0; i< itemShow.length;i++){
@@ -394,7 +402,6 @@ public class ProgramController {
                 itemShow[i].setWidth(15);
                 itemShow[i].setJump(false);
                 uiController.registerObject(itemShow[i]);
-
             }
             uiController.drawObjectOnPanel(jumba, 0);
             start.setClicked("standby");
@@ -469,6 +476,44 @@ public class ProgramController {
             firstPlayer.setLive(3);
             secondPlayer.setLive(3);
             lifeSelection.setClicked("back");
+        }else if(start.getClicked()=="endscreen"){
+            uiController.registerObject(end);
+            firstPlayer.setLive(1);
+            secondPlayer.setLive(1);
+            start.setClicked("end");
+        }else if(start.getClicked()=="end" && end.getClicked()=="restart"){
+            uiController.removeObject(end);
+            uiController.registerObject(start);
+            restartGame(firstPlayer);
+            restartGame(secondPlayer);
+            firstPlayer.setDirection("left");
+            firstPlayer.setX(600);
+            firstPlayer.setY(100);
+            secondPlayer.setDirection("right");
+            secondPlayer.setX(100);
+            secondPlayer.setY(100);
+            start.setClicked("restarted");
+            end.setClicked("restarted");
+        }
+        if(firstPlayer.getLive()<=0|| secondPlayer.getLive()<=0){
+            uiController.removeObject(firstPlayer);
+            uiController.removeObject(secondPlayer);
+            uiController.removeObject(follower);
+            for (int i = 0; i < item.length; i++) {
+                uiController.removeObject(item[i]);
+            }
+            for(int i=0; i< itemShow.length;i++){
+                uiController.removeObject(itemShow[i]);
+            }
+            uiController.removeObject(jumba);
+            music.stop();
+            start.setClicked("endscreen");
+            uiController.removeObject(activePowerUp);
+            projectileListP2.toLast();
+            projectileListP1.toLast();
+            uiController.removeObject(projectileListP1.getContent());
+            uiController.removeObject(projectileListP2.getContent());
+            end = new End();
         }
     }
 
