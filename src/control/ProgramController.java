@@ -41,6 +41,8 @@ public class ProgramController {
     private Music music;
     private Jumba jumba;
     private double enemyTimer;
+    private Follower follower;
+    private Background bck;
 
 
     /**
@@ -61,6 +63,8 @@ public class ProgramController {
     public void startProgram() {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
+        bck = new Background();
+        uiController.registerObject(bck);
         jumba = new Jumba();
         uiController.drawObjectOnPanel(jumba, 0);
         music = new Music("assets/sounds/music/GOTCat.wav");
@@ -78,6 +82,9 @@ public class ProgramController {
         collectStack1 = new Stack<>();
         collectStack2 = new Stack<>();
         item = new Item[5];
+        follower = new Follower();
+        follower.setTarget(firstPlayer);
+        uiController.drawObjectOnPanel(follower,0);
         for (int i = 0; i < item.length; i++) {
             item[i] = new Item(i + 1,firstPlayer,secondPlayer);
             uiController.registerObject(item[i]);
@@ -168,8 +175,14 @@ public class ProgramController {
         checkAndHandleEnemyCollisions(jumba, firstPlayer);
         checkAndHandleEnemyCollisions(jumba, secondPlayer);
 
+        checkAndHandleEnemyCollisions(follower, firstPlayer);
+        checkAndHandleEnemyCollisions(follower, secondPlayer);
+
         checkAndHandleCollisionEnemy(projectileListP1, jumba);
         checkAndHandleCollisionEnemy(projectileListP2, jumba);
+
+        checkAndHandleCollisionEnemy(projectileListP1,follower);
+        checkAndHandleCollisionEnemy(projectileListP2,follower);
 
 
         if (powerUpTimer <= 0) {
@@ -229,6 +242,7 @@ public class ProgramController {
             player.setLive(player.getLive() - 1);
             enemy.setEnemyIsActive(false);
             spawnEnemyRandom(enemy);
+
         }
 
     }
