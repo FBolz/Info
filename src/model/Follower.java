@@ -64,8 +64,7 @@ public class Follower extends Enemy {
             if (target.getY() < this.getY())
             {
                 y = y - speed;
-
-                    path1 = "assets/images/Follower-Up-1.png";
+                path1 = "assets/images/Follower-Up-1.png";
                 path2 = "assets/images/Follower-Up-2.png";
 
             }

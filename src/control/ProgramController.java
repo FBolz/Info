@@ -23,6 +23,8 @@ public class ProgramController {
     private double projectileTimer1;
     private double projectileTimer2;
     private double powerUpTimer;
+    private boolean powerUpIsActive;
+    private double enemyTimer;
 
     // Referenzen
     private UIController uiController;  // diese Referenz soll auf ein Objekt der Klasse uiController zeigen. Über dieses Objekt wird das Fenster gesteuert.
@@ -34,15 +36,19 @@ public class ProgramController {
     private Stack<Item> collectStack2;
     private Item[] item;
     private Item[] itemShow;
+    private Start start;
     private List<Projectile> projectileListP1;
     private List<Projectile> projectileListP2;
     private Queue<PowerUp> powerUpQueue;
     private PowerUp activePowerUp;
     private Music music;
+    private Options options;
     private Jumba jumba;
-    private double enemyTimer;
-    private Follower follower;
     private Background bck;
+    private Follower follower;
+    private String musicPath;
+    private MusicSelection musicSelection;
+    private LifeSelection lifeSelection;
 
 
     /**
@@ -66,43 +72,25 @@ public class ProgramController {
         bck = new Background();
         uiController.registerObject(bck);
         jumba = new Jumba();
-        uiController.drawObjectOnPanel(jumba, 0);
-        music = new Music("assets/sounds/music/GOTCat.wav");
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player/Player1-1Left.png", "assets/images/Player/Player1-2Left.png",600, 100, 3, "left");
-        uiController.registerObject(firstPlayer);
+        start = new Start();
+        uiController.registerObject(start);
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, "assets/images/Player/Player1-1Left.png","assets/images/Player/Player1-2Left.png",600, 100, 3, "left");
         secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, "assets/images/Player/Player1-1Right.png","assets/images/Player/Player1-2Right.png", 100, 100, 3, "right");
-        uiController.registerObject(secondPlayer);
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
-        projectileListP1 = new List<>();
-        projectileListP2 = new List<>();
+        projectileListP1 = new List();
+        projectileListP2 = new List();
         powerUpQueue = new Queue<>();
         createPowerUpQueue(10);
+        powerUpIsActive = false;
         collectStack1 = new Stack<>();
         collectStack2 = new Stack<>();
         item = new Item[5];
         follower = new Follower();
         follower.setTarget(firstPlayer);
-        uiController.drawObjectOnPanel(follower,0);
-        for (int i = 0; i < item.length; i++) {
-            item[i] = new Item(i + 1,firstPlayer,secondPlayer);
-            uiController.registerObject(item[i]);
+        musicPath= "null";
 
-        }
-        itemShow= new Item[5];
-        for(int i=0; i< itemShow.length;i++){
-            int distance= 40;
-            itemShow[i]= new Item(i+1,firstPlayer,secondPlayer);
-            itemShow[i].setY(10);
-            itemShow[i].setX(1350+i*distance);
-            itemShow[i].setHeight(15);
-            itemShow[i].setWidth(15);
-            itemShow[i].setJump(false);
-
-            uiController.registerObject(itemShow[i]);
-
-        }
 
 
     }
@@ -115,86 +103,89 @@ public class ProgramController {
         programTimer += dt;
 
         // ******************************************* Ab hier euer eigener Code! *******************************************
-        if (firstPlayer.getFastShoot()) {
-            projectileTimer1 -= dt * 3;
-        } else {
-            projectileTimer1 -= dt;
-        }
-        if (secondPlayer.getFastShoot()) {
-            projectileTimer2 -= dt * 3;
-        } else {
-            projectileTimer2 -= dt;
-        }
-        managePowerUpTimer(firstPlayer, dt);
-        managePowerUpTimer(secondPlayer, dt);
-        if (powerUpTimer < 0) {
-            powerUpTimer -= dt;
-        }
-
-        if (projectileTimer1 <= 0 && firstPlayer.getShoot()) {
-            shoot(dt, firstPlayer, projectileListP1);
-            projectileTimer1 = 1;
-        }
-        if (projectileTimer2 <= 0 && secondPlayer.getShoot()) {
-            shoot(dt, secondPlayer, projectileListP2);
-            projectileTimer2 = 1;
-        }
-        checkAndHandleCollisionPlayers(projectileListP2, firstPlayer, secondPlayer);
-        checkAndHandleCollisionPlayers(projectileListP1, secondPlayer, firstPlayer);
-        if (firstPlayer.collidesWith(secondPlayer)) {
-            firstPlayer.setCollision(true);
-            secondPlayer.setCollision(true);
-            if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
-                firstPlayer.setDirection("neutral");
+        gameMode();
+        if(start.getClicked()== "standby") {
+            if (firstPlayer.getFastShoot()) {
+                projectileTimer1 -= dt * 3;
+            } else {
+                projectileTimer1 -= dt;
             }
-        } else {
-            firstPlayer.setCollision(false);
-            secondPlayer.setCollision(false);
-        }
-        for (int i = 0; i < item.length; i++) {
-            checkAndHandleCollisionPlayerItem(item[i], firstPlayer, collectStack1);
-        }
-        for (int j = 0; j < item.length; j++) {
-            checkAndHandleCollisionPlayerItem(item[j], secondPlayer, collectStack2);
-        }
+            if (secondPlayer.getFastShoot()) {
+                projectileTimer2 -= dt * 3;
+            } else {
+                projectileTimer2 -= dt;
+            }
+            managePowerUpTimer(firstPlayer, dt);
+            managePowerUpTimer(secondPlayer, dt);
+            if (powerUpTimer < 0) {
+                powerUpTimer -= dt;
+            }
 
-        if(uiController.isKeyDown(KeyEvent.VK_M)){
-            System.out.println("m pressed, popping stack1");
-            //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
-              uiController.registerObject(collectStack1.top());
-              collectStack1.pop();
-            //}
-       }
-        if(uiController.isKeyDown(KeyEvent.VK_Y)){
-            //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
-            uiController.registerObject(collectStack2.top());
-            collectStack2.pop();
-            //}
-        }
+            if (projectileTimer1 <= 0 && firstPlayer.getShoot()) {
+                shoot(firstPlayer, projectileListP1);
+                projectileTimer1 = 1;
+            }
+            if (projectileTimer2 <= 0 && secondPlayer.getShoot()) {
+                shoot(secondPlayer, projectileListP2);
+                projectileTimer2 = 1;
+            }
+            checkAndHandleCollisionPlayers(projectileListP2, firstPlayer, secondPlayer);
+            checkAndHandleCollisionPlayers(projectileListP1, secondPlayer, firstPlayer);
+            if (firstPlayer.collidesWith(secondPlayer)) {
+                firstPlayer.setCollision(true);
+                secondPlayer.setCollision(true);
+                if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
+                    firstPlayer.setDirection("neutral");
+                }
+            } else {
+                firstPlayer.setCollision(false);
+                secondPlayer.setCollision(false);
+            }
+            for (int i = 0; i < item.length; i++) {
+                checkAndHandleCollisionPlayerItem(item[i], firstPlayer, collectStack1);
+            }
+            for (int j = 0; j < item.length; j++) {
+                checkAndHandleCollisionPlayerItem(item[j], secondPlayer, collectStack2);
+            }
 
-        checkAndHandleEnemyCollisions(jumba, firstPlayer);
-        checkAndHandleEnemyCollisions(jumba, secondPlayer);
+            if (uiController.isKeyDown(KeyEvent.VK_M)) {
+                System.out.println("m pressed, popping stack1");
+                //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
+                uiController.registerObject(collectStack1.top());
+                collectStack1.pop();
+                //}
+            }
+            if (uiController.isKeyDown(KeyEvent.VK_Y)) {
+                //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
+                uiController.registerObject(collectStack2.top());
+                collectStack2.pop();
+                //}
+            }
 
-        checkAndHandleEnemyCollisions(follower, firstPlayer);
-        checkAndHandleEnemyCollisions(follower, secondPlayer);
+            checkAndHandleEnemyCollisions(jumba, firstPlayer);
+            checkAndHandleEnemyCollisions(jumba, secondPlayer);
 
-        checkAndHandleCollisionEnemy(projectileListP1, jumba);
-        checkAndHandleCollisionEnemy(projectileListP2, jumba);
+            checkAndHandleEnemyCollisions(follower, firstPlayer);
+            checkAndHandleEnemyCollisions(follower, secondPlayer);
 
-        checkAndHandleCollisionEnemy(projectileListP1,follower);
-        checkAndHandleCollisionEnemy(projectileListP2,follower);
+            checkAndHandleCollisionEnemy(projectileListP1, jumba);
+            checkAndHandleCollisionEnemy(projectileListP2, jumba);
+
+            checkAndHandleCollisionEnemy(projectileListP1, follower);
+            checkAndHandleCollisionEnemy(projectileListP2, follower);
 
 
-        if (powerUpTimer <= 0) {
-            spawnPowerUp();
-        }
+            if (powerUpTimer <= 0) {
+                spawnPowerUp();
+            }
 
-        if (activePowerUp != null) {
-            checkAndHandlePowerUpCollisions(activePowerUp, firstPlayer);
-            checkAndHandlePowerUpCollisions(activePowerUp, secondPlayer);
-        }
-        if (powerUpQueue.isEmpty()) {
-            createPowerUpQueue(10);
+            if (activePowerUp != null) {
+                checkAndHandlePowerUpCollisions(activePowerUp, firstPlayer);
+                checkAndHandlePowerUpCollisions(activePowerUp, secondPlayer);
+            }
+            if (powerUpQueue.isEmpty()) {
+                createPowerUpQueue(10);
+            }
         }
     }
 
@@ -299,10 +290,11 @@ public class ProgramController {
                 powerUpTimer = 0;
             }
         }
+
     }
 
-    private void shoot(double dt, Player player, List<Projectile> projectileList) {
-        projectileList.append(new Projectile(player.getX(), player.getY(), player.getFacing(), uiController));
+    private void shoot( Player player, List<Projectile> projectileList) {
+        projectileList.append(new Projectile(player.getX(), player.getY()+4, player.getFacing(), uiController));
         projectileList.toLast();
         uiController.registerObject(projectileList.getContent());
     }
@@ -381,5 +373,99 @@ public class ProgramController {
         }
     }
 
+    public void gameMode(){
+        if(start.getClicked()=="start"){
+           uiController.registerObject(firstPlayer);
+           uiController.registerObject(secondPlayer);
+            music = new Music(musicPath);
+            uiController.drawObjectOnPanel(follower,0);
+            for (int i = 0; i < item.length; i++) {
+                item[i] = new Item(i + 1,firstPlayer,secondPlayer);
+                uiController.registerObject(item[i]);
+
+            }
+            itemShow= new Item[5];
+            for(int i=0; i< itemShow.length;i++){
+                int distance= 40;
+                itemShow[i]= new Item(i+1,firstPlayer,secondPlayer);
+                itemShow[i].setY(10);
+                itemShow[i].setX(1350+i*distance);
+                itemShow[i].setHeight(15);
+                itemShow[i].setWidth(15);
+                itemShow[i].setJump(false);
+                uiController.registerObject(itemShow[i]);
+
+            }
+            uiController.drawObjectOnPanel(jumba, 0);
+            start.setClicked("standby");
+            uiController.removeObject(start);
+        }else if(start.getClicked()== "menu") {
+            options = new Options();
+            uiController.registerObject(options);
+            uiController.removeObject(start);
+            start.setClicked("options");
+        }else if(start.getClicked()=="options" && options.getClicked()== "back") {
+            uiController.registerObject(start);
+            uiController.removeObject(options);
+            start.setClicked("null");
+            options.setClicked("null");
+        }else if(start.getClicked() == "options" && options.getClicked()== "music"){
+            musicSelection = new MusicSelection();
+            uiController.removeObject(options);
+            uiController.registerObject(musicSelection);
+            options.setClicked("musicSelection");
+        }else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "back") {
+            uiController.registerObject(options);
+            uiController.removeObject(musicSelection);
+            musicSelection.setClicked("null");
+            options.setClicked("null");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "flags") {
+            musicPath= "assets/sounds/music/flags.wav";
+            musicSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "doomed") {
+            musicPath= "assets/sounds/music/doomed.wav";
+            musicSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "great") {
+            musicPath= "assets/sounds/music/greatMissions.wav";
+            musicSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "battle") {
+            musicPath= "assets/sounds/music/battleThemeA.wav";
+            musicSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()== "life"){
+            lifeSelection = new LifeSelection();
+            uiController.removeObject(options);
+            uiController.registerObject(lifeSelection);
+            options.setClicked("lifeSelection");
+        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="back") {
+            uiController.registerObject(options);
+            uiController.removeObject(lifeSelection);
+            musicSelection.setClicked("null");
+            options.setClicked("null");
+        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
+            firstPlayer.setLive(10);
+            secondPlayer.setLive(10);
+            lifeSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="5") {
+            firstPlayer.setLive(5);
+            secondPlayer.setLive(5);
+            lifeSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="4") {
+            firstPlayer.setLive(4);
+            secondPlayer.setLive(4);
+            lifeSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="3") {
+            firstPlayer.setLive(3);
+            secondPlayer.setLive(3);
+            lifeSelection.setClicked("back");
+        }
+    }
 
 }

@@ -210,4 +210,5 @@ public class Player extends GraphicalObject {
     public void setInvert(boolean invert) {
         this.invert = invert;
     }
+
 }
