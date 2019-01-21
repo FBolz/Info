@@ -50,6 +50,7 @@ public class ProgramController {
     private MusicSelection musicSelection;
     private LifeSelection lifeSelection;
     private End end;
+    private Enemy[] enemies;
 
 
     /**
@@ -91,6 +92,9 @@ public class ProgramController {
         follower = new Follower();
         follower.setTarget(firstPlayer);
         musicPath = "assets/sounds/music/spacetime2.wav";
+        enemies = new Enemy[2];
+        enemies[0] = follower;
+        enemies[1] = jumba;
     }
 
     /**
@@ -166,11 +170,8 @@ public class ProgramController {
             checkAndHandleEnemyCollisions(follower, firstPlayer);
             checkAndHandleEnemyCollisions(follower, secondPlayer);
 
-            checkAndHandleCollisionEnemy(projectileListP1, jumba);
-            checkAndHandleCollisionEnemy(projectileListP2, jumba);
-
-            checkAndHandleCollisionEnemy(projectileListP1, follower);
-            checkAndHandleCollisionEnemy(projectileListP2, follower);
+            checkAndHandleCollisionEnemy(projectileListP1);
+            checkAndHandleCollisionEnemy(projectileListP2);
 
 
             if (powerUpTimer <= 0) {
@@ -236,17 +237,24 @@ public class ProgramController {
 
     }
 
-    public void checkAndHandleCollisionEnemy(List<Projectile> projectileList, Enemy enemy) {
-        if (!projectileList.isEmpty()) {
-            projectileList.toFirst();
-            while (projectileList.hasAccess()) {
-                if (projectileList.getContent().collidesWith(enemy)) {
-                    uiController.removeObject(projectileList.getContent());
-                    projectileList.remove();
-                    enemy.setEnemyIsActive(false);
-                    spawnEnemyRandom(enemy);
+    public void checkAndHandleCollisionEnemy(List<Projectile> projectileList)
+    {
+        for (int i = 0; i < enemies.length; i ++)
+        {
+            if (!projectileList.isEmpty())
+            {
+                projectileList.toFirst();
+                while (projectileList.hasAccess())
+                {
+                    if (projectileList.getContent().collidesWith(enemies[i]))
+                    {
+                        uiController.removeObject(projectileList.getContent());
+                        projectileList.remove();
+                        enemies[i].setEnemyIsActive(false);
+                        spawnEnemyRandom(enemies[i]);
+                    }
+                    projectileList.next();
                 }
-                projectileList.next();
             }
         }
     }
