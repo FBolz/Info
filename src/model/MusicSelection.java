@@ -9,19 +9,21 @@ public class MusicSelection extends GraphicalObject {
 
     private String clicked;
     public void draw(DrawTool drawTool){
-        drawTool.setCurrentColor(255,255,255,255);
+
+        drawTool.setCurrentColor(0,0,0,255);
         drawTool.drawFilledRectangle(600,100,300,100);
         drawTool.drawFilledRectangle(600,250,300,100);
         drawTool.drawFilledRectangle(600,400,300,100);
         drawTool.drawFilledRectangle(600,550,300,100);
         drawTool.drawFilledRectangle(600,700,300,100);
         drawTool.drawFilledRectangle(40,850,400,100);
-        drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawText(700,150,"Flags");
-        drawTool.drawText(700,300,"Doomed");
-        drawTool.drawText(700,450,"Great Missions");
-        drawTool.drawText(700,600,"Battle Theme");
-        drawTool.drawText(700,750,"Spacetime");
+        drawTool.setCurrentColor(255,255,255,255);
+        drawTool.formatText("", 3,40);
+        drawTool.drawText(670,150,"Flags");
+        drawTool.drawText(660,300,"Doomed");
+        drawTool.drawText(610,450,"Great Missions");
+        drawTool.drawText(620,600,"Battle Theme");
+        drawTool.drawText(620,750,"Spacetime");
         drawTool.drawText(240,900,"Back");
     }
     public void mouseReleased(MouseEvent e){

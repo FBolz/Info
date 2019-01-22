@@ -9,16 +9,19 @@ public class LifeSelection extends GraphicalObject {
     private String clicked;
     public void draw(DrawTool drawTool){
         drawTool.setCurrentColor(255,255,255,255);
+        drawTool.setCurrentColor(0,0,0,255);
         drawTool.drawFilledRectangle(600,100,300,100);
         drawTool.drawFilledRectangle(600,250,300,100);
         drawTool.drawFilledRectangle(600,400,300,100);
         drawTool.drawFilledRectangle(600,550,300,100);
         drawTool.drawFilledRectangle(40,850,400,100);
-        drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawText(700,150,"10 Leben");
-        drawTool.drawText(700,300,"5 Leben");
-        drawTool.drawText(700,450,"4 Leben");
-        drawTool.drawText(700,600,"3 Leben");
+        drawTool.setCurrentColor(255,255,255,255);
+        drawTool.formatText("", 3,35);
+
+        drawTool.drawText(670,150,"10 Leben");
+        drawTool.drawText(670,300,"5 Leben");
+        drawTool.drawText(670,450,"4 Leben");
+        drawTool.drawText(670,600,"3 Leben");
         drawTool.drawText(240,900,"Back");
     }
     public void mouseReleased(MouseEvent e){

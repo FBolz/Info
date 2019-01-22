@@ -9,13 +9,15 @@ public class Options extends GraphicalObject {
     private String clicked;
     public void draw(DrawTool drawTool){
         drawTool.setCurrentColor(255,255,255,255);
+        drawTool.setCurrentColor(0,0,0,255);drawTool.setCurrentColor(0,0,0,255);
         drawTool.drawFilledRectangle(600,100,300,200);
         drawTool.drawFilledRectangle(600,400,300,200);
         drawTool.drawFilledRectangle(40,850,400,100);
-        drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawText(750,200,"Music");
-        drawTool.drawText(750,500,"Life");
-        drawTool.drawText(240,900,"Back");
+        drawTool.setCurrentColor(255,255,255,255);
+        drawTool.formatText("", 3,60);
+        drawTool.drawText(670,200,"Music");
+        drawTool.drawText(670,500,"Life");
+        drawTool.drawText(220,900,"Back");
     }
     public void mouseReleased(MouseEvent e){
         if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=100 && e.getY()<=300){

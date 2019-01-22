@@ -329,9 +329,10 @@ public class ProgramController {
         if (player.collidesWith(item1)) {
             System.out.println("ja");
             collectStack.push(item1);
-            uiController.removeObject(item1);
+
             //player.setY( player.getY()+30);
             item1.jumpOut();
+            uiController.removeObject(item1);
 
             System.out.println("" + collectStack.top());
             if (5 == item1.getColorNumber()) {

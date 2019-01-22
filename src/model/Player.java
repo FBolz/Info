@@ -94,6 +94,9 @@ public class Player extends GraphicalObject {
 
     public void draw(DrawTool drawTool) {
         drawTool.drawImage(getMyImage(), x, y);
+        drawTool.setCurrentColor(255,255,255,255);
+        drawTool.formatText("", 3,20);
+
         drawTool.drawText(x+60,y-30,"Life: "+String.valueOf(live));
         if (powerUpTimer>=0) {
             drawTool.drawText(x + 60, y - 10, "PowerUp Timer: " + String.valueOf(Math.round(powerUpTimer)));

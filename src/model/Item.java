@@ -26,21 +26,16 @@ public class Item extends GraphicalObject {
         switch (colorNumber) {
             case 1://gelb
                 createAndSetNewImage("assets/images/objects/yellow planet.png" );
-                // drawTool.setCurrentColor(255, 215, 0, 255);
                 break;
             case 2:
                 createAndSetNewImage("assets/images/objects/redplanet.png" );
-                //drawTool.setCurrentColor(255, 44, 44, 255);
                 break;
             case 3:
                 createAndSetNewImage("assets/images/objects/purpleplanet.png" );
-                //drawTool.setCurrentColor(191, 61, 255, 255);
                 break;
             case 4: createAndSetNewImage("assets/images/objects/green planet.png" );
-                // drawTool.setCurrentColor(34, 139, 34, 255);
                 break;
             case 5:createAndSetNewImage("assets/images/objects/blue planet.png" );
-                //drawTool.setCurrentColor(72, 118, 255, 255);
                 break;
 
         }
