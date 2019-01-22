@@ -31,9 +31,9 @@ public class Item extends GraphicalObject {
                 createAndSetNewImage("assets/images/objects/redplanet.png" );
                 break;
             case 3:
-                createAndSetNewImage("assets/images/objects/purpleplanet.png" );
+                createAndSetNewImage("assets/images/objects/purpleplanet2.png" );
                 break;
-            case 4: createAndSetNewImage("assets/images/objects/green planet.png" );
+            case 4: createAndSetNewImage("assets/images/objects/greenPlanet.png" );
                 break;
             case 5:createAndSetNewImage("assets/images/objects/blue planet.png" );
                 break;

@@ -22,7 +22,8 @@ public class LifeSelection extends GraphicalObject {
         drawTool.drawText(670,300,"5 Leben");
         drawTool.drawText(670,450,"4 Leben");
         drawTool.drawText(670,600,"3 Leben");
-        drawTool.drawText(240,900,"Back");
+        drawTool.formatText("", 3,40);
+        drawTool.drawText(200,910,"Back");
     }
     public void mouseReleased(MouseEvent e){
         if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=100 && e.getY()<=200){

@@ -17,7 +17,8 @@ public class Options extends GraphicalObject {
         drawTool.formatText("", 3,60);
         drawTool.drawText(670,200,"Music");
         drawTool.drawText(670,500,"Life");
-        drawTool.drawText(220,900,"Back");
+        drawTool.formatText("", 3,40);
+        drawTool.drawText(200,910,"Back");
     }
     public void mouseReleased(MouseEvent e){
         if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=100 && e.getY()<=300){

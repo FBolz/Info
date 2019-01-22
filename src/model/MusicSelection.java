@@ -11,35 +11,35 @@ public class MusicSelection extends GraphicalObject {
     public void draw(DrawTool drawTool){
 
         drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawFilledRectangle(600,100,300,100);
-        drawTool.drawFilledRectangle(600,250,300,100);
-        drawTool.drawFilledRectangle(600,400,300,100);
-        drawTool.drawFilledRectangle(600,550,300,100);
-        drawTool.drawFilledRectangle(600,700,300,100);
-        drawTool.drawFilledRectangle(40,850,400,100);
+        drawTool.drawFilledRectangle(600,50,300,100);
+        drawTool.drawFilledRectangle(600,200,300,100);
+        drawTool.drawFilledRectangle(600,350,300,100);
+        drawTool.drawFilledRectangle(600,500,300,100);
+        drawTool.drawFilledRectangle(600,650,300,100);
+        drawTool.drawFilledRectangle(40,800,400,100);
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,40);
-        drawTool.drawText(670,150,"Flags");
-        drawTool.drawText(660,300,"Doomed");
-        drawTool.drawText(610,450,"Great Missions");
-        drawTool.drawText(620,600,"Battle Theme");
-        drawTool.drawText(620,750,"Spacetime");
-        drawTool.drawText(240,900,"Back");
+        drawTool.drawText(670,100,"Flags");
+        drawTool.drawText(660,250,"Doomed");
+        drawTool.drawText(610,400,"Great Missions");
+        drawTool.drawText(620,550,"Battle Theme");
+        drawTool.drawText(620,700,"Spacetime");
+        drawTool.drawText(200,910,"Back");
     }
     public void mouseReleased(MouseEvent e){
-        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=100 && e.getY()<=200){
+        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=50 && e.getY()<=150){
             clicked = "flags";
         }
-        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=250 && e.getY()<=350){
+        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=200 && e.getY()<=300){
             clicked = "doomed";
         }
-        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=400 && e.getY()<=500){
+        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=250 && e.getY()<=450){
             clicked = "great";
         }
-        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=550 && e.getY()<=650){
+        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=500 && e.getY()<=600){
             clicked = "battle";
         }
-        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=700 && e.getY()<=800){
+        if(e.getX()>= 600 && e.getX()<=900 && e.getY()>=650 && e.getY()<=750){
             clicked = "space";
         }
         if(e.getX()>= 40 && e.getX()<=440 && e.getY()>=850 && e.getY()<=950){

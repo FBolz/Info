@@ -158,6 +158,7 @@ public class ProgramController {
                 //}
             }
             if (uiController.isKeyDown(KeyEvent.VK_Y)) {
+                System.out.println("y pressed, popping stack2");
                 //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
                 uiController.registerObject(collectStack2.top());
                 collectStack2.pop();
