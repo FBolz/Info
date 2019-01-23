@@ -412,6 +412,7 @@ public class ProgramController {
 
     private void gameMode(){
         if(start.getClicked()=="start"){
+            powerUpTimer=0;
             uiController.registerObject(activePowerUp);
             uiController.registerObject(firstPlayer);
             uiController.registerObject(secondPlayer);
@@ -538,6 +539,7 @@ public class ProgramController {
             uiController.removeObject(activePowerUp);
             removeShoot(projectileListP1);
             removeShoot(projectileListP2);
+            activePowerUp=null;
             if(secondPlayer.getLive()<=0){
                 end = new End(firstPlayer.getName());
             }
