@@ -483,7 +483,7 @@ public class ProgramController {
         }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="back") {
             uiController.registerObject(options);
             uiController.removeObject(lifeSelection);
-            musicSelection.setClicked("null");
+            lifeSelection.setClicked("null");
             options.setClicked("null");
         }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
             firstPlayer.setLive(10);
@@ -523,7 +523,7 @@ public class ProgramController {
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
-        if(firstPlayer.getLive()<=0|| secondPlayer.getLive()<=0){
+        if(firstPlayer.getLive() <=0|| secondPlayer.getLive()<=0){
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
             despawn();
