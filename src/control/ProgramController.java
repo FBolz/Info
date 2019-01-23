@@ -76,8 +76,8 @@ public class ProgramController {
         jumba = new Jumba();
         start = new Start();
         uiController.registerObject(start);
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,600, 100, 3, "left");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 100, 3, "right");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, 600, 100, 3, "left","Player 2");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100, 100, 100, 3, "right","Player 1");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -401,23 +401,23 @@ public class ProgramController {
         player.setStrongShoot(false);
     }
 
-    private void gameMode(){
-        if(start.getClicked()=="start"){
+    private void gameMode() {
+        if (start.getClicked() == "start") {
             uiController.registerObject(activePowerUp);
-           uiController.registerObject(firstPlayer);
-           uiController.registerObject(secondPlayer);
-            uiController.drawObjectOnPanel(follower,0);
+            uiController.registerObject(firstPlayer);
+            uiController.registerObject(secondPlayer);
+            uiController.drawObjectOnPanel(follower, 0);
             music = new Music(musicPath);
             for (int i = 0; i < item.length; i++) {
-                item[i] = new Item(i + 1,firstPlayer,secondPlayer);
+                item[i] = new Item(i + 1, firstPlayer, secondPlayer);
                 uiController.registerObject(item[i]);
             }
-            itemShow= new Item[5];
-            for(int i=0; i< itemShow.length;i++){
-                int distance= 40;
-                itemShow[i]= new Item(i+1,firstPlayer,secondPlayer);
+            itemShow = new Item[5];
+            for (int i = 0; i < itemShow.length; i++) {
+                int distance = 40;
+                itemShow[i] = new Item(i + 1, firstPlayer, secondPlayer);
                 itemShow[i].setY(10);
-                itemShow[i].setX(1350+i*distance);
+                itemShow[i].setX(1350 + i * distance);
                 itemShow[i].setHeight(15);
                 itemShow[i].setWidth(15);
                 itemShow[i].setJump(false);
@@ -426,58 +426,52 @@ public class ProgramController {
             uiController.drawObjectOnPanel(jumba, 0);
             start.setClicked("standby");
             uiController.removeObject(start);
-        }else if(start.getClicked()== "menu") {
+        } else if (start.getClicked() == "menu") {
             options = new Options();
             uiController.registerObject(options);
             uiController.removeObject(start);
             start.setClicked("options");
-        }else if(start.getClicked()=="options" && options.getClicked()== "back") {
+        } else if (start.getClicked() == "options" && options.getClicked() == "back") {
             uiController.registerObject(start);
             uiController.removeObject(options);
             start.setClicked("null");
             options.setClicked("null");
-        }else if(start.getClicked() == "options" && options.getClicked()== "music"){
+        } else if (start.getClicked() == "options" && options.getClicked() == "music") {
             musicSelection = new MusicSelection();
             uiController.removeObject(options);
             uiController.registerObject(musicSelection);
             options.setClicked("musicSelection");
-        }else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "back") {
+        } else if (start.getClicked() == "options" && options.getClicked() == "musicSelection" && musicSelection.getClicked() == "back") {
             uiController.registerObject(options);
             uiController.removeObject(musicSelection);
             musicSelection.setClicked("null");
             options.setClicked("null");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "flags") {
-            musicPath= "assets/sounds/music/flags.wav";
+        } else if (start.getClicked() == "options" && options.getClicked() == "musicSelection" && musicSelection.getClicked() == "flags") {
+            musicPath = "assets/sounds/music/flags.wav";
             musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "doomed") {
-            musicPath= "assets/sounds/music/doomed.wav";
+        } else if (start.getClicked() == "options" && options.getClicked() == "musicSelection" && musicSelection.getClicked() == "doomed") {
+            musicPath = "assets/sounds/music/doomed.wav";
             musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "great") {
-            musicPath= "assets/sounds/music/greatMissions.wav";
+        } else if (start.getClicked() == "options" && options.getClicked() == "musicSelection" && musicSelection.getClicked() == "great") {
+            musicPath = "assets/sounds/music/greatMissions.wav";
             musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "battle") {
-            musicPath= "assets/sounds/music/battleThemeA.wav";
+        } else if (start.getClicked() == "options" && options.getClicked() == "musicSelection" && musicSelection.getClicked() == "battle") {
+            musicPath = "assets/sounds/music/battleThemeA.wav";
             musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "space") {
-            musicPath= "assets/sounds/music/spacetime2.wav";
+        } else if (start.getClicked() == "options" && options.getClicked() == "musicSelection" && musicSelection.getClicked() == "space") {
+            musicPath = "assets/sounds/music/spacetime2.wav";
             musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()== "life"){
+        } else if (start.getClicked() == "options" && options.getClicked() == "life") {
             lifeSelection = new LifeSelection();
             uiController.removeObject(options);
             uiController.registerObject(lifeSelection);
             options.setClicked("lifeSelection");
-        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="back") {
+        } else if (start.getClicked() == "options" && options.getClicked() == "lifeSelection" && lifeSelection.getClicked() == "back") {
             uiController.registerObject(options);
             uiController.removeObject(lifeSelection);
             lifeSelection.setClicked("null");
             options.setClicked("null");
-        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
+        } else if (start.getClicked() == "options" && options.getClicked() == "lifeSelection" && lifeSelection.getClicked() == "10") {
             firstPlayer.setLive(10);
             secondPlayer.setLive(10);
             lifeSelection.setClicked("back");
@@ -515,7 +509,7 @@ public class ProgramController {
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
-        if(firstPlayer.getLive() <=0|| secondPlayer.getLive()<=0){
+        if (firstPlayer.getLive() <= 0 || secondPlayer.getLive() <= 0) {
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
             uiController.removeObject(follower);
@@ -529,9 +523,13 @@ public class ProgramController {
             music.stop();
             start.setClicked("endscreen");
             uiController.removeObject(activePowerUp);
+            if (firstPlayer.getLive() <= 0) {
+                end = new End(secondPlayer.getName());
+            } else {
+                end = new End(firstPlayer.getName());
+            }
             removeShoot(projectileListP1);
             removeShoot(projectileListP2);
-            end = new End();
         }
     }
 

@@ -40,10 +40,11 @@ public class Player extends GraphicalObject {
     private boolean strongShoot;
     private double powerUpTimer;
     private boolean invert;
+    private String name;
 
 
 
-    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed, int x, int y, int live, String facing) {
+    public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed, int x, int y, int live, String facing,String name) {
         this.KeyToGoDown = KeyToGoDown;
         this.KeyToGoLeft = KeyToGoLeft;
         this.KeyToGoRight = KeyToGoRight;
@@ -55,6 +56,7 @@ public class Player extends GraphicalObject {
         this.speed=speed;
         this.uiController = uiController;
         this.facing=facing;
+        this.name=name;
 
         PlayerUp1 = createNewImage("assets/images/Player/Player1-1Up.png");
         PlayerUp2 = createNewImage("assets/images/Player/Player1-2Up.png");
@@ -98,6 +100,7 @@ public class Player extends GraphicalObject {
         drawTool.formatText("", 3,20);
 
         drawTool.drawText(x+60,y-30,"Life: "+String.valueOf(live));
+        drawTool.drawText(x+60,y-50,name);
         if (powerUpTimer>=0) {
             drawTool.drawText(x + 60, y - 10, "PowerUp Timer: " + String.valueOf(Math.round(powerUpTimer)));
         }
@@ -253,4 +256,11 @@ public class Player extends GraphicalObject {
         this.invert = invert;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
