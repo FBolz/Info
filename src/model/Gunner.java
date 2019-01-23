@@ -6,6 +6,7 @@ public class Gunner extends Enemy
 {
     private double timer;
     private double spritetimer;
+    private Projectile projectile;
     public Gunner() {
         super("assets/images/objects/house.png", 1, 2, 0);
         timer = 0;

@@ -29,4 +29,8 @@ public abstract class Enemy extends GraphicalObject {
     public void setEnemyIsActive(boolean enemyIsActive) {
         this.enemyIsActive = enemyIsActive;
     }
+
+    public void stop(){
+        speed = 0;
+    }
 }

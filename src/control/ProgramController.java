@@ -80,8 +80,8 @@ public class ProgramController {
 
         start = new Start();
         uiController.registerObject(start);
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left","Player 2");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right","Player 1");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -390,6 +390,16 @@ public class ProgramController {
         }
     }
 
+    private void removeShoot(List<Projectile> projectileList){
+        if(!projectileList.isEmpty()){
+            projectileList.toFirst();
+            while(projectileList.hasAccess()){
+                uiController.removeObject(projectileList.getContent());
+                projectileList.next();
+            }
+        }
+    }
+
     private void restartGame(Player player){
         player.setLive(3);
         player.setSpeed(100);
@@ -403,8 +413,8 @@ public class ProgramController {
     private void gameMode(){
         if(start.getClicked()=="start"){
             uiController.registerObject(activePowerUp);
-           uiController.registerObject(firstPlayer);
-           uiController.registerObject(secondPlayer);
+            uiController.registerObject(firstPlayer);
+            uiController.registerObject(secondPlayer);
             music = new Music(musicPath);
             for (int i = 0; i < item.length; i++) {
                 item[i] = new Item(i + 1,firstPlayer,secondPlayer);
@@ -421,7 +431,7 @@ public class ProgramController {
                 itemShow[i].setJump(false);
                 uiController.registerObject(itemShow[i]);
             }
-          spawn();
+            spawn();
             start.setClicked("standby");
             uiController.removeObject(start);
         }else if(start.getClicked()== "menu") {
@@ -505,11 +515,11 @@ public class ProgramController {
             restartGame(firstPlayer);
             restartGame(secondPlayer);
             firstPlayer.setDirection("left");
-            firstPlayer.setX(600);
-            firstPlayer.setY(100);
+            firstPlayer.setX(1400);
+            firstPlayer.setY(500);
             secondPlayer.setDirection("right");
             secondPlayer.setX(100);
-            secondPlayer.setY(100);
+            secondPlayer.setY(500);
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
@@ -526,11 +536,15 @@ public class ProgramController {
             music.stop();
             start.setClicked("endscreen");
             uiController.removeObject(activePowerUp);
-            projectileListP2.toLast();
-            projectileListP1.toLast();
-            uiController.removeObject(projectileListP1.getContent());
-            uiController.removeObject(projectileListP2.getContent());
-            end = new End();
+            removeShoot(projectileListP1);
+            removeShoot(projectileListP2);
+            if(secondPlayer.getLive()<=0){
+                end = new End(firstPlayer.getName());
+            }
+            if(firstPlayer.getLive()<=0){
+                end = new End(secondPlayer.getName());
+            }
+
         }
     }
     public void setTarget(Follower follower, int i){
