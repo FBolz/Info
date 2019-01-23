@@ -165,11 +165,12 @@ public class ProgramController {
                 //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
                 uiController.registerObject(collectStack1.top());
                 collectStack1.top().jump();
+                    System.out.println(" popping stack1");
                 collectStack1.pop();
                 }
             }
             if (uiController.isKeyDown(KeyEvent.VK_Y)) {
-                if(!collectStack1.isEmpty()){
+                if(!collectStack2.isEmpty()){
                 System.out.println("y pressed, popping stack2");
                 //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
                 uiController.registerObject(collectStack2.top());
@@ -343,8 +344,6 @@ public class ProgramController {
         if (player.collidesWith(item1)) {
             System.out.println("ja");
             collectStack.push(item1);
-
-            //player.setY( player.getY()+30);
             item1.jumpOut();
             uiController.removeObject(item1);
 
@@ -371,22 +370,17 @@ public class ProgramController {
                     temp.pop();
                 }
                 if (compare == true&& !collectStack.isEmpty()) {
-                    int life = player.getLive() + 5;
+                    int life = player.getLive() + 15;
                     player.setLive(life);
                     for (int i = 0; i < item.length; i++) {
                         collectStack.pop();
                         uiController.registerObject(item[i]);
-                        // item[i].jump();
-
                     }
                 } else {
                     if(!collectStack.isEmpty()) {
                         for (int i = 0; i < item.length; i++) {
                             collectStack.pop();
                             uiController.registerObject(item[i]);
-                            // item[i].jump();
-
-
                         }
                     }
                 }
