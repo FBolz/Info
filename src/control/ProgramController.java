@@ -53,7 +53,8 @@ public class ProgramController {
     private Enemy[][] enemies;
     private Follower[] followers;
     private Jumba[] jumbas;
-    private Gunner gunners;
+    private Gunner[] gunners;
+    private Projectile pro;
 
 
 
@@ -81,7 +82,7 @@ public class ProgramController {
         start = new Start();
         uiController.registerObject(start);
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left","Player 2");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right","Player 1");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 100,100, 500, 3, "right","Player 1 ");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -99,10 +100,14 @@ public class ProgramController {
 
         followers = new Follower[2];
         jumbas = new Jumba[5];
+        gunners = new Gunner[3];
 
-        enemies = new Enemy[2][];
+        enemies = new Enemy[3][];
         enemies[0] = followers;
         enemies[1] = jumbas;
+        enemies[2] = gunners;
+
+
 
     }
 
@@ -145,6 +150,8 @@ public class ProgramController {
             if (firstPlayer.collidesWith(secondPlayer)) {
                 firstPlayer.setCollision(true);
                 secondPlayer.setCollision(true);
+                firstPlayer.setLive(firstPlayer.getLive()-1);
+                secondPlayer.setLive(secondPlayer.getLive()-1);
                 if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
                     firstPlayer.setDirection("neutral");
                 }
@@ -572,7 +579,7 @@ public class ProgramController {
                     uiController.registerObject(enemies[i][j]);
                 }
                 if(i == 2){
-                    enemies[i][j] = new Gunner();
+                    enemies[i][j] = new Gunner(uiController,pro);
                     enemies[i][j].setX(Math.random()*1400 + 100);
                     enemies[i][j].setY(Math.random()* 900 + 50);
                     uiController.registerObject(enemies[i][j]);
