@@ -43,7 +43,9 @@ public class ProgramController {
     private PowerUp activePowerUp;
     private Music music;
     private Options options;
+    private Jumba jumba;
     private Background bck;
+    private Follower follower;
     private String musicPath;
     private MusicSelection musicSelection;
     private LifeSelection lifeSelection;
@@ -91,6 +93,8 @@ public class ProgramController {
         collectStack1 = new Stack<>();
         collectStack2 = new Stack<>();
         item = new Item[5];
+        follower = new Follower();
+        follower.setTarget(firstPlayer);
         musicPath = "assets/sounds/music/spacetime2.wav";
 
         followers = new Follower[2];
@@ -242,6 +246,7 @@ public class ProgramController {
 
 
         }
+
     }
 
 
@@ -271,7 +276,6 @@ public class ProgramController {
             enemy.setY(y);
             enemy.setEnemyIsActive(true);
         }
-
 
     private void checkAndHandlePowerUpCollisions(PowerUp activePowerUp, Player player) {
         if (player.getPowerUpTimer() <= 0) {
