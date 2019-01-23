@@ -48,6 +48,7 @@ public class Follower extends Enemy {
          }
          if(counter >3){
              speed = 1;
+             counter = 0;
          }
 
             if (target.getX() < this.getX()) {
@@ -78,7 +79,10 @@ public class Follower extends Enemy {
 
 
 
-
+   public int random(){
+   int i =  (int)(Math.random())*2+1;
+     return i;
+    }
 
 
     public void setTarget(Player ptarget){

@@ -43,14 +43,16 @@ public class ProgramController {
     private PowerUp activePowerUp;
     private Music music;
     private Options options;
-    private Jumba jumba;
     private Background bck;
-    private Follower follower;
     private String musicPath;
     private MusicSelection musicSelection;
     private LifeSelection lifeSelection;
     private End end;
-    private Enemy[] enemies;
+    private Enemy[][] enemies;
+    private Follower[] followers;
+    private Jumba[] jumbas;
+    private Gunner gunners;
+
 
 
     /**
@@ -73,11 +75,11 @@ public class ProgramController {
         // ******************************************* Ab hier euer eigener Code! *******************************************
         bck = new Background();
         uiController.registerObject(bck);
-        jumba = new Jumba();
+
         start = new Start();
         uiController.registerObject(start);
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,600, 100, 3, "left");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 100, 3, "right");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -89,12 +91,15 @@ public class ProgramController {
         collectStack1 = new Stack<>();
         collectStack2 = new Stack<>();
         item = new Item[5];
-        follower = new Follower();
-        follower.setTarget(firstPlayer);
         musicPath = "assets/sounds/music/spacetime2.wav";
-        enemies = new Enemy[2];
-        enemies[0] = follower;
-        enemies[1] = jumba;
+
+        followers = new Follower[2];
+        jumbas = new Jumba[5];
+
+        enemies = new Enemy[2][];
+        enemies[0] = followers;
+        enemies[1] = jumbas;
+
     }
 
     /**
@@ -165,11 +170,8 @@ public class ProgramController {
                 //}
             }
 
-            checkAndHandleEnemyCollisions(jumba, firstPlayer);
-            checkAndHandleEnemyCollisions(jumba, secondPlayer);
-
-            checkAndHandleEnemyCollisions(follower, firstPlayer);
-            checkAndHandleEnemyCollisions(follower, secondPlayer);
+            checkAndHandleEnemyCollisions(firstPlayer);
+            checkAndHandleEnemyCollisions(secondPlayer);
 
             checkAndHandleCollisionEnemy(projectileListP1);
             checkAndHandleCollisionEnemy(projectileListP2);
@@ -228,45 +230,48 @@ public class ProgramController {
 
     }
 
-    private void checkAndHandleEnemyCollisions(Enemy enemy, Player player) {
-        if (enemy.collidesWith(player) && enemy.isEnemyIsActive()) {
-            player.setLive(player.getLive() - 1);
-            enemy.setEnemyIsActive(false);
-            spawnEnemyRandom(enemy);
+    private void checkAndHandleEnemyCollisions( Player player) {
+        for (int i = 0; i < enemies.length; i++) {
+            for (int j = 0; j < enemies[i].length; j++) {
+                if (enemies[i][j].collidesWith(player) && enemies[i][j].isEnemyIsActive()) {
+                    player.setLive(player.getLive() - 1);
+                    enemies[i][j].setEnemyIsActive(false);
+                    spawnEnemyRandom(enemies[i][j]);
+                }
+            }
+
 
         }
-
     }
 
-    public void checkAndHandleCollisionEnemy(List<Projectile> projectileList)
-    {
-        for (int i = 0; i < enemies.length; i ++)
-        {
-            if (!projectileList.isEmpty())
-            {
-                projectileList.toFirst();
-                while (projectileList.hasAccess())
-                {
-                    if (projectileList.getContent().collidesWith(enemies[i]))
-                    {
-                        uiController.removeObject(projectileList.getContent());
-                        projectileList.remove();
-                        enemies[i].setEnemyIsActive(false);
-                        spawnEnemyRandom(enemies[i]);
+
+        public void checkAndHandleCollisionEnemy (List < Projectile > projectileList) {
+            for (int i = 0; i < enemies.length; i++) {
+                for (int j = 0; j < enemies[i].length; j++) {
+                    if (!projectileList.isEmpty()) {
+                        projectileList.toFirst();
+                        while (projectileList.hasAccess()) {
+                            if (projectileList.getContent().collidesWith(enemies[i][j])) {
+                                uiController.removeObject(projectileList.getContent());
+                                projectileList.remove();
+                                enemies[i][j].setEnemyIsActive(false);
+                                spawnEnemyRandom(enemies[i][j]);
+                            }
+                            projectileList.next();
+                        }
                     }
-                    projectileList.next();
                 }
             }
         }
-    }
 
-    private void spawnEnemyRandom(Enemy enemy) {
-        int i = (int) (Math.random() * 1400);
-        int y = (int) (Math.random() * 1000);
-        enemy.setX(i);
-        enemy.setY(y);
-        enemy.setEnemyIsActive(true);
-    }
+        private void spawnEnemyRandom (Enemy enemy){
+            int i = (int) (Math.random() * 1400);
+            int y = (int) (Math.random() * 1000);
+            enemy.setX(i);
+            enemy.setY(y);
+            enemy.setEnemyIsActive(true);
+        }
+
 
     private void checkAndHandlePowerUpCollisions(PowerUp activePowerUp, Player player) {
         if (player.getPowerUpTimer() <= 0) {
@@ -396,7 +401,6 @@ public class ProgramController {
             uiController.registerObject(activePowerUp);
            uiController.registerObject(firstPlayer);
            uiController.registerObject(secondPlayer);
-            uiController.drawObjectOnPanel(follower,0);
             music = new Music(musicPath);
             for (int i = 0; i < item.length; i++) {
                 item[i] = new Item(i + 1,firstPlayer,secondPlayer);
@@ -413,7 +417,7 @@ public class ProgramController {
                 itemShow[i].setJump(false);
                 uiController.registerObject(itemShow[i]);
             }
-            uiController.drawObjectOnPanel(jumba, 0);
+          spawn();
             start.setClicked("standby");
             uiController.removeObject(start);
         }else if(start.getClicked()== "menu") {
@@ -508,14 +512,13 @@ public class ProgramController {
         if(firstPlayer.getLive()<=0|| secondPlayer.getLive()<=0){
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
-            uiController.removeObject(follower);
+            despawn();
             for (int i = 0; i < item.length; i++) {
                 uiController.removeObject(item[i]);
             }
             for(int i=0; i< itemShow.length;i++){
                 uiController.removeObject(itemShow[i]);
             }
-            uiController.removeObject(jumba);
             music.stop();
             start.setClicked("endscreen");
             uiController.removeObject(activePowerUp);
@@ -526,5 +529,45 @@ public class ProgramController {
             end = new End();
         }
     }
+    public void setTarget(Follower follower, int i){
 
+        if(i == 1){
+            follower.setTarget(firstPlayer);
+        }else{
+            follower.setTarget(secondPlayer);
+        }
+    }
+    public void spawn(){
+        for(int i = 0; i < enemies.length; i++){
+            for(int j = 0; j < enemies[i].length;j++ ){
+                if(i == 0){
+                    enemies[i][j] = new Follower();
+                    enemies[i][j].setX(Math.random()*1400 + 100);
+                    enemies[i][j].setY(Math.random()* 900 + 50);
+                    setTarget((Follower)enemies[i][j],j);
+                    uiController.registerObject(enemies[i][j]);
+                }
+                if(i == 1){
+                    enemies[i][j] = new Jumba();
+                    enemies[i][j].setX(Math.random()*1400 + 100);
+                    enemies[i][j].setY(Math.random()* 900 + 50);
+                    uiController.registerObject(enemies[i][j]);
+                }
+                if(i == 2){
+                    enemies[i][j] = new Gunner();
+                    enemies[i][j].setX(Math.random()*1400 + 100);
+                    enemies[i][j].setY(Math.random()* 900 + 50);
+                    uiController.registerObject(enemies[i][j]);
+                }
+            }
+        }
+
+    }
+    public void despawn() {
+        for (int i = 0; i < enemies.length; i++) {
+            for (int j = 0; j < enemies[i].length; j++) {
+                uiController.removeObject(enemies[i][j]);
+            }
+        }
+    }
 }
