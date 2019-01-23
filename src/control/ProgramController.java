@@ -381,6 +381,16 @@ public class ProgramController {
         }
     }
 
+    private void removeShoot(List<Projectile> projectileList){
+        if(!projectileList.isEmpty()){
+            projectileList.toFirst();
+            while(projectileList.hasAccess()){
+                uiController.removeObject(projectileList.getContent());
+                projectileList.next();
+            }
+        }
+    }
+
     private void restartGame(Player player){
         player.setLive(3);
         player.setSpeed(100);
@@ -465,7 +475,7 @@ public class ProgramController {
         }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="back") {
             uiController.registerObject(options);
             uiController.removeObject(lifeSelection);
-            musicSelection.setClicked("null");
+            lifeSelection.setClicked("null");
             options.setClicked("null");
         }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
             firstPlayer.setLive(10);
@@ -505,7 +515,7 @@ public class ProgramController {
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
-        if(firstPlayer.getLive()<=0|| secondPlayer.getLive()<=0){
+        if(firstPlayer.getLive() <=0|| secondPlayer.getLive()<=0){
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
             uiController.removeObject(follower);
@@ -519,10 +529,8 @@ public class ProgramController {
             music.stop();
             start.setClicked("endscreen");
             uiController.removeObject(activePowerUp);
-            projectileListP2.toLast();
-            projectileListP1.toLast();
-            uiController.removeObject(projectileListP1.getContent());
-            uiController.removeObject(projectileListP2.getContent());
+            removeShoot(projectileListP1);
+            removeShoot(projectileListP2);
             end = new End();
         }
     }

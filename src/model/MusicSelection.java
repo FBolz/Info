@@ -16,7 +16,7 @@ public class MusicSelection extends GraphicalObject {
         drawTool.drawFilledRectangle(600,350,300,100);
         drawTool.drawFilledRectangle(600,500,300,100);
         drawTool.drawFilledRectangle(600,650,300,100);
-        drawTool.drawFilledRectangle(40,800,400,100);
+        drawTool.drawFilledRectangle(40,850,400,100);
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,40);
         drawTool.drawText(670,100,"Flags");
