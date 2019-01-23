@@ -151,18 +151,22 @@ public class ProgramController {
             }
 
             if (uiController.isKeyDown(KeyEvent.VK_M)) {
+                if(!collectStack1.isEmpty()){
                 System.out.println("m pressed, popping stack1");
                 //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
                 uiController.registerObject(collectStack1.top());
+                collectStack1.top().jump();
                 collectStack1.pop();
-                //}
+                }
             }
             if (uiController.isKeyDown(KeyEvent.VK_Y)) {
+                if(!collectStack1.isEmpty()){
                 System.out.println("y pressed, popping stack2");
                 //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
                 uiController.registerObject(collectStack2.top());
+                collectStack2.top().jump();
                 collectStack2.pop();
-                //}
+                }
             }
 
             checkAndHandleEnemyCollisions(jumba, firstPlayer);

@@ -48,6 +48,7 @@ public class Follower extends Enemy {
          }
          if(counter >3){
              speed = 1;
+             counter=0;
          }
 
             if (target.getX() < this.getX()) {
