@@ -12,7 +12,6 @@ public class Music {
             audioInputStream = AudioSystem.getAudioInputStream(new File(path));
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
         } catch (UnsupportedAudioFileException uae) {
             System.out.println(uae + "\nDieser Dateityp wird nicht unterstützt.");
@@ -25,5 +24,9 @@ public class Music {
 
     public void stop(){
         clip.stop();
+    }
+
+    public void loop(){
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

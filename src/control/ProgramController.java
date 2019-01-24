@@ -25,7 +25,6 @@ public class ProgramController {
     private double powerUpTimer;
     private boolean powerUpIsActive;
     private double enemyTimer;
-
     // Referenzen
     private UIController uiController;  // diese Referenz soll auf ein Objekt der Klasse uiController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Display programmZeitAnzeige;
@@ -54,6 +53,7 @@ public class ProgramController {
     private Follower[] followers;
     private Jumba[] jumbas;
     private Gunner gunners;
+    private Music effect;
 
 
 
@@ -81,7 +81,7 @@ public class ProgramController {
         start = new Start();
         uiController.registerObject(start);
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left","Player 2");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right","Player 1");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 100,100, 500, 3, "right","Player 1");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -133,10 +133,14 @@ public class ProgramController {
             }
 
             if (projectileTimer1 <= 0 && firstPlayer.getShoot()) {
+                //Sound effects obtained from https://www.zapsplat.com
+                effect = new Music("assets/sounds/rpg-effects/battle/laser.wav");
                 shoot(firstPlayer, projectileListP1);
                 projectileTimer1 = 1;
             }
             if (projectileTimer2 <= 0 && secondPlayer.getShoot()) {
+                //Sound effects obtained from https://www.zapsplat.com
+                effect = new Music("assets/sounds/rpg-effects/battle/laser.wav");
                 shoot(secondPlayer, projectileListP2);
                 projectileTimer2 = 1;
             }
@@ -417,6 +421,7 @@ public class ProgramController {
             uiController.registerObject(firstPlayer);
             uiController.registerObject(secondPlayer);
             music = new Music(musicPath);
+            music.loop();
             for (int i = 0; i < item.length; i++) {
                 item[i] = new Item(i + 1,firstPlayer,secondPlayer);
                 uiController.registerObject(item[i]);
@@ -486,7 +491,12 @@ public class ProgramController {
             uiController.removeObject(lifeSelection);
             lifeSelection.setClicked("null");
             options.setClicked("null");
-        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
+        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="15") {
+            firstPlayer.setLive(15);
+            secondPlayer.setLive(15);
+            lifeSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
             firstPlayer.setLive(10);
             secondPlayer.setLive(10);
             lifeSelection.setClicked("back");
@@ -496,14 +506,9 @@ public class ProgramController {
             secondPlayer.setLive(5);
             lifeSelection.setClicked("back");
         }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="4") {
-            firstPlayer.setLive(4);
-            secondPlayer.setLive(4);
-            lifeSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="3") {
-            firstPlayer.setLive(3);
-            secondPlayer.setLive(3);
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="1") {
+            firstPlayer.setLive(1);
+            secondPlayer.setLive(1);
             lifeSelection.setClicked("back");
         }else if(start.getClicked()=="endscreen"){
             uiController.registerObject(end);
