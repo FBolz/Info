@@ -16,7 +16,7 @@ public class Item extends GraphicalObject {
     public Item(int colorNumber,Player player1,Player player2) {
         this.colorNumber=colorNumber;
         x = Math.random() * 1000;
-        y = Math.random() * 1004;
+        y = Math.random() * 900;
         height= 30;
         width=30;
         timer=0;
@@ -51,10 +51,10 @@ public class Item extends GraphicalObject {
     public void jump(){
         if(jump==true&& timer>= 10) {
             x = Math.random() * 1350;
-            y = Math.random() * 1000;
+            y = Math.random() * 980;
             if(this.collidesWith(player1) || this.collidesWith(player2)){
                 x = Math.random() * 1350;
-                y = Math.random() * 1000;
+                y = Math.random() * 950;
             }
         }
     }
