@@ -149,6 +149,8 @@ public class ProgramController {
             if (firstPlayer.collidesWith(secondPlayer)) {
                 firstPlayer.setCollision(true);
                 secondPlayer.setCollision(true);
+                firstPlayer.setLive(firstPlayer.getLive()-1);
+                secondPlayer.setLive(secondPlayer.getLive()-1);
                 if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
                     firstPlayer.setDirection("neutral");
                 }
