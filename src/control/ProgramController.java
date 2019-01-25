@@ -168,12 +168,12 @@ public class ProgramController {
 
             if (uiController.isKeyDown(KeyEvent.VK_M)) {
                 if(!collectStack1.isEmpty()){
-                System.out.println("m pressed, popping stack1");
-                //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
-                uiController.registerObject(collectStack1.top());
-                collectStack1.top().jump();
+                    System.out.println("m pressed, popping stack1");
+                    //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
+                    uiController.registerObject(collectStack1.top());
+                    collectStack1.top().jump();
                     System.out.println(" popping stack1");
-                collectStack1.pop();
+                    collectStack1.pop();
                 }
             }
             if (uiController.isKeyDown(KeyEvent.VK_Y)) {
@@ -353,16 +353,13 @@ public class ProgramController {
             collectStack.push(item1);
             item1.jumpOut();
             uiController.removeObject(item1);
-
             System.out.println("" + collectStack.top());
             if (5 == item1.getColorNumber()) {
                 Stack<Item> temp = new Stack<>();
                 boolean compare = true;
                 for (int i = item.length - 1; i >= 0 && !collectStack.isEmpty(); i--) {
                     if (i + 1 == collectStack.top().getColorNumber()) {
-
                         System.out.println("true" + item[i].getColorNumber());
-
                         temp.push(collectStack.top());
                         collectStack.pop();
                     } else {
@@ -382,6 +379,7 @@ public class ProgramController {
                     for (int i = 0; i < item.length; i++) {
                         collectStack.pop();
                         uiController.registerObject(item[i]);
+                        item[i].jump();
                     }
                 } else {
                     if(!collectStack.isEmpty()) {
