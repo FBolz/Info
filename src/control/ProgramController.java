@@ -25,6 +25,7 @@ public class ProgramController {
     private double powerUpTimer;
     private boolean powerUpIsActive;
     private double enemyTimer;
+    private boolean started;
     // Referenzen
     private UIController uiController;  // diese Referenz soll auf ein Objekt der Klasse uiController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Display programmZeitAnzeige;
@@ -416,30 +417,33 @@ public class ProgramController {
 
     private void gameMode(){
         if(start.getClicked()=="start"){
-            powerUpTimer=0;
-            uiController.registerObject(activePowerUp);
-            uiController.registerObject(firstPlayer);
-            uiController.registerObject(secondPlayer);
-            music = new Music(musicPath);
-            music.loop();
-            for (int i = 0; i < item.length; i++) {
-                item[i] = new Item(i + 1,firstPlayer,secondPlayer);
-                uiController.registerObject(item[i]);
+            if(!started) {
+                powerUpTimer = 0;
+                uiController.registerObject(activePowerUp);
+                uiController.registerObject(firstPlayer);
+                uiController.registerObject(secondPlayer);
+                music = new Music(musicPath);
+                music.loop();
+                for (int i = 0; i < item.length; i++) {
+                    item[i] = new Item(i + 1, firstPlayer, secondPlayer);
+                    uiController.registerObject(item[i]);
+                }
+                itemShow = new Item[5];
+                for (int i = 0; i < itemShow.length; i++) {
+                    int distance = 40;
+                    itemShow[i] = new Item(i + 1, firstPlayer, secondPlayer);
+                    itemShow[i].setY(10);
+                    itemShow[i].setX(1350 + i * distance);
+                    itemShow[i].setHeight(15);
+                    itemShow[i].setWidth(15);
+                    itemShow[i].setJump(false);
+                    uiController.registerObject(itemShow[i]);
+                }
+                spawn();
+                start.setClicked("standby");
+                started=true;
+                uiController.removeObject(start);
             }
-            itemShow= new Item[5];
-            for(int i=0; i< itemShow.length;i++){
-                int distance= 40;
-                itemShow[i]= new Item(i+1,firstPlayer,secondPlayer);
-                itemShow[i].setY(10);
-                itemShow[i].setX(1350+i*distance);
-                itemShow[i].setHeight(15);
-                itemShow[i].setWidth(15);
-                itemShow[i].setJump(false);
-                uiController.registerObject(itemShow[i]);
-            }
-            spawn();
-            start.setClicked("standby");
-            uiController.removeObject(start);
         }else if(start.getClicked()== "menu") {
             options = new Options();
             uiController.registerObject(options);
@@ -512,8 +516,8 @@ public class ProgramController {
             lifeSelection.setClicked("back");
         }else if(start.getClicked()=="endscreen"){
             uiController.registerObject(end);
-            firstPlayer.setLive(1);
-            secondPlayer.setLive(1);
+            firstPlayer.setLive(3);
+            secondPlayer.setLive(3);
             start.setClicked("end");
         }else if(start.getClicked()=="end" && end.getClicked()=="restart"){
             uiController.removeObject(end);
@@ -530,6 +534,7 @@ public class ProgramController {
             end.setClicked("restarted");
         }
         if(firstPlayer.getLive() <=0|| secondPlayer.getLive()<=0){
+            started=false;
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
             despawn();
