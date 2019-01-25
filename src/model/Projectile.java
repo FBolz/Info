@@ -12,6 +12,7 @@ public class Projectile extends GraphicalObject {
     private int size;
     private int farbeR, farbeG, farbeB;
     private String direction;
+    private boolean isActive;
 
     // Referenzen
     private UIController uiControl;
@@ -45,6 +46,7 @@ public class Projectile extends GraphicalObject {
             default:
                 break;
         }
+        isActive = true;
 
     }
 
@@ -96,5 +98,13 @@ public class Projectile extends GraphicalObject {
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

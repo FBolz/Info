@@ -54,7 +54,7 @@ public class ProgramController {
     private Follower[] followers;
     private Jumba[] jumbas;
     private Gunner[] gunners;
-    private Projectile pro;
+    private Projectile pro,pro2,pro3;
 
 
 
@@ -106,6 +106,8 @@ public class ProgramController {
         enemies[0] = followers;
         enemies[1] = jumbas;
         enemies[2] = gunners;
+
+
 
 
 
@@ -187,6 +189,10 @@ public class ProgramController {
             checkAndHandleCollisionEnemy(projectileListP1);
             checkAndHandleCollisionEnemy(projectileListP2);
 
+            checkAndHandleCollisionPlayer(firstPlayer);
+            checkAndHandleCollisionPlayer(secondPlayer);
+
+
 
             if (powerUpTimer <= 0) {
                 spawnPowerUp();
@@ -255,6 +261,19 @@ public class ProgramController {
         }
 
     }
+    public void checkAndHandleCollisionPlayer( Player player) {
+         for(int i = 0; i < gunners.length; i++){
+         if(gunners[i].getProjectile() != null) {
+             if (player.collidesWith(gunners[i].getProjectile()) && gunners[i].getProjectile().isActive()) {
+                 player.setLive(player.getLive() - 1);
+                 uiController.removeObject(gunners[i].getProjectile());
+                 gunners[i].getProjectile().setActive(false);
+             }
+
+
+         }
+         }
+    }
 
 
         public void checkAndHandleCollisionEnemy (List < Projectile > projectileList) {
@@ -278,7 +297,7 @@ public class ProgramController {
 
         private void spawnEnemyRandom (Enemy enemy){
             int i = (int) (Math.random() * 1400);
-            int y = (int) (Math.random() * 1000);
+            int y = (int) (Math.random() * 700);
             enemy.setX(i);
             enemy.setY(y);
             enemy.setEnemyIsActive(true);
@@ -579,9 +598,20 @@ public class ProgramController {
                     uiController.registerObject(enemies[i][j]);
                 }
                 if(i == 2){
-                    enemies[i][j] = new Gunner(uiController,pro);
+                    switch (j){
+                        case 0 :
+                            enemies[i][j] = new Gunner(uiController,pro);
+                            break;
+                        case 1 :
+                            enemies[i][j] = new Gunner(uiController,pro2);
+                            break;
+                        case 2 :
+                            enemies[i][j] = new Gunner(uiController,pro3);
+                            break;
+                    }
+
                     enemies[i][j].setX(Math.random()*1400 + 100);
-                    enemies[i][j].setY(Math.random()* 900 + 50);
+                    enemies[i][j].setY(Math.random()* 700 + 50);
                     uiController.registerObject(enemies[i][j]);
                 }
             }
