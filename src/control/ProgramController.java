@@ -440,10 +440,11 @@ public class ProgramController {
                     uiController.registerObject(itemShow[i]);
                 }
                 spawn();
-                start.setClicked("standby");
+
                 started=true;
                 uiController.removeObject(start);
             }
+            start.setClicked("standby");
         }else if(start.getClicked()== "menu") {
             options = new Options();
             uiController.registerObject(options);
