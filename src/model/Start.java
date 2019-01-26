@@ -8,11 +8,6 @@ import java.awt.event.MouseEvent;
 public class Start extends GraphicalObject {
     private String clicked;
     public void draw(DrawTool drawTool){
-
-        drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawFilledRectangle(650,310,130,45);
-        drawTool.drawFilledRectangle(650,410,210,45);
-        drawTool.drawFilledRectangle(650,510,110,45);
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,55);
         drawTool.drawText(650,340,"Start");

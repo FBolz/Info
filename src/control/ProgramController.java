@@ -155,6 +155,8 @@ public class ProgramController {
             if (firstPlayer.collidesWith(secondPlayer)) {
                 firstPlayer.setCollision(true);
                 secondPlayer.setCollision(true);
+                firstPlayer.setLive(firstPlayer.getLive()-1);
+                secondPlayer.setLive(secondPlayer.getLive()-1);
                 if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
                     firstPlayer.setDirection("neutral");
                 }
@@ -372,8 +374,6 @@ public class ProgramController {
         if (player.collidesWith(item1)) {
             System.out.println("ja");
             collectStack.push(item1);
-
-            //player.setY( player.getY()+30);
             item1.jumpOut();
             uiController.removeObject(item1);
 
@@ -440,15 +440,16 @@ public class ProgramController {
     }
 
     private void gameMode(){
+        //Klick auf den "Start" Knopf
         if(start.getClicked()=="start"){
+            //Verhinderung eines Doppelklicks
             if(!started) {
                 bck.setBackgorund(2);
+                //Zeichnen von Powerups, Player, Items und Gegnern
                 powerUpTimer = 0;
                 uiController.registerObject(activePowerUp);
                 uiController.registerObject(firstPlayer);
                 uiController.registerObject(secondPlayer);
-                music = new Music(musicPath);
-                music.loop();
                 for (int i = 0; i < item.length; i++) {
                     item[i] = new Item(i + 1, firstPlayer, secondPlayer);
                     uiController.registerObject(item[i]);
@@ -465,29 +466,54 @@ public class ProgramController {
                     uiController.registerObject(itemShow[i]);
                 }
                 spawn();
-
+                // Abspielen von Musik
+                music = new Music(musicPath);
+                //Loopen der Musik
+                music.loop();
+                //Verhinderung eines Doppelklicks
                 started=true;
+                //Entfernen des Start Bildschirms
                 uiController.removeObject(start);
             }
+            //Switchen des "Gamemodes" zu Standby damit das Spiel gestartet wird
             start.setClicked("standby");
+            //Überprüfung, ob auf "Options" gedrückt wurde
         }else if(start.getClicked()== "menu") {
+            //Erstellen und zeichen eines neuen Option Bildschirm
             options = new Options();
+            bck.setBackgorund(2);
             uiController.registerObject(options);
+            //Entfernen des Start Bildschirm
             uiController.removeObject(start);
+            //"Gamemode" wird auf options gesetzt
             start.setClicked("options");
+            //Überprüfung, ob auf "back" gedrückt wurde
         }else if(start.getClicked()=="options" && options.getClicked()== "back") {
+            bck.setBackgorund(1);
+            //Start Bildschirm wird gezeichnet
             uiController.registerObject(start);
+            //Menü Bildschirm wird gezeichnet
             uiController.removeObject(options);
+            //Klick Überprüfung von Start und Options werden in den Ausgangs Zustand gesetzt
             start.setClicked("null");
             options.setClicked("null");
+            //Überprüfung, ob auf den "Music" Knopf gedrückt wurde
         }else if(start.getClicked() == "options" && options.getClicked()== "music"){
+            //Erstellung einer neuen Musik Auswahl
             musicSelection = new MusicSelection();
+            //Menü Bildschirm wird entfernt
             uiController.removeObject(options);
+            //Musik Auswahl Bildschirm wird gezeichnet
             uiController.registerObject(musicSelection);
+            //"Options Modus" wird auf "musicSelection" gesetzt, um zu überprüfen, wo im Menü man gerade ist
             options.setClicked("musicSelection");
+            // Überprüfung, ob man aus der Musik Auswahl rausgehen will
         }else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "back") {
+            //Menü Bildschirm wird gezeichnet
             uiController.registerObject(options);
+            // Musik Auswahl Bildschirm wird entfernt
             uiController.removeObject(musicSelection);
+            //Klick Überprüfung von MusicSelection und Options werden in den Ausgangs Zustand gesetzt
             musicSelection.setClicked("null");
             options.setClicked("null");
         }
@@ -556,6 +582,7 @@ public class ProgramController {
             secondPlayer.setDirection("right");
             secondPlayer.setX(100);
             secondPlayer.setY(500);
+            bck.setBackgorund(1);
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
@@ -564,11 +591,13 @@ public class ProgramController {
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
             despawn();
-            for (int i = 0; i < item.length; i++) {
-                uiController.removeObject(item[i]);
-            }
-            for(int i=0; i< itemShow.length;i++){
-                uiController.removeObject(itemShow[i]);
+            for(int j=0; j < 3; j++ ) {
+                for (int i = 0; i < item.length; i++) {
+                    uiController.removeObject(item[i]);
+                }
+                for (int i = 0; i < itemShow.length; i++) {
+                    uiController.removeObject(itemShow[i]);
+                }
             }
             music.stop();
             start.setClicked("endscreen");
@@ -628,7 +657,6 @@ public class ProgramController {
                 }
             }
         }
-
     }
     public void despawn() {
         for (int i = 0; i < enemies.length; i++) {

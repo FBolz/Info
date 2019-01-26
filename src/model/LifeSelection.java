@@ -9,10 +9,6 @@ public class LifeSelection extends GraphicalObject {
     private String clicked;
     public void draw(DrawTool drawTool){
         drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawFilledRectangle(670,120,150,35);
-        drawTool.drawFilledRectangle(670,270,150,35);
-        drawTool.drawFilledRectangle(670,420,130,35);
-        drawTool.drawFilledRectangle(670,570,130,35);
         drawTool.drawFilledRectangle(40,850,400,100);
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,35);

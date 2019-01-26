@@ -13,9 +13,6 @@ public class End extends GraphicalObject {
     }
 
     public void draw(DrawTool drawTool){
-        drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawFilledRectangle(700,300,210,45);
-        drawTool.drawFilledRectangle(700,500,125,45);
         drawTool.formatText("", 3,40);
         drawTool.setCurrentColor(255,255,255,255);
 

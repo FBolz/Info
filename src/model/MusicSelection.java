@@ -11,11 +11,6 @@ public class MusicSelection extends GraphicalObject {
     public void draw(DrawTool drawTool){
 
         drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawFilledRectangle(620,70,105,35);
-        drawTool.drawFilledRectangle(620,220,160,35);
-        drawTool.drawFilledRectangle(620,370,285,35);
-        drawTool.drawFilledRectangle(620,520,250,35);
-        drawTool.drawFilledRectangle(620,670,200,35);
         drawTool.drawFilledRectangle(40,850,400,100);
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,40);
@@ -26,6 +21,8 @@ public class MusicSelection extends GraphicalObject {
         drawTool.drawText(620,700,"Spacetime");
         drawTool.drawText(200,910,"Back");
     }
+
+
     public void mouseReleased(MouseEvent e){
         if(e.getX()>= 620 && e.getX()<=725 && e.getY()>=70 && e.getY()<=105){
             clicked = "flags";
