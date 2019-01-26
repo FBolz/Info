@@ -77,6 +77,7 @@ public class ProgramController {
         programTimer = 0;
         // ******************************************* Ab hier euer eigener Code! *******************************************
         bck = new Background();
+        bck.setBackgorund(1);
         uiController.registerObject(bck);
 
         start = new Start();
@@ -441,6 +442,7 @@ public class ProgramController {
     private void gameMode(){
         if(start.getClicked()=="start"){
             if(!started) {
+                bck.setBackgorund(2);
                 powerUpTimer = 0;
                 uiController.registerObject(activePowerUp);
                 uiController.registerObject(firstPlayer);
@@ -570,6 +572,7 @@ public class ProgramController {
             }
             music.stop();
             start.setClicked("endscreen");
+            bck.setBackgorund(3);
             uiController.removeObject(activePowerUp);
             removeShoot(projectileListP1);
             removeShoot(projectileListP2);

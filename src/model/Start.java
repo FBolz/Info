@@ -10,24 +10,24 @@ public class Start extends GraphicalObject {
     public void draw(DrawTool drawTool){
 
         drawTool.setCurrentColor(0,0,0,255);
-        drawTool.drawFilledRectangle(650,110,130,45);
-        drawTool.drawFilledRectangle(650,360,210,45);
-        drawTool.drawFilledRectangle(650,610,110,45);
+        drawTool.drawFilledRectangle(650,310,130,45);
+        drawTool.drawFilledRectangle(650,410,210,45);
+        drawTool.drawFilledRectangle(650,510,110,45);
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,55);
-        drawTool.drawText(650,150,"Start");
-        drawTool.drawText(650,400,"Options");
-        drawTool.drawText(650,650,"End");
+        drawTool.drawText(650,340,"Start");
+        drawTool.drawText(650,440,"Options");
+        drawTool.drawText(650,540,"End");
     }
 
     public void mouseReleased(MouseEvent e){
-        if(e.getX()>= 650 && e.getX()<=780 && e.getY()>=110 && e.getY()<=155){
+        if(e.getX()>= 650 && e.getX()<=780 && e.getY()>=310 && e.getY()<=355){
             clicked = "start";
         }
-        if(e.getX()>= 650 && e.getX()<=860 && e.getY()>=360 && e.getY()<=405){
+        if(e.getX()>= 650 && e.getX()<=860 && e.getY()>=410 && e.getY()<=455){
             clicked= "menu";
         }
-        if(e.getX()>= 650 && e.getX()<=760 && e.getY()>=610 && e.getY()<=655){
+        if(e.getX()>= 650 && e.getX()<=760 && e.getY()>=510 && e.getY()<=555){
             System.exit(0);
         }
     }
