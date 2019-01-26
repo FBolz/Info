@@ -82,7 +82,7 @@ public class ProgramController {
         start = new Start();
         uiController.registerObject(start);
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left","Player 2");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 100,100, 500, 3, "right","Player 1 ");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right","Player 1");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -106,8 +106,6 @@ public class ProgramController {
         enemies[0] = followers;
         enemies[1] = jumbas;
         enemies[2] = gunners;
-
-
 
 
 
@@ -156,8 +154,6 @@ public class ProgramController {
             if (firstPlayer.collidesWith(secondPlayer)) {
                 firstPlayer.setCollision(true);
                 secondPlayer.setCollision(true);
-                firstPlayer.setLive(firstPlayer.getLive()-1);
-                secondPlayer.setLive(secondPlayer.getLive()-1);
                 if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
                     firstPlayer.setDirection("neutral");
                 }
@@ -200,7 +196,6 @@ public class ProgramController {
 
             checkAndHandleCollisionPlayer(firstPlayer);
             checkAndHandleCollisionPlayer(secondPlayer);
-
 
 
             if (powerUpTimer <= 0) {
@@ -270,18 +265,20 @@ public class ProgramController {
         }
 
     }
-    public void checkAndHandleCollisionPlayer( Player player) {
-         for(int i = 0; i < gunners.length; i++){
-         if(gunners[i].getProjectile() != null) {
-             if (player.collidesWith(gunners[i].getProjectile()) && gunners[i].getProjectile().isActive()) {
-                 player.setLive(player.getLive() - 1);
-                 uiController.removeObject(gunners[i].getProjectile());
-                 gunners[i].getProjectile().setActive(false);
-             }
-
-
-         }
-         }
+    public void checkAndHandleCollisionPlayer( Player player)
+    {
+        for (int i = 0; i < gunners.length; i++)
+        {
+            if (gunners[i].getProjectile() != null)
+            {
+                if (player.collidesWith(gunners[i].getProjectile()) && gunners[i].getProjectile().isActive())
+                {
+                    player.setLive(player.getLive() - 1);
+                    uiController.removeObject(gunners[i].getProjectile());
+                    gunners[i].getProjectile().setActive(false);
+                }
+            }
+        }
     }
 
 
@@ -622,7 +619,6 @@ public class ProgramController {
                             enemies[i][j] = new Gunner(uiController,pro3);
                             break;
                     }
-
                     enemies[i][j].setX(Math.random()*1400 + 100);
                     enemies[i][j].setY(Math.random()* 700 + 50);
                     uiController.registerObject(enemies[i][j]);

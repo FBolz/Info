@@ -46,7 +46,7 @@ public class Projectile extends GraphicalObject {
             default:
                 break;
         }
-        isActive = true;
+        isActive = false;
 
     }
 
