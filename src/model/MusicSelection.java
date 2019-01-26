@@ -25,19 +25,19 @@ public class MusicSelection extends GraphicalObject {
 
     public void mouseReleased(MouseEvent e){
         if(e.getX()>= 620 && e.getX()<=725 && e.getY()>=70 && e.getY()<=105){
-            clicked = "flags";
+            clicked = "flags.wav";
         }
         if(e.getX()>= 620 && e.getX()<=780 && e.getY()>=220 && e.getY()<=255){
-            clicked = "doomed";
+            clicked = "doomed.wav";
         }
         if(e.getX()>= 620 && e.getX()<=905 && e.getY()>=370 && e.getY()<=405){
-            clicked = "great";
+            clicked = "greatMissions.wav";
         }
         if(e.getX()>= 620 && e.getX()<=870 && e.getY()>=520 && e.getY()<=555){
-            clicked = "battle";
+            clicked = "battleThemeA.wav";
         }
         if(e.getX()>= 620 && e.getX()<=820 && e.getY()>=670 && e.getY()<=705){
-            clicked = "space";
+            clicked = "spacetime.wav";
         }
         if(e.getX()>= 40 && e.getX()<=440 && e.getY()>=850 && e.getY()<=950){
             clicked = "back";

@@ -83,7 +83,7 @@ public class ProgramController {
         start = new Start();
         uiController.registerObject(start);
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100,1400, 500, 3, "left","Player 2");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 100,100, 500, 3, "right","Player 1");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 100,100, 500, 3, "right","Player 1");
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
@@ -97,7 +97,7 @@ public class ProgramController {
         item = new Item[5];
         follower = new Follower();
         follower.setTarget(firstPlayer);
-        musicPath = "assets/sounds/music/spacetime2.wav";
+        musicPath = "assets/sounds/music/spacetime.wav";
 
         followers = new Follower[2];
         jumbas = new Jumba[5];
@@ -419,37 +419,67 @@ public class ProgramController {
         }
     }
 
+    /**
+     * Methode die ale Schüsse aus der Liste vom Bildschirm entfernt
+     * @param projectileList, die geleert werden soll
+     */
     private void removeShoot(List<Projectile> projectileList){
+        //Abfrage, ob die Liste leer ist
         if(!projectileList.isEmpty()){
+            //Liste wird von vorne durch gegangen
             projectileList.toFirst();
+            //Bedingung, dass etwas durchgeführt wird solange man nicht durch die Liste durch ist
             while(projectileList.hasAccess()){
+                //Aktuelles Objekt der Liste wird entfernt
                 uiController.removeObject(projectileList.getContent());
+                //Nächstes Objekt der Liste wird angesprochen
                 projectileList.next();
             }
         }
     }
-
+    /**
+     *Die Werte des übergebenen Spielers werden zurückgesetzt
+     * @param player, wessen Werte zurückgesetzt werden sollen
+     * **/
     private void restartGame(Player player){
-        player.setLive(3);
+        //Speed des Players wird auf 100 gesetzt
         player.setSpeed(100);
+        //Boolean, ob die Player kollidieren wird auf flase gesetzt
         player.setCollision(false);
+        //Powerup Timer wird in den Ausgangs Zustand gesetzt
         player.setPowerUpTimer(-1);
+        //Powerups werden zurückgesetzt
         player.setFastShoot(false);
         player.setInvert(false);
         player.setStrongShoot(false);
     }
 
+    /**
+     * Methode, welche die verschiedenen Modis kontrolliert
+     */
     private void gameMode(){
         //Klick auf den "Start" Knopf
         if(start.getClicked()=="start"){
             //Verhinderung eines Doppelklicks
             if(!started) {
                 bck.setBackgorund(2);
-                //Zeichnen von Powerups, Player, Items und Gegnern
+                // Die Richtung des ersten Spielers, in die der Spieler am Anfang des Spiels guckt, wird auf links gesetzt
+                firstPlayer.setDirection("left");
+                //Die Startkoordinaten des ersten Spielers werden gesetzt
+                firstPlayer.setX(1400);
+                firstPlayer.setY(500);
+                // Die Richtung des zweiten Spielers, in die der Spieler am Anfang des Spiels guckt, wird auf links gesetzt
+                secondPlayer.setDirection("right");
+                //Die Startkoordinaten des zweiten Spielers werden gesetzt
+                secondPlayer.setX(100);
+                secondPlayer.setY(500);
+                //Zeichnen von Powerups
                 powerUpTimer = 0;
                 uiController.registerObject(activePowerUp);
+                //Zeichnen der Spieler
                 uiController.registerObject(firstPlayer);
                 uiController.registerObject(secondPlayer);
+                //Zeichnen der Planeten
                 for (int i = 0; i < item.length; i++) {
                     item[i] = new Item(i + 1, firstPlayer, secondPlayer);
                     uiController.registerObject(item[i]);
@@ -465,6 +495,7 @@ public class ProgramController {
                     itemShow[i].setJump(false);
                     uiController.registerObject(itemShow[i]);
                 }
+                //Zeichnen der Gegner
                 spawn();
                 // Abspielen von Musik
                 music = new Music(musicPath);
@@ -517,80 +548,75 @@ public class ProgramController {
             musicSelection.setClicked("null");
             options.setClicked("null");
         }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "flags") {
-            musicPath= "assets/sounds/music/flags.wav";
+        //Überprüfung, ob auf irgendeinen Titel gedrückt wurde
+        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()!=null) {
+            //Pfad der Musik die abgespielt wird, wird auf den Pfad gesetzt von der Musik, welche ausgewählt wurde
+            musicPath= "assets/sounds/music/"+musicSelection.getClicked();
+            //Man wird aus der Auswahl "rausgeworfen"
             musicSelection.setClicked("back");
         }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "doomed") {
-            musicPath= "assets/sounds/music/doomed.wav";
-            musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "great") {
-            musicPath= "assets/sounds/music/greatMissions.wav";
-            musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "battle") {
-            musicPath= "assets/sounds/music/battleThemeA.wav";
-            musicSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="musicSelection" && musicSelection.getClicked()== "space") {
-            musicPath= "assets/sounds/music/spacetime2.wav";
-            musicSelection.setClicked("back");
-        }
+        //Überprüfung, ob auf den "Life" Knopf gedrückt wurde
         else if(start.getClicked() == "options" && options.getClicked()== "life"){
+            //Erstellung einer neuen Lebens Auswahl
             lifeSelection = new LifeSelection();
+            //Menü Bildschirm wird entfernt
             uiController.removeObject(options);
+            //Musik Auswahl Bildschirm wird gezeichnet
             uiController.registerObject(lifeSelection);
+            //"Options Modus" wird auf "lifeSelection" gesetzt, um zu überprüfen, wo im Menü man gerade ist
             options.setClicked("lifeSelection");
-        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="back") {
+        }
+        //Überprüfung, ob man auf den "back" Knopf gedrückt hat in der Lebens Auswahl
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()==-1) {
+            //Menü Bildschirm wird wieder gezeichnet
             uiController.registerObject(options);
+            //Lebens Auswahl Bildschirm wird entfernt
             uiController.removeObject(lifeSelection);
-            lifeSelection.setClicked("null");
+            //Klick Überprüfung von LifeSelection und Options werden in den Ausgangs Zustand gesetzt
+            lifeSelection.setClicked(0);
             options.setClicked("null");
-        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="15") {
-            firstPlayer.setLive(15);
-            secondPlayer.setLive(15);
-            lifeSelection.setClicked("back");
+            //Überprüfung, ob man auf eine Lebens Anzahl gedrückt hat
+        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()>0) {
+            //Leben beider Spieler werden auf die Anzahl der Leben gesetzt, welche ausgewählt wurde
+            firstPlayer.setLive(lifeSelection.getClicked());
+            secondPlayer.setLive(lifeSelection.getClicked());
+            //Man wird aus dem Auswahl Bildschirm "rausgeworfen"
+            lifeSelection.setClicked(-1);
         }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
-            firstPlayer.setLive(10);
-            secondPlayer.setLive(10);
-            lifeSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="5") {
-            firstPlayer.setLive(5);
-            secondPlayer.setLive(5);
-            lifeSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="1") {
-            firstPlayer.setLive(1);
-            secondPlayer.setLive(1);
-            lifeSelection.setClicked("back");
-        }else if(start.getClicked()=="endscreen"){
+        //Überprüfung, ob das Spiel vorbei ist befindet
+        else if(start.getClicked()=="endscreen"){
+            //Endscreen wird gezeichnet
             uiController.registerObject(end);
+            // Leben beider Spieler werden auf 3 gesetzt
             firstPlayer.setLive(3);
             secondPlayer.setLive(3);
+            //"Gamemode" wird auf "end" gesetzt
             start.setClicked("end");
+            //Überprüfung, ob man das Spiel neu starten möchte
         }else if(start.getClicked()=="end" && end.getClicked()=="restart"){
+            //Endscreen wird entfernt
             uiController.removeObject(end);
+            //Start Bildschirm wird gezeichnet
             uiController.registerObject(start);
+            //Die Methode restartGame wird für beide Spieler aufgerufen, um die Werte der Spieler zurück zu setzen
             restartGame(firstPlayer);
             restartGame(secondPlayer);
-            firstPlayer.setDirection("left");
-            firstPlayer.setX(1400);
-            firstPlayer.setY(500);
-            secondPlayer.setDirection("right");
-            secondPlayer.setX(100);
-            secondPlayer.setY(500);
+            //Background wird auf den Start Bildschirm gewechselt
             bck.setBackgorund(1);
+            //Klick Überprüfung des Start und des End Bildschirm werden auf irgendwas gesetzt, was nicht irgendwo anders abgefragt wird
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
+        //Überprüfung, ob irgendein Spieler keine Leben mehr hat
         if(firstPlayer.getLive() <=0|| secondPlayer.getLive()<=0){
+            //Attribut started wird auf false gesetzt damit man das Spiel wieder starten kann
             started=false;
+            //Spieler werden entfernt
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
+            //Gegner werden entfernt
             despawn();
+            //Planeten werden entfernt
             for(int j=0; j < 3; j++ ) {
                 for (int i = 0; i < item.length; i++) {
                     uiController.removeObject(item[i]);
@@ -599,17 +625,27 @@ public class ProgramController {
                     uiController.removeObject(itemShow[i]);
                 }
             }
+            //Musik wird gestoppt
             music.stop();
+            //"Gamemode" wird auf "endscreen" gesetzt, damit dieser gezeichnet werden kann
             start.setClicked("endscreen");
+            //Background wird geändert
             bck.setBackgorund(3);
+            // Powerup wird entfernt
             uiController.removeObject(activePowerUp);
+            //Schüsse der Spieler werden entfernt
             removeShoot(projectileListP1);
             removeShoot(projectileListP2);
+            //Attribut activePowerUp wird auf null gesetzt, sodass es kein aktuelles Powerup gibt
             activePowerUp=null;
+            //Abfrage, ob der zweite Spieler keine Leben mehr hat
             if(secondPlayer.getLive()<=0){
+                //Neuer Endscreen wird erstellt, welcher den Namen des Siegers übergeben bekommt, damit dieser ausgegeben werden kann
                 end = new End(firstPlayer.getName());
             }
+            //Abfrage, ob der zweite Spieler keine Leben mehr hat
             if(firstPlayer.getLive()<=0){
+                //Neuer Endscreen wird erstellt, welcher den Namen des Siegers übergeben bekommt, damit dieser ausgegeben werden kann
                 end = new End(secondPlayer.getName());
             }
 
