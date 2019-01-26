@@ -25,7 +25,7 @@ public class ProgramController {
     private double powerUpTimer;
     private boolean powerUpIsActive;
     private double enemyTimer;
-
+    private boolean started;
     // Referenzen
     private UIController uiController;  // diese Referenz soll auf ein Objekt der Klasse uiController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Display programmZeitAnzeige;
@@ -55,7 +55,7 @@ public class ProgramController {
     private Jumba[] jumbas;
     private Gunner[] gunners;
     private Projectile pro,pro2,pro3;
-
+    private Music effect;
 
 
     /**
@@ -140,10 +140,14 @@ public class ProgramController {
             }
 
             if (projectileTimer1 <= 0 && firstPlayer.getShoot()) {
+                //Sound effects obtained from https://www.zapsplat.com
+                effect = new Music("assets/sounds/rpg-effects/battle/laser.wav");
                 shoot(firstPlayer, projectileListP1);
                 projectileTimer1 = 1;
             }
             if (projectileTimer2 <= 0 && secondPlayer.getShoot()) {
+                //Sound effects obtained from https://www.zapsplat.com
+                effect = new Music("assets/sounds/rpg-effects/battle/laser.wav");
                 shoot(secondPlayer, projectileListP2);
                 projectileTimer2 = 1;
             }
@@ -169,18 +173,23 @@ public class ProgramController {
             }
 
             if (uiController.isKeyDown(KeyEvent.VK_M)) {
-                System.out.println("m pressed, popping stack1");
-                //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
-                uiController.registerObject(collectStack1.top());
-                collectStack1.pop();
-                //}
+                if(!collectStack1.isEmpty()){
+                    System.out.println("m pressed, popping stack1");
+                    //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
+                    uiController.registerObject(collectStack1.top());
+                    collectStack1.top().jump();
+                    System.out.println(" popping stack1");
+                    collectStack1.pop();
+                }
             }
             if (uiController.isKeyDown(KeyEvent.VK_Y)) {
+                if(!collectStack2.isEmpty()){
                 System.out.println("y pressed, popping stack2");
                 //for(int i=0; i<item.length&& !collectStack1.isEmpty();i++){
                 uiController.registerObject(collectStack2.top());
+                collectStack2.top().jump();
                 collectStack2.pop();
-                //}
+                }
             }
 
             checkAndHandleEnemyCollisions(firstPlayer);
@@ -393,22 +402,18 @@ public class ProgramController {
                     temp.pop();
                 }
                 if (compare == true&& !collectStack.isEmpty()) {
-                    int life = player.getLive() + 5;
+                    int life = player.getLive() + 15;
                     player.setLive(life);
                     for (int i = 0; i < item.length; i++) {
                         collectStack.pop();
                         uiController.registerObject(item[i]);
-                        // item[i].jump();
-
+                        item[i].jump();
                     }
                 } else {
                     if(!collectStack.isEmpty()) {
                         for (int i = 0; i < item.length; i++) {
                             collectStack.pop();
                             uiController.registerObject(item[i]);
-                            // item[i].jump();
-
-
                         }
                     }
                 }
@@ -438,28 +443,34 @@ public class ProgramController {
 
     private void gameMode(){
         if(start.getClicked()=="start"){
-            uiController.registerObject(activePowerUp);
-            uiController.registerObject(firstPlayer);
-            uiController.registerObject(secondPlayer);
-            music = new Music(musicPath);
-            for (int i = 0; i < item.length; i++) {
-                item[i] = new Item(i + 1,firstPlayer,secondPlayer);
-                uiController.registerObject(item[i]);
+            if(!started) {
+                powerUpTimer = 0;
+                uiController.registerObject(activePowerUp);
+                uiController.registerObject(firstPlayer);
+                uiController.registerObject(secondPlayer);
+                music = new Music(musicPath);
+                music.loop();
+                for (int i = 0; i < item.length; i++) {
+                    item[i] = new Item(i + 1, firstPlayer, secondPlayer);
+                    uiController.registerObject(item[i]);
+                }
+                itemShow = new Item[5];
+                for (int i = 0; i < itemShow.length; i++) {
+                    int distance = 40;
+                    itemShow[i] = new Item(i + 1, firstPlayer, secondPlayer);
+                    itemShow[i].setY(10);
+                    itemShow[i].setX(1350 + i * distance);
+                    itemShow[i].setHeight(15);
+                    itemShow[i].setWidth(15);
+                    itemShow[i].setJump(false);
+                    uiController.registerObject(itemShow[i]);
+                }
+                spawn();
+
+                started=true;
+                uiController.removeObject(start);
             }
-            itemShow= new Item[5];
-            for(int i=0; i< itemShow.length;i++){
-                int distance= 40;
-                itemShow[i]= new Item(i+1,firstPlayer,secondPlayer);
-                itemShow[i].setY(10);
-                itemShow[i].setX(1350+i*distance);
-                itemShow[i].setHeight(15);
-                itemShow[i].setWidth(15);
-                itemShow[i].setJump(false);
-                uiController.registerObject(itemShow[i]);
-            }
-            spawn();
             start.setClicked("standby");
-            uiController.removeObject(start);
         }else if(start.getClicked()== "menu") {
             options = new Options();
             uiController.registerObject(options);
@@ -509,9 +520,14 @@ public class ProgramController {
         }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="back") {
             uiController.registerObject(options);
             uiController.removeObject(lifeSelection);
-            musicSelection.setClicked("null");
+            lifeSelection.setClicked("null");
             options.setClicked("null");
-        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
+        }else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="15") {
+            firstPlayer.setLive(15);
+            secondPlayer.setLive(15);
+            lifeSelection.setClicked("back");
+        }
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="10") {
             firstPlayer.setLive(10);
             secondPlayer.setLive(10);
             lifeSelection.setClicked("back");
@@ -521,19 +537,14 @@ public class ProgramController {
             secondPlayer.setLive(5);
             lifeSelection.setClicked("back");
         }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="4") {
-            firstPlayer.setLive(4);
-            secondPlayer.setLive(4);
-            lifeSelection.setClicked("back");
-        }
-        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="3") {
-            firstPlayer.setLive(3);
-            secondPlayer.setLive(3);
+        else if(start.getClicked() == "options" && options.getClicked()=="lifeSelection" && lifeSelection.getClicked()=="1") {
+            firstPlayer.setLive(1);
+            secondPlayer.setLive(1);
             lifeSelection.setClicked("back");
         }else if(start.getClicked()=="endscreen"){
             uiController.registerObject(end);
-            firstPlayer.setLive(1);
-            secondPlayer.setLive(1);
+            firstPlayer.setLive(3);
+            secondPlayer.setLive(3);
             start.setClicked("end");
         }else if(start.getClicked()=="end" && end.getClicked()=="restart"){
             uiController.removeObject(end);
@@ -549,7 +560,8 @@ public class ProgramController {
             start.setClicked("restarted");
             end.setClicked("restarted");
         }
-        if(firstPlayer.getLive()<=0|| secondPlayer.getLive()<=0){
+        if(firstPlayer.getLive() <=0|| secondPlayer.getLive()<=0){
+            started=false;
             uiController.removeObject(firstPlayer);
             uiController.removeObject(secondPlayer);
             despawn();
@@ -564,6 +576,7 @@ public class ProgramController {
             uiController.removeObject(activePowerUp);
             removeShoot(projectileListP1);
             removeShoot(projectileListP2);
+            activePowerUp=null;
             if(secondPlayer.getLive()<=0){
                 end = new End(firstPlayer.getName());
             }
