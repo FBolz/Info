@@ -588,6 +588,8 @@ public class ProgramController {
                 player.setFastShoot(false);
                 player.setInvert(false);
                 player.setStrongShoot(false);
+                //Schuss abfrage wird auf false gesetzt
+                player.setShoot(false);
             }
 
             /**

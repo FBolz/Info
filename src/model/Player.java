@@ -324,4 +324,8 @@ public class Player extends GraphicalObject {
     public void setFacing(String facing) {
         this.facing = facing;
     }
+
+    public void setShoot(boolean shoot) {
+        this.shoot = shoot;
+    }
 }
