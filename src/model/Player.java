@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 
 public class Player extends GraphicalObject {
+    //Attribute
     private int KeyToGoUp;
     private int KeyToGoDown;
     private int KeyToGoLeft;
@@ -18,6 +19,20 @@ public class Player extends GraphicalObject {
     private int downKey;
     private int leftKey;
     private int rightKey;
+    private double spritetimer;
+    private boolean strongShoot;
+    private double powerUpTimer;
+    private boolean invert;
+    private boolean shoot;
+    private double speed;
+    private boolean fastShoot;
+    private int live;
+    private boolean collision;
+    //Referenzen
+    private String direction;
+    private String facing;
+    private UIController uiController;
+    private String name;
     private BufferedImage PlayerUp1;
     private BufferedImage PlayerUp2;
     private BufferedImage PlayerDown1;
@@ -28,20 +43,6 @@ public class Player extends GraphicalObject {
     private BufferedImage PlayerLeft2;
     private BufferedImage activeImage1;
     private BufferedImage activeImage2;
-
-    private boolean shoot;
-    private double speed;
-    private boolean fastShoot;
-    private int live;
-    private boolean collision;
-    private String direction;
-    private String facing;
-    private UIController uiController;
-    private double spritetimer;
-    private boolean strongShoot;
-    private double powerUpTimer;
-    private boolean invert;
-    private String name;
 
 
     /**

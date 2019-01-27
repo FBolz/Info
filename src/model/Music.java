@@ -5,8 +5,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Music {
+    //Referenzen
     private AudioInputStream audioInputStream;
     private Clip clip;
+
+    /**
+     * Konstruktor
+     * @param path, der Musik welche abgespielt werden soll
+     */
     public Music(String path) {
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(path));
@@ -21,11 +27,11 @@ public class Music {
             System.out.println(lua);
         }
     }
-
+    //Methode um die Musik zu stoppen
     public void stop(){
         clip.stop();
     }
-
+    //Methode, um die Musik zu loopen
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }

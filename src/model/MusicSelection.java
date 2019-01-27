@@ -6,8 +6,12 @@ import akkgframework.view.DrawTool;
 import java.awt.event.MouseEvent;
 
 public class MusicSelection extends GraphicalObject {
-
+    //Referenz
     private String clicked;
+    /**
+     * Zeichnet die Texte für die verschiedenen Möglichkeiten und den Back Knopf
+     * @param drawTool Zeichenwerkzeug
+     */
     public void draw(DrawTool drawTool){
 
         drawTool.setCurrentColor(0,0,0,255);
@@ -22,7 +26,10 @@ public class MusicSelection extends GraphicalObject {
         drawTool.drawText(200,910,"Back");
     }
 
-
+    /**
+     * Überprüfung, wo der Mauszeiger losgelassen wurde und dann clicked auf den ausgewählten Musik Pfad setzen oder auf back
+     * @param e Der Mauszeiger
+     */
     public void mouseReleased(MouseEvent e){
         if(e.getX()>= 620 && e.getX()<=725 && e.getY()>=70 && e.getY()<=105){
             clicked = "flags.wav";
@@ -43,11 +50,14 @@ public class MusicSelection extends GraphicalObject {
             clicked = "back";
         }
     }
-
+    //Getter-Methode für den ausgewählten Musik Pfad bzw. Status
     public String getClicked() {
         return clicked;
     }
-
+    /**
+     * Setzt den Musik Pfad auf den übergebenen Pfads
+     * @param clicked Auf welchen Pfad  gewechselt werden soll bzw. Status
+     */
     public void setClicked(String clicked) {
         this.clicked = clicked;
     }

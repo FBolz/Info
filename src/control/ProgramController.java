@@ -79,14 +79,17 @@ public class ProgramController {
         bck = new Background();
         bck.setBackgorund(1);
         uiController.registerObject(bck);
-
+        //Start Bildschirm wird erstellt und gezeichnet
         start = new Start();
         uiController.registerObject(start);
+        //Player werden erstellt
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, 1400, 500, 3, "left", "Player 2");
         secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 100, 100, 500, 3, "right", "Player 1");
+        //Timer für die Projectiles werden auf 0 gesetzt
         projectileTimer2 = 0;
         projectileTimer1 = 0;
         powerUpTimer = 0;
+        //Listen für die Projectiles werden erstellt
         projectileListP1 = new List();
         projectileListP2 = new List();
         powerUpQueue = new Queue<>();
@@ -107,7 +110,8 @@ public class ProgramController {
         enemies[1] = jumbas;
         enemies[2] = gunners;
 
-
+        //Pfad der Musik wird auf den Pfad von Spacetime gesetzt
+        musicPath = "assets/sounds/music/spacetime.wav";
     }
 
     /**
@@ -634,8 +638,6 @@ public class ProgramController {
                         }
                         //Zeichnen der Gegner
                         spawn();
-                        //Pfad der Musik wird auf den Pfad von Spacetime gesetzt
-                        musicPath = "assets/sounds/music/spacetime.wav";
                         // Abspielen von Musik
                         music = new Music(musicPath);
                         //Loopen der Musik
@@ -778,6 +780,8 @@ public class ProgramController {
                     //Schüsse der Spieler werden entfernt
                     removeShoot(projectileListP1);
                     removeShoot(projectileListP2);
+                    //Pfad der Musik wird auf den Pfad von Spacetime gesetzt
+                    musicPath = "assets/sounds/music/spacetime.wav";
                     //Schüsse des Gunners werden entfernt
                     for (int i = 0; i < gunners.length; i++) {
                         uiController.removeObject(gunners[i].getProjectile());
