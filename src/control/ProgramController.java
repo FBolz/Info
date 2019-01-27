@@ -189,6 +189,7 @@ public class ProgramController {
             for (int j = 0; j < item.length; j++) {
                 checkAndHandleCollisionPlayerItem(item[j], secondPlayer, collectStack2);
             }
+            //Inventar des 1. Spielers leeren
 
             if (uiController.isKeyDown(KeyEvent.VK_M)) {
                 if (!collectStack1.isEmpty()) {
@@ -200,6 +201,7 @@ public class ProgramController {
                     collectStack1.pop();
                 }
             }
+            // Inventar des 2. Spielers leeren
             if (uiController.isKeyDown(KeyEvent.VK_Y)) {
                 if (!collectStack2.isEmpty()) {
                     System.out.println("y pressed, popping stack2");
@@ -509,49 +511,56 @@ public class ProgramController {
      */
     public void checkAndHandleCollisionPlayerItem(Item item1, Player player, Stack<Item> collectStack) {
         if (player.collidesWith(item1)) {
-            System.out.println("ja");
             collectStack.push(item1);
             item1.jumpOut();
             uiController.removeObject(item1);
-
-            System.out.println("" + collectStack.top());
             if (5 == item1.getColorNumber()) {
                 Stack<Item> temp = new Stack<>();
                 boolean compare = true;
-                for (int i = item.length - 1; i >= 0 && !collectStack.isEmpty(); i--) {
-                    if (i + 1 == collectStack.top().getColorNumber()) {
-
-                        System.out.println("true" + item[i].getColorNumber());
-
-                        temp.push(collectStack.top());
-                        collectStack.pop();
-                    } else {
+                for (int i = item.length - 1; i >= 0 ; i--) {
+                    if (i != 0 && collectStack.isEmpty()) {
                         compare = false;
-                        System.out.println("false" + item[i].getColorNumber());
-                        temp.push(collectStack.top());
-                        collectStack.pop();
-                    }
-                }
-                while (!temp.isEmpty()) {
-                    collectStack.push(temp.top());
-                    temp.pop();
-                }
-                if (compare == true && !collectStack.isEmpty()) {
-                    int life = player.getLive() + 15;
-                    player.setLive(life);
-                    for (int i = 0; i < item.length; i++) {
-                        collectStack.pop();
-                        uiController.registerObject(item[i]);
-                        item[i].jump();
-                    }
-                } else {
-                    if (!collectStack.isEmpty()) {
-                        for (int i = 0; i < item.length; i++) {
-                            collectStack.pop();
-                            uiController.registerObject(item[i]);
+                        for (int j = item.length - 1; j >= 0 && !temp.isEmpty(); j--) {
+                            collectStack.push(temp.top());
+                            temp.pop();
+                        }
+                    } else {
+                        if (!collectStack.isEmpty()) {
+                            if (i + 1 == collectStack.top().getColorNumber()) {
+
+                                temp.push(collectStack.top());
+                                collectStack.pop();
+
+                            } else {
+                                compare = false;
+
+                                temp.push(collectStack.top());
+                                collectStack.pop();
+
+                            }
                         }
                     }
                 }
+                    while (!temp.isEmpty()) {
+                        collectStack.push(temp.top());
+                        temp.pop();
+                    }
+                    if (compare == true && !collectStack.isEmpty()) {
+                        int life = player.getLive() + 15;
+                        player.setLive(life);
+                        for (int i = 0; i < item.length; i++) {
+                            collectStack.pop();
+                            uiController.registerObject(item[i]);
+                            item[i].jump();
+                        }
+                    } else {
+                        if (!collectStack.isEmpty()) {
+                            for (int i = 0; i < item.length; i++) {
+                                collectStack.pop();
+                                uiController.registerObject(item[i]);
+                            }
+                        }
+                    }
             }
         }
     }
