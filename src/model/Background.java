@@ -5,9 +5,12 @@ import akkgframework.view.DrawTool;
 
 public class Background extends GraphicalObject
 {
+    // Atribute
     private String playBck;
-    private String menu;
     private String end;
+
+
+
     public Background()
     {
         x = 0;
@@ -19,13 +22,23 @@ public class Background extends GraphicalObject
     }
 
     @Override
+
+    /**
+     * Zeichnet die Texte für die verschiedenen Möglichkeiten
+     * @param drawTool Zeichenwerkzeug
+     */
     public void draw(DrawTool drawTool)
     {
         drawTool.drawImage(getMyImage(),x,y);
 
 }
 
-public void setBackgorund(int i){
+    /**
+     * Änderung des Bildes
+     * @param i steht für den jeweiligen background
+     *
+     */
+    public void setBackgorund(int i){
     switch(i)
     {
         case 1:

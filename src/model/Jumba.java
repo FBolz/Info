@@ -3,13 +3,15 @@ package model;
 import akkgframework.view.DrawTool;
 
 public class Jumba extends  Enemy {
-
+//Attribute
     private double timer;
     private int random;
     private double spritetimer;
 
 
-
+    /**
+     * Konstruktor
+     */
     public Jumba(){
         super("assets/images/Jumba.png",3,3,50);
         x = 60;
@@ -18,7 +20,10 @@ public class Jumba extends  Enemy {
         random = (int) (Math.random()*4)+1;
 
     }
-
+    /**
+     * Zeichnet den Jumba mit Animation
+     * @param drawTool Zeichenwerkzeug
+     */
     @Override
     public void draw(DrawTool drawTool) {
         super.draw(drawTool);
@@ -35,6 +40,11 @@ public class Jumba extends  Enemy {
 
 
     }
+
+    /**
+     *  Bewegung des Jumbas
+     * @param dt Zeit
+     */
     public void update(double dt){
         timer = timer + dt;
         spritetimer = spritetimer + dt;

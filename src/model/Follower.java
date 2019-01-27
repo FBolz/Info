@@ -3,7 +3,7 @@ package model;
 import akkgframework.view.DrawTool;
 
 public class Follower extends Enemy {
-
+// Attribute
     private Player target;
     private double timer;
     private int counter;
@@ -11,6 +11,9 @@ public class Follower extends Enemy {
     private String path2;
     private double spritetimer;
 
+    /**
+     * Konstruktor
+     */
     public Follower() {
         super("assets/images/Follower-Up-1.png",1,1,1);
         x = 400;
@@ -21,7 +24,10 @@ public class Follower extends Enemy {
         path1 = "assets/images/Follower-Up-1.png";
         path2 = "assets/images/Follower-Up-2.png";
     }
-
+    /**
+     * Zeichnet den Follower mit Animation
+     * @param drawTool Zeichenwerkzeug
+     */
     @Override
     public void draw(DrawTool drawTool) {
         drawTool.drawImage(getMyImage(), x, y);
@@ -36,6 +42,10 @@ public class Follower extends Enemy {
         }
     }
 
+    /**
+     * Bewegung des Followers in Richtung seines Targets
+     * @param dt Zeit
+     */
     @Override
     public void update(double dt) {
          timer= timer +dt;
@@ -84,7 +94,10 @@ public class Follower extends Enemy {
      return i;
     }
 
-
+    /**
+     * Änderung des Targets
+     * @param ptarget der zu verfolgende Spieler
+     */
     public void setTarget(Player ptarget){
         target = ptarget;
     }

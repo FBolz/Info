@@ -179,7 +179,6 @@ public class ProgramController {
                 if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
                     firstPlayer.setDirection("neutral");
                 }
-                //Falls sie nicht kollidieren werden die boolean Werte für die Kollision für beide Spieler auf false gesetzt
             } else {
                 firstPlayer.setCollision(false);
                 secondPlayer.setCollision(false);
@@ -215,7 +214,7 @@ public class ProgramController {
             //Die Methode zur Überprüfung, ob ein Gegner den Spieler berührt, wird für beide Spieler ausgeführt
             checkAndHandleEnemyCollisions(firstPlayer);
             checkAndHandleEnemyCollisions(secondPlayer);
-            //Die Methode zur Überprüfung, ob ein Schuss des Spielers einen Gegner berührt, wird für beide Spieler ausgeführt
+
             checkAndHandleCollisionEnemy(projectileListP1);
             checkAndHandleCollisionEnemy(projectileListP2);
 
@@ -491,7 +490,6 @@ public class ProgramController {
                         player.setLive(player.getLive() - 2);
                     }
                 }
-                //Das nächste Objekt der Liste wird angesprochen
                 projectileList.next();
             }
         }
