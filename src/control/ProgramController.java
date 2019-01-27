@@ -84,7 +84,7 @@ public class ProgramController {
         uiController.registerObject(start);
         //Player werden erstellt
         firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 200, 1400, 500, 3, "left", "Player 2");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 200, 100, 500, 3, "right", "Player 1");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, 200, 100, 500, 3, "right", "Player 1");
         //Timer für die Projectiles werden auf 0 gesetzt
         projectileTimer2 = 0;
         projectileTimer1 = 0;
