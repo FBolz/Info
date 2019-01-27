@@ -9,8 +9,6 @@ public class Projectile extends GraphicalObject {
 
     // Attribute
     private int speed;
-    private int size;
-    private int farbeR, farbeG, farbeB;
     private String direction;
     private boolean isActive;
 
@@ -21,8 +19,9 @@ public class Projectile extends GraphicalObject {
     /**
      * Konstruktor
      *
-     * @param x         spezifiziert die x-Koordinate der oberen, linken Ecke des Spielers.
-     * @param y         spezifiziert die y-Koordinate der oberen, linken Ecke des Spielers.
+     * @param x          x-Koordinate des Projectiles.
+     * @param y          y-Koordinate des Projectiles.
+     * @param direction  Richtung des Projectiles
      */
     public Projectile(double x, double y, String direction, UIController uiControl) {
         this.uiControl = uiControl;
@@ -51,8 +50,8 @@ public class Projectile extends GraphicalObject {
     }
 
     /**
-     * Methode wird automatisch aufgerufen.
-     * Zeichnet den Spieler als Kreis
+     *
+     * Zeichnet das Projectile
      *
      * @param drawTool Referenz auf das Zeichenwerkzeug
      */
@@ -61,8 +60,7 @@ public class Projectile extends GraphicalObject {
     }
 
     /**
-     * Methode wird automatisch aufgerufen.
-     * Wenn die passende Taste herunter gedrückt wird, bewegt sich der Spieler in die entsprechende Richtung.
+     * Je nachdem welche Richtung übergeben wurde bewegt sich das Projectile dementsprechend.
      *
      * @param dt Gibt die vergangene Zeit in Sekunden seit dem letzten Aufruf an.
      */
@@ -83,27 +81,47 @@ public class Projectile extends GraphicalObject {
         }
     }
 
-
+    /**
+     *Setzen der Geschwindigkeit.
+     *@param speed Neue Geschwindigkeit
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
+    /**
+     * Rückgabe der Geschwindigkeit.
+     * @return speed Geschwindigkeit des Projectiles.
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Rückgabe der Richtung.
+     * @return direction Richtung des Projectiles.
+     */
     public String getDirection() {
         return direction;
     }
-
+    /**
+     *Setzen der Richtung.
+     *@param direction Neue Richtung
+     */
     public void setDirection(String direction) {
         this.direction = direction;
     }
-
+    /**
+     * Rückgabe ob das Projectile aktiv ist.
+     * @return Aktivität des Projectiles
+     */
     public boolean isActive() {
         return isActive;
     }
-
+    /**
+     *Setzen des Aktivitätszustandes.
+     *@param active Neuer Aktivitätszustand
+     */
     public void setActive(boolean active) {
         isActive = active;
     }
