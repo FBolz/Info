@@ -7,6 +7,7 @@ import control.ProgramController;
 
 import java.awt.image.BufferedImage;
 
+
 public class Player extends GraphicalObject {
     private int KeyToGoUp;
     private int KeyToGoDown;
@@ -43,7 +44,22 @@ public class Player extends GraphicalObject {
     private String name;
 
 
-
+    /**
+     * Konstruktor der Klasse Player, Attribute wie Steuerung , Leben etc aber auch Referenzen zb zum UiController werden hier initialisiert
+     * außerdem werden bilder für die verschiedenen richtungen erstellt und festgesetzt
+     * @param uiController
+     * @param KeyToGoUp
+     * @param KeyToGoDown
+     * @param KeyToGoLeft
+     * @param KeyToGoRight
+     * @param KeyToShoot
+     * @param speed
+     * @param x
+     * @param y
+     * @param live
+     * @param facing
+     * @param name
+     */
     public Player(UIController uiController, int KeyToGoUp, int KeyToGoDown, int KeyToGoLeft, int KeyToGoRight, int KeyToShoot, double speed, int x, int y, int live, String facing,String name) {
         this.KeyToGoDown = KeyToGoDown;
         this.KeyToGoLeft = KeyToGoLeft;
@@ -94,6 +110,12 @@ public class Player extends GraphicalObject {
 
     }
 
+    /**
+     * Methode, die das aktuelle Aussehen des Spielers zeichnet.
+     * Ebenso Leben und PowerUp timer werden neben den Spieler geschrieben
+     * Sprite des Spielers "bewegt" sich also bilder verändern sich
+     * @param drawTool
+     */
     public void draw(DrawTool drawTool) {
         drawTool.drawImage(getMyImage(), x, y);
         drawTool.setCurrentColor(255,255,255,255);
@@ -116,6 +138,16 @@ public class Player extends GraphicalObject {
         }
     }
 
+    /**
+     * Alle dinge, die während des Spiels die ganze Zeitlaufen bzw. überprüft werden müssen
+     *Bei Kollision mit schlechten PowerUp werden die Tasten vertauscht
+     * timer für sprite
+     * änderung des Aussehens des Spielers bei unterschiedlichen bewegungen
+     * Generelles Bewegen des Spielers bei Knopfdruck
+     * der Spieler darf nicht außerhalb des Bildschirms
+     *
+     * @param dt Die Zeit in Sekunden, die seit dem letzten Aufruf der Methode vergangen ist.
+     */
     public void update(double dt) {
         switch (facing) {
             case "left":
@@ -211,6 +243,11 @@ public class Player extends GraphicalObject {
 
 
     }
+
+    /**
+     * viele getter und setter Methoden, die Atrribute des Spielers zurückgeben oder durch parameter verändern
+     * @return attribut das bei gettern zurück gegeben wird
+     */
 
     public boolean getShoot() {
         return shoot;

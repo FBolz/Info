@@ -490,7 +490,19 @@ public class ProgramController {
         }
     }
 
-
+    /**
+     * überprüft ob ein Spieler mit einem der Planeten (Items) kollidiert
+     * wenn dies passiert wird das item auf den Stapel des Spielers gelegt
+     * wenn das blaue Item eingesammelt wurde(Colornumber 5), weil es das letzte in der richtigen Reihenfolge ist,
+     * wird überprüft ob man die Items in der richtigen Reihenfolge eingesammelt hat.
+     * Vom Stack in einen temporären Stack und wieder zurück
+     * nur wenn 5 mal true also wenn die Reihenfolge richtig ist bekommt der Spieler 15 Leben
+     *Anschließend werden die Items aus dem Stack entfernt und man kann von vorne anfangen um wieder 15 Leben zu bekommen
+     * das aber auch wenn man falsch eingesammelt hat
+     * @param item1 item das man gerade einsammelt
+     * @param player der Spieler, der gerade mit dem Item kollidiert
+     * @param collectStack stack in die die Items gesammelt werden, bei Spieler 1 collectStack1 usw.
+     */
     public void checkAndHandleCollisionPlayerItem(Item item1, Player player, Stack<Item> collectStack) {
         if (player.collidesWith(item1)) {
             System.out.println("ja");
