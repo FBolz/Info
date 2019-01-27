@@ -4,12 +4,15 @@ import akkgframework.model.fundamental.GraphicalObject;
 import akkgframework.view.DrawTool;
 
 public class PowerUp extends GraphicalObject {
-    private int strength;
+    // Attribute
     private String type;
-
+    /**
+     * Konstruktor
+     * @param type Art des PowerUps
+     *
+     */
     public PowerUp(String type) {
         this.type=type;
-
         switch (type) {
             case "Speed":
                 createAndSetNewImage("assets/images/PowerUps/PowerUp_Speed.png");
@@ -32,24 +35,29 @@ public class PowerUp extends GraphicalObject {
         jump();
     }
 
+    /**
+     *
+     * Zeichnet das PowerUp
+     *
+     * @param drawTool Referenz auf das Zeichenwerkzeug
+     */
     public void draw(DrawTool drawTool) {
-        drawTool.drawImage(getMyImage(), x, y);
+    drawTool.drawImage(getMyImage(), x, y);
     }
 
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int amount) {
-        strength = strength + amount;
-    }
-
-    private void jump() {
-        x = Math.random() * 600;
-        y = Math.random() * 704;
+    /**
+     * Zufälliges setzen der x und y Koordinate
+     *
+     */
+    public void jump() {
+        x = Math.random() * 900;
+        y = Math.random() * 800;
 
     }
-
+    /**
+     * Rückgabe der PowerUp Art
+     * @return type Art des PowerUps
+     */
     public String getType() {
         return type;
     }

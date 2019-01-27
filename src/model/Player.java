@@ -99,10 +99,10 @@ public class Player extends GraphicalObject {
         drawTool.setCurrentColor(255,255,255,255);
         drawTool.formatText("", 3,20);
 
-        drawTool.drawText(x+60,y-30,"Life: "+String.valueOf(live));
+        drawTool.drawText(x+60,y-30,"Life: "+(live));
         drawTool.drawText(x+60,y-50,name);
         if (powerUpTimer>=0) {
-            drawTool.drawText(x + 60, y - 10, "PowerUp Timer: " + String.valueOf(Math.round(powerUpTimer)));
+            drawTool.drawText(x + 60, y - 10, "PowerUp Timer: " + Math.round(powerUpTimer));
         }
         if(spritetimer> 0.5){
             setMyImage(activeImage1);
