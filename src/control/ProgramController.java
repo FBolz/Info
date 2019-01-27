@@ -97,7 +97,6 @@ public class ProgramController {
         item = new Item[5];
         follower = new Follower();
         follower.setTarget(firstPlayer);
-        musicPath = "assets/sounds/music/spacetime.wav";
 
         followers = new Follower[2];
         jumbas = new Jumba[5];
@@ -120,7 +119,9 @@ public class ProgramController {
         programTimer += dt;
 
         // ******************************************* Ab hier euer eigener Code! *******************************************
+        //Die Methode gameMode wird dauerhaft aufgerufen
         gameMode();
+        //Nur wenn der "Gamemode" "Standby" ist wird alles ausgeführt
         if(start.getClicked()== "standby") {
             if (firstPlayer.getFastShoot()) {
                 projectileTimer1 -= dt * 3;
@@ -137,17 +138,24 @@ public class ProgramController {
             if (powerUpTimer < 0) {
                 powerUpTimer -= dt;
             }
-
+            //Wenn der Timer für die Projectile null beträgt oder null unterschreitet und die Taste für den ersten Spieler für den Schuus gedrückt wurde passiert etwas
             if (projectileTimer1 <= 0 && firstPlayer.getShoot()) {
                 //Sound effects obtained from https://www.zapsplat.com
+                //Neue Musik wird erstellt für den Sound effect
                 effect = new Music("assets/sounds/rpg-effects/battle/laser.wav");
+                //Die Methode shoot wird aufgerufen der erste Spieler und seine Liste werden übergeben
                 shoot(firstPlayer, projectileListP1);
+                //Der Timer wird auf 1 gesetzt
                 projectileTimer1 = 1;
             }
+            //Wenn der Timer für die Projectile null beträgt oder null unterschreitet und die Taste für den ersten Spieler für den Schuus gedrückt wurde passiert etwas
             if (projectileTimer2 <= 0 && secondPlayer.getShoot()) {
                 //Sound effects obtained from https://www.zapsplat.com
+                //Neue Musik wird erstellt für den Sound effect
                 effect = new Music("assets/sounds/rpg-effects/battle/laser.wav");
+                //Die Methode shoot wird aufgerufen der zweite Spieler und seine Liste werden übergeben
                 shoot(secondPlayer, projectileListP2);
+                //Der Timer wird auf 1 gesetzt
                 projectileTimer2 = 1;
             }
             checkAndHandleCollisionPlayers(projectileListP2, firstPlayer, secondPlayer);
@@ -190,10 +198,10 @@ public class ProgramController {
                 collectStack2.pop();
                 }
             }
-
+            //Die Methode zur Überprüfung, ob ein Gegner den Spieler berührt, wird für beide Spieler ausgeführt
             checkAndHandleEnemyCollisions(firstPlayer);
             checkAndHandleEnemyCollisions(secondPlayer);
-
+            //Die Methode zur Überprüfung, ob ein Schuss des Spielers einen Gegner berührt, wird für beide Spieler ausgeführt
             checkAndHandleCollisionEnemy(projectileListP1);
             checkAndHandleCollisionEnemy(projectileListP2);
 
@@ -284,19 +292,33 @@ public class ProgramController {
         }
     }
 
-
-        public void checkAndHandleCollisionEnemy (List < Projectile > projectileList) {
+    /**
+     * Überprüft die Kollision zwischen einem Schuss und einem Gegner
+     * @param projectileList, welche durchgegangen werden soll, um zu überprüfen, ob ein Schuss einen Gegner trifft
+     */
+    public void checkAndHandleCollisionEnemy (List < Projectile > projectileList) {
+            //Alle Gegnertypen werden durchgegangen
             for (int i = 0; i < enemies.length; i++) {
+                //Alle Gegner des Gegnertyps werden durchgegangen
                 for (int j = 0; j < enemies[i].length; j++) {
+                    //Abfrage, ob die Liste Objekte hat
                     if (!projectileList.isEmpty()) {
+                        //Erstes Objekt der Liste wird angesprochen
                         projectileList.toFirst();
+                        //So lange die Liste ein aktuelles Objekt hat wird etwas durchgeführt
                         while (projectileList.hasAccess()) {
+                            //Wenn das aktuelle Objekt der Liste mit einem Gegner kollidiert passiert etwas
                             if (projectileList.getContent().collidesWith(enemies[i][j])) {
+                                //Der Schuss, der mit dem Gegner kollidiert wird vom Bildschirm entfernt
                                 uiController.removeObject(projectileList.getContent());
+                                //Der Schuss, der mit dem Gegner kollidiert wird aus der Liste entfernt
                                 projectileList.remove();
+                                //Der Gegner wird kurzzeitig auf inaktiv gesetzt
                                 enemies[i][j].setEnemyIsActive(false);
+                                //Der Gegner wird irgendwo zufällig auf dem Bildschirm platziert
                                 spawnEnemyRandom(enemies[i][j]);
                             }
+                            //Das nächste Objekt der Liste wird angesprochen
                             projectileList.next();
                         }
                     }
@@ -344,26 +366,49 @@ public class ProgramController {
 
     }
 
+    /**
+     * Lässt einen Spieler mit Hilfe einer Liste schießen
+     * @param player, welcher schießt
+     * @param projectileList, des Spielers der geschossen hat
+     */
     private void shoot( Player player, List<Projectile> projectileList) {
+       //Fügt ein Objekt der Klasse Projectile hinten an die Liste an mit den Koordinaten des Spielers und der Richtung in die der Spieler guckt
         projectileList.append(new Projectile(player.getX(), player.getY(), player.getFacing(), uiController));
+        //Das letzte Objekt der Liste wird angesprochen
         projectileList.toLast();
+        //Das aktuelle Objekt wird gezeichnet
         uiController.registerObject(projectileList.getContent());
     }
 
-
+    /**
+     * Überprüft, ob ein Spieler von einem Schuss des anderen Spielers getroffen wurde
+     * @param projectileList, welche überprüft werden soll
+     * @param player, welcher überprüft werden soll, ob er abgeschossen wurde
+     * @param otherPlayer, welcher geschossen hat
+     */
     public void checkAndHandleCollisionPlayers(List<Projectile> projectileList, Player player, Player otherPlayer) {
+        //Abfrage, ob die Liste ein Objekt hat
         if (!projectileList.isEmpty()) {
+            //Die Liste wird von vorne angesprochen
             projectileList.toFirst();
+            //Bedingung, dass etwas durchgeführt wird solange man nicht durch die Liste durch ist
             while (projectileList.hasAccess()) {
+                //Wenn der Spieler mit einem Objekt der Liste kollidiert, wird etwas ausgeführt
                 if (projectileList.getContent().collidesWith(player)) {
+                    //Das aktuelle Objekt der Liste wird vom Bildschirm entfernt
                     uiController.removeObject(projectileList.getContent());
+                    //Das aktuelle Objekt der Liste wird aus der Liste entfernt
                     projectileList.remove();
+                    //Überprüfung, ob der Spieler der schießt das Powerup eingesammelt hat, welches ihm einen stärkeren Schuss gibt
                     if (!otherPlayer.getStrongShoot()) {
+                        //Wenn der Spieler das Powerup nicht eingesammelt hat, wird dem anderem Spieler ein Leben abgezogen
                         player.setLive(player.getLive() - 1);
                     } else {
+                        //Wenn der Spieler das Powerup eingesammelt hat, verliert der andere Spieler zwei Leben
                         player.setLive(player.getLive() - 2);
                     }
                 }
+                //Das nächste Objekt der Liste wird angesprochen
                 projectileList.next();
             }
         }
@@ -424,7 +469,7 @@ public class ProgramController {
      * @param projectileList, die geleert werden soll
      */
     private void removeShoot(List<Projectile> projectileList){
-        //Abfrage, ob die Liste leer ist
+        //Abfrage, ob die Liste ein Objekt hat
         if(!projectileList.isEmpty()){
             //Liste wird von vorne durch gegangen
             projectileList.toFirst();
@@ -432,8 +477,8 @@ public class ProgramController {
             while(projectileList.hasAccess()){
                 //Aktuelles Objekt der Liste wird entfernt
                 uiController.removeObject(projectileList.getContent());
-                //Nächstes Objekt der Liste wird angesprochen
-                projectileList.next();
+                //Das aktuelle Objekt der Liste wird aus der Liste entfernt
+                projectileList.remove();
             }
         }
     }
@@ -462,7 +507,8 @@ public class ProgramController {
         if(start.getClicked()=="start"){
             //Verhinderung eines Doppelklicks
             if(!started) {
-                bck.setBackgorund(2);
+
+                bck.setBackgorund(1);
                 // Die Richtung des ersten Spielers, in die der Spieler am Anfang des Spiels guckt, wird auf links gesetzt
                 firstPlayer.setDirection("left");
                 //Die Startkoordinaten des ersten Spielers werden gesetzt
@@ -497,6 +543,8 @@ public class ProgramController {
                 }
                 //Zeichnen der Gegner
                 spawn();
+                //Pfad der Musik wird auf den Pfad von Spacetime gesetzt
+                musicPath = "assets/sounds/music/spacetime.wav";
                 // Abspielen von Musik
                 music = new Music(musicPath);
                 //Loopen der Musik
@@ -512,7 +560,6 @@ public class ProgramController {
         }else if(start.getClicked()== "menu") {
             //Erstellen und zeichen eines neuen Option Bildschirm
             options = new Options();
-            bck.setBackgorund(2);
             uiController.registerObject(options);
             //Entfernen des Start Bildschirm
             uiController.removeObject(start);
@@ -520,7 +567,6 @@ public class ProgramController {
             start.setClicked("options");
             //Überprüfung, ob auf "back" gedrückt wurde
         }else if(start.getClicked()=="options" && options.getClicked()== "back") {
-            bck.setBackgorund(1);
             //Start Bildschirm wird gezeichnet
             uiController.registerObject(start);
             //Menü Bildschirm wird gezeichnet
@@ -630,12 +676,17 @@ public class ProgramController {
             //"Gamemode" wird auf "endscreen" gesetzt, damit dieser gezeichnet werden kann
             start.setClicked("endscreen");
             //Background wird geändert
-            bck.setBackgorund(3);
+            bck.setBackgorund(2);
             // Powerup wird entfernt
             uiController.removeObject(activePowerUp);
             //Schüsse der Spieler werden entfernt
             removeShoot(projectileListP1);
             removeShoot(projectileListP2);
+            //Schüsse des Gunners werden entfernt
+            for (int i = 0; i < gunners.length ; i++) {
+                uiController.removeObject(gunners[i].getProjectile());
+                gunners[i].getProjectile().setActive(false);
+            }
             //Attribut activePowerUp wird auf null gesetzt, sodass es kein aktuelles Powerup gibt
             activePowerUp=null;
             //Abfrage, ob der zweite Spieler keine Leben mehr hat

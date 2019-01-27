@@ -13,9 +13,8 @@ public class Background extends GraphicalObject
         x = 0;
         y = 0;
         playBck = "assets/images/thumb-1920-885542.png";
-        menu = "assets/images/Background.png";
         end = "assets/images/Game Over.png";
-        createAndSetNewImage(menu);
+        createAndSetNewImage(playBck);
 
     }
 
@@ -30,12 +29,9 @@ public void setBackgorund(int i){
     switch(i)
     {
         case 1:
-            createAndSetNewImage(menu);
-            break;
-        case 2:
             createAndSetNewImage(playBck);
             break;
-        case 3:
+        case 2:
             createAndSetNewImage(end);
             break;
 
