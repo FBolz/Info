@@ -20,7 +20,7 @@ public class Options extends GraphicalObject {
         drawTool.drawText(670,350,"Music");
         drawTool.drawText(670,580,"Life");
         drawTool.formatText("", 3,40);
-        drawTool.drawText(200,800,"Back");
+        drawTool.drawText(200,910,"Back");
     }
     /**
      * Überprüfung, wo der Mauszeiger losgelassen wurde und danach wird clicked auf den ausgewählten Status gesetzt
@@ -33,7 +33,7 @@ public class Options extends GraphicalObject {
         if(e.getX()>= 670 && e.getX()<=785 && e.getY()>=535 && e.getY()<=585){
             clicked = "life";
         }
-        if(e.getX()>= 40 && e.getX()<=440 && e.getY()>=750 && e.getY()<=850){
+        if(e.getX()>= 40 && e.getX()<=440 && e.getY()>=850 && e.getY()<=950){
             clicked = "back";
         }
     }

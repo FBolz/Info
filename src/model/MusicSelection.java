@@ -23,7 +23,7 @@ public class MusicSelection extends GraphicalObject {
         drawTool.drawText(620,400,"Great Missions");
         drawTool.drawText(620,550,"Battle Theme");
         drawTool.drawText(620,700,"Spacetime");
-        drawTool.drawText(200,800,"Back");
+        drawTool.drawText(200,910,"Back");
     }
 
     /**
@@ -46,7 +46,7 @@ public class MusicSelection extends GraphicalObject {
         if(e.getX()>= 620 && e.getX()<=820 && e.getY()>=670 && e.getY()<=705){
             clicked = "spacetime.wav";
         }
-        if(e.getX()>= 40 && e.getX()<=440 && e.getY()>=750 && e.getY()<=850)
+        if(e.getX()>= 40 && e.getX()<=440 && e.getY()>=850 && e.getY()<=950)
 
         {
             clicked = "back";
