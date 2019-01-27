@@ -95,6 +95,7 @@ public class ProgramController {
         powerUpQueue = new Queue<>();
         createPowerUpQueue(10);
         powerUpIsActive = false;
+        // 2 stacks für jeden Spieler einen wird erzeugt
         collectStack1 = new Stack<>();
         collectStack2 = new Stack<>();
         item = new Item[5];
@@ -501,6 +502,7 @@ public class ProgramController {
      * wenn dies passiert wird das item auf den Stapel des Spielers gelegt
      * wenn das blaue Item eingesammelt wurde(Colornumber 5), weil es das letzte in der richtigen Reihenfolge ist,
      * wird überprüft ob man die Items in der richtigen Reihenfolge eingesammelt hat.
+     * aber es kann nur auf true gesetzt bleiben wenn die anzahl Planeten auf demStack auch der richtigen anzahl entspricht + richtige reihenfolge
      * Vom Stack in einen temporären Stack und wieder zurück
      * nur wenn 5 mal true also wenn die Reihenfolge richtig ist bekommt der Spieler 15 Leben
      *Anschließend werden die Items aus dem Stack entfernt und man kann von vorne anfangen um wieder 15 Leben zu bekommen
