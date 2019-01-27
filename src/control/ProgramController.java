@@ -122,14 +122,18 @@ public class ProgramController {
         gameMode();
         //Nur wenn der "Gamemode" "Standby" ist wird alles ausgeführt
         if(start.getClicked()== "standby") {
+            //Wenn der erste Spieler das Powerup für einen schnelleren Schuss einsammelt vergeht die Zeit dreimal so schnell
             if (firstPlayer.getFastShoot()) {
                 projectileTimer1 -= dt * 3;
             } else {
+                //Sonst wird immer eine Sekunde vom Timer abgezogen
                 projectileTimer1 -= dt;
             }
+            //Wenn der zweite Spieler das Powerup für einen schnelleren Schuss einsammelt vergeht die Zeit dreimal so schnell
             if (secondPlayer.getFastShoot()) {
                 projectileTimer2 -= dt * 3;
             } else {
+                //Sonst wird immer eine Sekunde vom Timer abgezogen
                 projectileTimer2 -= dt;
             }
             managePowerUpTimer(firstPlayer, dt);
@@ -137,7 +141,7 @@ public class ProgramController {
             if (powerUpTimer < 0) {
                 powerUpTimer -= dt;
             }
-            //Wenn der Timer für die Projectile null beträgt oder null unterschreitet und die Taste für den ersten Spieler für den Schuus gedrückt wurde passiert etwas
+            //Wenn der Timer für die Projectiles null beträgt oder null unterschreitet und die Taste für den ersten Spieler für den Schuus gedrückt wurde passiert etwas
             if (projectileTimer1 <= 0 && firstPlayer.getShoot()) {
                 //Sound effects obtained from https://www.zapsplat.com
                 //Neue Musik wird erstellt für den Sound effect
@@ -147,7 +151,7 @@ public class ProgramController {
                 //Der Timer wird auf 1 gesetzt
                 projectileTimer1 = 1;
             }
-            //Wenn der Timer für die Projectile null beträgt oder null unterschreitet und die Taste für den ersten Spieler für den Schuus gedrückt wurde passiert etwas
+            //Wenn der Timer für die Projectiles null beträgt oder null unterschreitet und die Taste für den ersten Spieler für den Schuus gedrückt wurde passiert etwas
             if (projectileTimer2 <= 0 && secondPlayer.getShoot()) {
                 //Sound effects obtained from https://www.zapsplat.com
                 //Neue Musik wird erstellt für den Sound effect
@@ -157,16 +161,20 @@ public class ProgramController {
                 //Der Timer wird auf 1 gesetzt
                 projectileTimer2 = 1;
             }
+            //Die Methoden zur Überprüfung für die Kollision der Spieler mit den gegnerischen Schüssen wird für beide Spieler mit ihren Listen aufgerufen
             checkAndHandleCollisionPlayers(projectileListP2, firstPlayer, secondPlayer);
             checkAndHandleCollisionPlayers(projectileListP1, secondPlayer, firstPlayer);
+            //Wenn die Spieler kollidieren verlieren beide ein Leben und die boolean Werte für die Kollision werden für beide Spieler auf true gesetzt
             if (firstPlayer.collidesWith(secondPlayer)) {
                 firstPlayer.setCollision(true);
                 secondPlayer.setCollision(true);
                 firstPlayer.setLive(firstPlayer.getLive() - 1);
                 secondPlayer.setLive(secondPlayer.getLive() - 1);
+                //Wenn beide in die gleiche Richtung fliegen und trotzdem kollidieren wird die Richtung des einen Spielers auf "neutral" gesetzt, damit verhindert wird, dass ein Spieler aus dem Bildschirm "fliegt"
                 if (firstPlayer.getDirection().equals(secondPlayer.getDirection())) {
                     firstPlayer.setDirection("neutral");
                 }
+                //Falls sie nicht kollidieren werden die boolean Werte für die Kollision für beide Spieler auf false gesetzt
             } else {
                 firstPlayer.setCollision(false);
                 secondPlayer.setCollision(false);
@@ -563,7 +571,7 @@ public class ProgramController {
                 //Boolean, ob die Player kollidieren wird auf flase gesetzt
                 player.setCollision(false);
                 //Powerup Timer wird in den Ausgangs Zustand gesetzt
-                player.setPowerUpTimer(0);
+                player.setPowerUpTimer(-1);
                 //Powerups werden zurückgesetzt
                 player.setFastShoot(false);
                 player.setInvert(false);
@@ -716,6 +724,11 @@ public class ProgramController {
                     //Die Methode restartGame wird für beide Spieler aufgerufen, um die Werte der Spieler zurück zu setzen
                     restartGame(firstPlayer);
                     restartGame(secondPlayer);
+                    //Die Richtung der Spieler werden in den Ausgangs Zustand gesetzt
+                    firstPlayer.setDirection("left");
+                    secondPlayer.setDirection("right");
+                    firstPlayer.setFacing("left");
+                    secondPlayer.setFacing("right");
                     //Background wird auf den Start Bildschirm gewechselt
                     bck.setBackgorund(1);
                     //Klick Überprüfung des Start und des End Bildschirm werden auf irgendwas gesetzt, was nicht irgendwo anders abgefragt wird

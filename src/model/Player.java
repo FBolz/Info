@@ -117,6 +117,26 @@ public class Player extends GraphicalObject {
     }
 
     public void update(double dt) {
+        switch (facing) {
+            case "left":
+                activeImage1=PlayerLeft1;
+                activeImage2=PlayerLeft2;
+                break;
+            case "right":
+                activeImage1=PlayerRight1;
+                activeImage2=PlayerRight2;
+                break;
+            case "up":
+                activeImage1=PlayerUp1;
+                activeImage2=PlayerUp2;
+                break;
+            case "down":
+                activeImage1=PlayerDown1;
+                activeImage2=PlayerDown2;
+                break;
+            default:
+                break;
+        }
         if (invert && upKey!=KeyToGoDown){
             upKey=KeyToGoDown;
             downKey=KeyToGoUp;
@@ -262,5 +282,9 @@ public class Player extends GraphicalObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setFacing(String facing) {
+        this.facing = facing;
     }
 }
