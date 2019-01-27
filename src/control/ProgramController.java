@@ -327,6 +327,10 @@ public class ProgramController {
 
     }
 
+    /**
+     * Kollision mit dem Enemy
+     * @param player der betreffende Player
+     */
     private void checkAndHandleEnemyCollisions(Player player) {
         for (int i = 0; i < enemies.length; i++) {
             for (int j = 0; j < enemies[i].length; j++) {
@@ -341,6 +345,11 @@ public class ProgramController {
         }
 
     }
+
+    /**
+     * Kollision des Laser des Gunners mit dem player
+     * @param player der betreffende Player
+     */
 
     public void checkAndHandleCollisionPlayer(Player player) {
         for (int i = 0; i < gunners.length; i++) {
@@ -388,6 +397,10 @@ public class ProgramController {
             }
         }
 
+    /**
+     * Der Enemy wird Random gespwant
+     * @param enemy Der betreffende Enemy
+     */
     private void spawnEnemyRandom(Enemy enemy) {
         int i = (int) (Math.random() * 1400);
         int y = (int) (Math.random() * 700);
@@ -812,6 +825,11 @@ public class ProgramController {
                 }
             }
 
+    /**
+     * setzen des Targets
+     * @param follower der Follower
+     * @param i gegner
+     */
     public void setTarget(Follower follower, int i){
 
         if (i == 1) {
@@ -821,20 +839,29 @@ public class ProgramController {
         }
     }
 
+    /**
+     * spawnen des Gegners
+     */
     public void spawn(){
         for (int i = 0; i < enemies.length; i++) {
             for (int j = 0; j < enemies[i].length; j++) {
                 if (i == 0) {
                     enemies[i][j] = new Follower();
-                    enemies[i][j].setX(Math.random() * 1400 + 100);
-                    enemies[i][j].setY(Math.random() * 900 + 50);
+                    while( enemies[i][j].getX() == 1400 && enemies[i][j].getX() == 100 )
+                    {
+                        enemies[i][j].setX(Math.random() * 1400 + 100);
+                        enemies[i][j].setY(Math.random() * 900 + 50);
+                    }
                     setTarget((Follower) enemies[i][j], j);
                     uiController.registerObject(enemies[i][j]);
                 }
                 if (i == 1) {
                     enemies[i][j] = new Jumba();
-                    enemies[i][j].setX(Math.random() * 1400 + 100);
-                    enemies[i][j].setY(Math.random() * 900 + 50);
+                    while( enemies[i][j].getX() == 1400 && enemies[i][j].getX() == 100 )
+                    {
+                        enemies[i][j].setX(Math.random() * 1400 + 100);
+                        enemies[i][j].setY(Math.random() * 900 + 50);
+                    }
                     uiController.registerObject(enemies[i][j]);
                 }
                 if (i == 2) {
@@ -849,8 +876,11 @@ public class ProgramController {
                             enemies[i][j] = new Gunner(uiController, pro3);
                             break;
                     }
-                    enemies[i][j].setX(Math.random() * 1400 + 100);
-                    enemies[i][j].setY(Math.random() * 700 + 50);
+                    while( enemies[i][j].getX() == 1400 && enemies[i][j].getX() == 100 )
+                    {
+                        enemies[i][j].setX(Math.random() * 1400 + 100);
+                        enemies[i][j].setY(Math.random() * 900 + 50);
+                    }
                     uiController.registerObject(enemies[i][j]);
                 }
             }
@@ -858,6 +888,9 @@ public class ProgramController {
 
     }
 
+    /**
+     * Despawnen des Gegners
+     */
     public void despawn(){
         for (int i = 0; i < enemies.length; i++) {
             for (int j = 0; j < enemies[i].length; j++) {
