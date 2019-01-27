@@ -83,8 +83,8 @@ public class ProgramController {
         start = new Start();
         uiController.registerObject(start);
         //Player werden erstellt
-        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 100, 1400, 500, 3, "left", "Player 2");
-        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 100, 100, 500, 3, "right", "Player 1");
+        firstPlayer = new Player(uiController, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER, 200, 1400, 500, 3, "left", "Player 2");
+        secondPlayer = new Player(uiController, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE, 200, 100, 500, 3, "right", "Player 1");
         //Timer für die Projectiles werden auf 0 gesetzt
         projectileTimer2 = 0;
         projectileTimer1 = 0;
@@ -592,7 +592,7 @@ public class ProgramController {
              **/
             private void restartGame (Player player){
                 //Speed des Players wird auf 100 gesetzt
-                player.setSpeed(100);
+                player.setSpeed(200);
                 //Boolean, ob die Player kollidieren wird auf flase gesetzt
                 player.setCollision(false);
                 //Powerup Timer wird in den Ausgangs Zustand gesetzt
